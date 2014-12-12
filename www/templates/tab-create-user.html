@@ -1,0 +1,33 @@
+<ion-view title="Crear Usuario">
+  <ion-content class="padding">
+    <div class="row">
+    	<div class="col">
+    		<form ng-submit="createUser(user)">
+    			<div class="list">
+				  	<label class="item item-input">
+				    	<input type="text" ng-model="user.nombre" placeholder="Nombre">
+				  	</label>
+				  	<label class="item item-input">
+				    	<input type="text" ng-model="user.apellido" placeholder="Apellido">
+				  	</label>
+				  	<label class="item item-input">
+				    	<input type="text" ng-model="user.email" placeholder="Email">
+				  	</label>
+				  	<label class="item item-input">
+				    	<input type="text" ng-model="user.username" placeholder="Username">
+				  	</label>
+				  	<label class="item item-input">
+				    	<input type="text" ng-model="user.password" placeholder="Password">
+				  	</label>
+				  	<label class="item item-input">
+				    	<input type="text" ng-model="user.password2" placeholder="Repite password">
+				  	</label>
+					<button type="submit" class="button button-full button-positive">
+						Crear Usuario 
+					</button>
+				</div>
+    		</form>
+    	</div>
+    </div>
+  </ion-content>
+</ion-view>

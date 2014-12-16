@@ -22,25 +22,12 @@ angular.module('starter.services', [])
 })
 
 .factory('Catalog', function(){
+
   AnimalObject = Parse.Object.extend("Animal");
   return {
     all: function (){
-      var animals = [];
       var query = new Parse.Query(AnimalObject);
-      return query.find({
-        success: function(resanimals){
-          /*for(var i=0; i < resanimals.length; i++){
-            animals.push({
-              name: resanimals[i].get('name'),
-              description: resanimals[i].get('description')
-            });
-          }*/
-          return resanimals;
-        },
-        error: function(object, error){
-          return error;
-        }
-      });
+      return query;
     }
   }
 })

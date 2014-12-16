@@ -71,12 +71,16 @@ angular.module('starter.controllers', [])
 })
 
 .controller('CatalogCtrl', function($scope, Catalog) {
-	var animals;
-	animals = Catalog.all();
-	console.log(animals.length);
-	for(var i=0; i < animals.length; i++){
-		console.log(animals[i].get('name'));
-	}
+	var animalsQuery;
+	animalsQuery = Catalog.all();
+
+	animalsQuery.find(function(result){
+		$scope.$apply(function(){
+            $scope.animals = result;
+        });
+	}, function(err){
+		console.log("Error: " + err);
+	});
 })
 
 .controller('ZooCtrl', function($scope, Zoo){

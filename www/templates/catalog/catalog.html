@@ -2,8 +2,7 @@
   <ion-content>
     <ion-list>
       <ion-item ng-repeat="animal in animals">
-        {{animal.name}}
-        {{animal.description}}
+        {{animal.get('name')}}
       </ion-item>
     </ion-list>
   </ion-content>

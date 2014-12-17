@@ -72,15 +72,43 @@ angular.module('starter.controllers', [])
 
 .controller('CatalogCtrl', function($scope, Catalog) {
 	var animalsQuery;
+	var fotos = [];
 	animalsQuery = Catalog.all();
 
 	animalsQuery.find(function(result){
+		for (var i = 0; i < result.length; i++) {
+			foto = result[i].get('photo');
+			fotos.push({
+				url: foto.url()
+			});
+		};
+
 		$scope.$apply(function(){
             $scope.animals = result;
+            $scope.fotos = fotos;
         });
 	}, function(err){
 		console.log("Error: " + err);
 	});
+})
+
+.controller('AnimalDetailCtrl', function($scope, $stateParams, Catalog){
+	var animalQuery = Catalog.all();
+	animalQuery.equalTo('objectId', $stateParams.animalId);
+	animalQuery.find({
+		success: function(result){
+			fotoObj = result[0].get('photo');
+			fotoAnimal = fotoObj.url();
+			$scope.$apply(function(){
+	            $scope.animal = result;
+	            $scope.foto = fotoAnimal;
+	        });
+		},
+		error: function(error){
+			console.log(error);
+		}
+	});
+	
 })
 
 .controller('ZooCtrl', function($scope, Zoo){

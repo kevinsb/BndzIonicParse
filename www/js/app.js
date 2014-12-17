@@ -61,6 +61,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     })
 
+    .state('bondzu.animal-detail', {
+      url: '/animal/:animalId',
+      views: {
+        'bondzu-catalog': {
+          templateUrl: 'templates/catalog/animal-detail.html',
+          controller: 'AnimalDetailCtrl'
+        }
+      }
+    })
+
     .state('bondzu.account', {
       url: '/account',
       views: {
@@ -80,6 +90,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         }
       }
     })
+
     .state('bondzu.friend-detail', {
       url: '/friend/:friendId',
       views: {

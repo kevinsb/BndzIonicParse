@@ -28,6 +28,20 @@ angular.module('starter.services', [])
     all: function (){
       var query = new Parse.Query(AnimalObject);
       return query;
+    },
+    get: function(animalId){
+      console.log(animalId);
+      var query = new Parse.Query(AnimalObject);
+      query.equalTo("objectId", animalId);
+      return query.find({
+        success: function(result){
+          return result;
+        },
+        error: function(error){
+          return error;
+        }
+      });
+      return result;
     }
   }
 })

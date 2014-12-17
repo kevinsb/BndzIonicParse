@@ -1,0 +1,54 @@
+<ion-view title="{{animal[0].get('name')}}">
+  	<ion-content class="padding">
+  	<div class="list card">
+
+	  <div class="item item-avatar">
+	    <img src="http://puebla.goolocal.com.mx/sites/puebla.goolocal.com.mx/files/Zoo%20Parque%20Loro.jpg">
+	    <h2>{{animal[0].get('name')}}</h2>
+	    <p>{{animal[0].get('birthdate')}}</p>
+	  </div>
+
+	  <div class="item item-body">
+	    <img class="full-image" src="{{foto}}">
+	    <h2>Description</h2>
+	    <p>{{animal[0].get('description')}}</p>
+	    <h2>Especie</h2>
+	    <p>{{animal[0].get('species')}}</p>
+	    <h2>Scientific Name</h2>
+	    <p>{{animal[0].get('scientific_name')}}</p>
+	    <h2>Estado de Salud</h2>
+	    <p>{{animal[0].get('health')}}</p>
+	    <h2>Gender</h2>
+	    <p>{{animal[0].get('gender')}}</p>
+	    <h2>Weight</h2>
+	    <p>{{animal[0].get('weight')}}</p>
+	    <h2>Height</h2>
+	    <p>{{animal[0].get('height')}}</p>
+	    <button class="button button-full button-positive">
+			Addopt
+		</button>
+	    <p>
+	      <a href="#" class="subdued">1 Like</a>
+	      <a href="#" class="subdued">5 Comments</a>
+	    </p>
+	  </div>
+
+	  <div class="item tabs tabs-secondary tabs-icon-left">
+	    <a class="tab-item" href="#">
+	      <i class="icon ion-thumbsup"></i>
+	      Like
+	    </a>
+	    <a class="tab-item" href="#">
+	      <i class="icon ion-chatbox"></i>
+	      Comment
+	    </a>
+	    <a class="tab-item" href="#">
+	      <i class="icon ion-share"></i>
+	      Share
+	    </a>
+	  </div>
+
+	</div>
+		
+  	</ion-content>
+</ion-view>

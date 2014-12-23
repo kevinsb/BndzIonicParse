@@ -96,13 +96,17 @@ angular.module('starter.controllers', [])
 .controller('AnimalDetailCtrl', function($scope, $state, $stateParams, Catalog, $ionicPopup){
 	var animalQuery = Catalog.all();
 	animalQuery.equalTo('objectId', $stateParams.animalId);
+	//LA SIGUIENTE LINEA DE CODIGO ES IMPORTANTE PARA REGRESAR EL OBJECTO QUE APUNTA A id_zoo sin hacer otro query
+	animalQuery.include('id_zoo');
 	animalQuery.find({
 		success: function(result){
-			fotoObj = result[0].get('photo');
+			fotoObj    = result[0].get('photo');
 			fotoAnimal = fotoObj.url();
+			idZoo      = result[0].get('id_zoo');
 			$scope.$apply(function(){
 	            $scope.animal = result;
 	            $scope.foto = fotoAnimal;
+	            $scope.zoo = idZoo;
 	        });
 		},
 		error: function(error){
@@ -138,6 +142,20 @@ angular.module('starter.controllers', [])
   	});
 })
 
-.controller('ZooCtrl', function($scope, Zoo){
-	Zoo.all();
+.controller('ZoosCtrl', function($scope, Zoo){
+	//Zoo.all();
+})
+
+.controller('ZooDetailCtrl', function($scope, $state, $stateParams, Zoo){
+	var queryZoo = Zoo.getZoo($stateParams.zooId);
+	queryZoo.find({
+		success: function(result){
+			$scope.$apply(function(){
+	            $scope.zoo = result;
+	        });
+		},
+		error: function(error){
+			console.log("Error: " + error);
+		}
+	});
 })

@@ -23,6 +23,7 @@ angular.module('starter.services', [])
 
 .factory('Catalog', function(){
   AnimalObject = Parse.Object.extend("Animal");
+  ZooObject = Parse.Object.extend("Zoo");
   return {
     all: function (){
       var query = new Parse.Query(AnimalObject);
@@ -140,6 +141,12 @@ angular.module('starter.services', [])
           alert(error);
         }
       });
+    },
+    getZoo: function(idZoo){
+      console.log(idZoo);
+      var query = new Parse.Query(ZooObject);
+      query.equalTo("objectId", idZoo);
+      return query;
     }
   }
 })

@@ -27,15 +27,16 @@ angular.module('starter.controllers', [])
 			  		Parse.FacebookUtils.logIn(null, {
 					success: function(user) {
 				    	if (!user.existed()) {
-				      		alert("Usuario registrado via Facebook");
+				      		console.log("Usuario registrado via Facebook");
 				      		$state.go('bondzu.account')
 				    	} else {
+				    		console.log("Login exitoso");
 				      		$state.go('bondzu.account')
 				    	}
 				  	},
 				  	
 				  	error: function(user, error) {
-				    	alert("User cancelled the Facebook login or did not fully authorize.");
+				    	console.log("User cancelled the Facebook login or did not fully authorize.");
 				  	}
 				});
 			  	}
@@ -92,7 +93,7 @@ angular.module('starter.controllers', [])
 	});
 })
 
-.controller('AnimalDetailCtrl', function($scope, $stateParams, Catalog){
+.controller('AnimalDetailCtrl', function($scope, $state, $stateParams, Catalog, $ionicPopup){
 	var animalQuery = Catalog.all();
 	animalQuery.equalTo('objectId', $stateParams.animalId);
 	animalQuery.find({
@@ -108,7 +109,33 @@ angular.module('starter.controllers', [])
 			console.log(error);
 		}
 	});
+
+	$scope.adopt = function(nameAnimal, idAnimal) {
+	   var confirmPopup = $ionicPopup.confirm({
+	     title: 'Adopt ' + nameAnimal,
+	     template: 'Are you sure you want to adopt ' + nameAnimal + '?'
+	   });
+	   confirmPopup.then(function(res) {
+	     if(res) {
+	     	Catalog.adopt(idAnimal);
+	       	$state.go('bondzu.adoptions');
+	     } else {
+	       console.log('You are not sure');
+	     }
+	   });
+	 };
 	
+})
+
+.controller('AdoptionsCtrl', function($scope, Catalog){
+	var relationAdoptions = Catalog.getAdoptions();
+	relationAdoptions.query().find({
+    	success: function(result) {
+      		$scope.$apply(function(){
+	            $scope.adoptions = result;
+	        });
+    	}
+  	});
 })
 
 .controller('ZooCtrl', function($scope, Zoo){

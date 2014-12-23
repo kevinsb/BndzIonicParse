@@ -22,7 +22,6 @@ angular.module('starter.services', [])
 })
 
 .factory('Catalog', function(){
-
   AnimalObject = Parse.Object.extend("Animal");
   return {
     all: function (){
@@ -42,6 +41,43 @@ angular.module('starter.services', [])
         }
       });
       return result;
+    },
+    adopt: function(animalId){
+      var succ;
+      var user = Parse.User.current();
+      console.log(user);
+      var relation = user.relation("adoptions");
+
+      var animal = new AnimalObject();
+      animal.id = animalId;
+
+      relation.add(animal);
+      user.save(null, {
+        success: function(result){
+          console.log("Se salvo relacion Adoptions");
+          var relationAnimal = animal.relation("carer");
+          relationAnimal.add(user);
+          animal.save(null, {
+            success: function(result){
+              console.log('Se salvo relacion Carer');
+            },
+            error: function(error){
+              console.log("Error en Carer: " + error);
+            }
+          })
+          succ = true;
+        },
+        error: function(error){
+          console.log("Error en Adoption: " + error);
+          succ = false;
+        }
+      });
+      console.log(succ);
+    },
+    getAdoptions: function(){
+      var user = Parse.User.current();
+      var relation = user.relation("adoptions");
+      return relation;
     }
   }
 })

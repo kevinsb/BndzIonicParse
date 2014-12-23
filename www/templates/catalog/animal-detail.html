@@ -24,7 +24,7 @@
 	    <p>{{animal[0].get('weight')}}</p>
 	    <h2>Height</h2>
 	    <p>{{animal[0].get('height')}}</p>
-	    <button class="button button-full button-positive">
+	    <button class="button button-full button-positive" ng-click="adopt(animal[0].get('name'), animal[0].id)">
 			Addopt
 		</button>
 	    <p>

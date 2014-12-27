@@ -1,10 +1,66 @@
-<!--
-  This template loads for the 'tab.friend-detail' state (app.js)
-  'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
-  The FriendsCtrl pulls data from the Friends service (service.js)
-  The Friends service returns an array of friend data
--->
-<ion-view title="{{friend.name}}">
+<ion-view title="{{adoption[0].get('name')}}">
   <ion-content has-header="true" padding="true">
+  	<div class="list card">
+
+	  <div class="item item-avatar">
+	    <img src="http://puebla.goolocal.com.mx/sites/puebla.goolocal.com.mx/files/Zoo%20Parque%20Loro.jpg">
+	    <h2>{{adoption[0].get('name')}}</h2>
+	    <p>{{adoption[0].get('birthdate')}}</p>
+	  </div>
+
+	  <div class="item item-body">
+	    <img class="full-image" src="{{foto}}">
+	    <div class="row">
+	    	<div class="col">
+	    		 <i class="icon ion-camera" style="font-size:100px"></i>
+	    	</div>
+	    	<div class="col">
+	    		<a href="#/bondzu/calendar/{{animal.id}}"><i class="icon ion-calendar" style="font-size:80px"></i></a>
+	    	</div>
+	    	<div class="col">
+	    		<i class="icon ion-stats-bars" style="font-size:100px"></i>
+	    	</div>
+	    </div>
+	    <h2>Description</h2>
+	    <p>{{adoption[0].get('description')}}</p>
+	    <h2>Zoo</h2>
+	    <a href="#/bondzu/zoo/{{zoo.id}}"><p>{{zoo.get('name')}}</p></a>
+	    <h2>Especie</h2>
+	    <p>{{adoption[0].get('species')}}</p>
+	    <h2>Scientific Name</h2>
+	    <p>{{adoption[0].get('scientific_name')}}</p>
+	    <h2>Estado de Salud</h2>
+	    <p>{{adoption[0].get('health')}}</p>
+	    <h2>Gender</h2>
+	    <p>{{adoption[0].get('gender')}}</p>
+	    <h2>Weight</h2>
+	    <p>{{adoption[0].get('weight')}}</p>
+	    <h2>Height</h2>
+	    <p>{{adoption[0].get('height')}}</p>
+	    <button class="button button-full button-positive" ng-click="adopt(adoption[0].get('name'), adoption[0].id)">
+			Addopt
+		</button>
+	    <p>
+	      <a href="#" class="subdued">1 Like</a>
+	      <a href="#" class="subdued">5 Comments</a>
+	    </p>
+	  </div>
+
+	  <div class="item tabs tabs-secondary tabs-icon-left">
+	    <a class="tab-item" href="#">
+	      <i class="icon ion-thumbsup"></i>
+	      Like
+	    </a>
+	    <a class="tab-item" href="#">
+	      <i class="icon ion-chatbox"></i>
+	      Comment
+	    </a>
+	    <a class="tab-item" href="#">
+	      <i class="icon ion-share"></i>
+	      Share
+	    </a>
+	  </div>
+
+	</div>
   </ion-content>
 </ion-view>

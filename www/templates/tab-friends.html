@@ -1,9 +1,10 @@
 <ion-view title="Adoptions">
   <ion-content>
-    <ion-list>
-      <ion-item ng-repeat="adoption in adoptions" type="item-text-wrap" href="#/tab/friend/{{friend.id}}">
-        <p>Nombre: {{adoption.get('name')}}</p>
-      </ion-item>
-    </ion-list>
+        <div class="list">
+		    <a class="item item-thumbnail-left" ng-repeat="adoption in adoptions" href="#/bondzu/adoption/{{adoption.id}}">
+		      <img src="{{fotos[$index].url}}">
+		      <h2>{{adoption.get('name')}}</h2>
+		    </a>
+		</div>
   </ion-content>
 </ion-view>

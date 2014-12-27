@@ -111,12 +111,22 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     })
 
-    .state('bondzu.friend-detail', {
-      url: '/friend/:friendId',
+    .state('bondzu.calendar', {
+      url: '/calendar/:animalId',
       views: {
-        'bondzu-friends': {
+        'bondzu-adoptions': {
+          templateUrl: 'templates/calendar.html',
+          controller: 'CalendarCtrl'
+        }
+      }
+    })
+
+    .state('bondzu.adoption-detail', {
+      url: '/adoption/:animalId',
+      views: {
+        'bondzu-adoptions': {
           templateUrl: 'templates/friend-detail.html',
-          controller: 'FriendDetailCtrl'
+          controller: 'AdoptionDetailCtrl'
         }
       }
     });

@@ -110,7 +110,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         }
       }
     })
-
+    /*
     .state('bondzu.calendar', {
       url: '/calendar/:animalId',
       views: {
@@ -119,7 +119,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           controller: 'CalendarCtrl'
         }
       }
-    })
+    })*/
 
     .state('bondzu.adoption-detail', {
       url: '/adoption/:animalId',
@@ -134,6 +134,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/bondzu/account');
+  $urlRouterProvider.otherwise('/login');
 
 });

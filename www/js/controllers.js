@@ -1,5 +1,75 @@
 angular.module('starter.controllers', [])
 
+.controller('LoginCtrl', ['$scope', '$state', function($scope, $state) {
+    var fbLogged = new Parse.Promise();
+
+    var fbLoginSuccess = function(response) {
+        if (!response.authResponse){
+            fbLoginError("Cannot find the authResponse");
+            return;
+        }
+        var expDate = new Date(
+            new Date().getTime() + response.authResponse.expiresIn * 1000
+        ).toISOString();
+
+        var authData = {
+            id: String(response.authResponse.userID),
+            access_token: response.authResponse.accessToken,
+            expiration_date: expDate
+        }
+        fbLogged.resolve(authData);
+        fbLoginSuccess = null;
+        console.log(response);
+    };
+
+    var fbLoginError = function(error){
+        fbLogged.reject(error);
+    };
+
+    $scope.create = function() {
+		$state.go('bondzu.account')
+	}
+
+    $scope.login = function() {
+        console.log('Login Started');
+        if (!window.cordova) {
+            facebookConnectPlugin.browserInit('376601475842237');
+        }
+        facebookConnectPlugin.login(['email'], fbLoginSuccess, fbLoginError);
+
+        fbLogged.then( function(authData) {
+            console.log('Promised');
+            return Parse.FacebookUtils.logIn(authData);
+        })
+        .then( function(userObject) {
+            var authData = userObject.get('authData');
+            facebookConnectPlugin.api('/me', null, 
+                function(response) {
+                    console.log(response);
+                    userObject.set('name', response.name);
+                    userObject.set('email', response.email);
+                    userObject.save();
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
+            facebookConnectPlugin.api('/me/picture', null,
+                function(response) {
+                    userObject.set('profilePicture', response.data.url);
+                    userObject.save();
+                }, 
+                function(error) {
+                    console.log(error);
+                }
+            );
+            $state.go('bondzu.account');
+        }, function(error) {
+            console.log(error);
+        });
+    };
+}])
+/*
 .controller('LoginCtrl', function($scope, $state) {
 
 	$scope.create = function() {
@@ -51,7 +121,7 @@ angular.module('starter.controllers', [])
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
 	}
-})
+})*/
 
 .controller('FriendsCtrl', function($scope, Friends) {
 	$scope.friends = Friends.all();

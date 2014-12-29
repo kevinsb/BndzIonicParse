@@ -1,7 +1,60 @@
 angular.module('starter.controllers', [])
 
 .controller('LoginCtrl', ['$scope', '$state', function($scope, $state) {
+    var fbStatus = new Parse.Promise();
     var fbLogged = new Parse.Promise();
+
+
+    var fbStatusSuccess = function(response) {
+		if (!response.status){
+            fbStatusError("Cannot find the status");
+            return;
+        }
+        var status = response.status;
+        console.log("Status: " + status);
+        if(status == "connected"){
+        	console.log("Ya estas conectado, te llevo a adopciones");
+        	$state.go('bondzu.adoptions');
+        }
+        else{
+        	facebookConnectPlugin.login(['email'], fbLoginSuccess, fbLoginError);
+
+        	fbLogged.then( function(authData) {
+	            console.log('Promised');
+	            return Parse.FacebookUtils.logIn(authData);
+	        })
+	        .then( function(userObject) {
+	            var authData = userObject.get('authData');
+	            facebookConnectPlugin.api('/me', null, 
+	                function(response) {
+	                    console.log(response);
+	                    userObject.set('name', response.name);
+	                    userObject.set('email', response.email);
+	                    userObject.save();
+	                },
+	                function(error) {
+	                    console.log(error);
+	                }
+	            );
+	            facebookConnectPlugin.api('/me/picture', null,
+	                function(response) {
+	                    userObject.set('profilePicture', response.data.url);
+	                    userObject.save();
+	                }, 
+	                function(error) {
+	                    console.log(error);
+	                }
+	            );
+	            $state.go('bondzu.account');
+	        }, function(error) {
+	            console.log(error);
+	        });
+        }
+	};
+
+	var fbStatusError = function(error) {
+		console.log(error);
+	};
 
     var fbLoginSuccess = function(response) {
         if (!response.authResponse){
@@ -32,41 +85,7 @@ angular.module('starter.controllers', [])
 
     $scope.login = function() {
         console.log('Login Started');
-        if (!window.cordova) {
-            facebookConnectPlugin.browserInit('376601475842237');
-        }
-        facebookConnectPlugin.login(['email'], fbLoginSuccess, fbLoginError);
-
-        fbLogged.then( function(authData) {
-            console.log('Promised');
-            return Parse.FacebookUtils.logIn(authData);
-        })
-        .then( function(userObject) {
-            var authData = userObject.get('authData');
-            facebookConnectPlugin.api('/me', null, 
-                function(response) {
-                    console.log(response);
-                    userObject.set('name', response.name);
-                    userObject.set('email', response.email);
-                    userObject.save();
-                },
-                function(error) {
-                    console.log(error);
-                }
-            );
-            facebookConnectPlugin.api('/me/picture', null,
-                function(response) {
-                    userObject.set('profilePicture', response.data.url);
-                    userObject.save();
-                }, 
-                function(error) {
-                    console.log(error);
-                }
-            );
-            $state.go('bondzu.account');
-        }, function(error) {
-            console.log(error);
-        });
+        facebookConnectPlugin.getLoginStatus(fbStatusSuccess, fbStatusError);
     };
 }])
 /*
@@ -259,4 +278,11 @@ angular.module('starter.controllers', [])
 			console.log(error);
 		}
 	});
+})
+
+.controller('ZooCtrl', function($scope){
+	$scope.playVideo = function() {
+		console.log("Llamando video")
+		//window.plugins.videoPlayer.play("https://www.youtube.com/watch?v=souqaPAN8wE");
+	}
 })

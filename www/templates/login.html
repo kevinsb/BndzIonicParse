@@ -1,12 +1,19 @@
-<ion-view title="Cuenta">
+<ion-view title="Account">
   <ion-content class="padding">
     <div style="padding: 10px; height: 100%;">
     <div class="fb-root"></div>
-    	<button class="button button-block button-positive" ng-click="create()">
-        	Crear una cuenta
+    <img src="img/logo.png" class="centered" alt="" width="50%"><br>
+        <label class="item item-input item-bondzu">
+            <input type="text" ng-model="user.nombre" placeholder="e-mail">
+        </label><br>
+        <label class="item item-input item-bondzu">
+            <input type="text" ng-model="user.apellido" placeholder="password">
+        </label><br>
+    	<button class="button button-block button-energized" ng-click="login()">
+        	<strong>LOG IN</strong>
         </button>
-        <button class="button button-block button-positive" ng-click="login()">
-        	Iniciar sesion con Facebook
+        <button class="button button-block button-stable" ng-click="create()">
+        	<strong>SING UP</strong>
         </button>
     </div>
   </ion-content>

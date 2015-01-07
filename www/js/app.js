@@ -129,11 +129,22 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           controller: 'AdoptionDetailCtrl'
         }
       }
+    })
+
+    .state('bondzu.adoption-calendar', {
+      url: '/adoption/calendar/:animalId',
+      views: {
+        'bondzu-adoptions': {
+          templateUrl: 'templates/calendar.html',
+          controller: 'AdoptionDetailCtrl'
+        }
+      }
     });
 
     
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/bondzu/catalog');
+  //$urlRouterProvider.otherwise('/login');
 
 });

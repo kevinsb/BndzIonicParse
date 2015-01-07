@@ -1,6 +1,80 @@
 <ion-view title="{{adoption[0].get('name')}}">
-  <ion-content has-header="true" padding="true">
-  	<div class="list card">
+  <ion-content has-header="true">
+  	<div class="img-back">
+  		<div class="row">
+  			<div class="col">
+  				<img src="img/bear.jpg" class="img-responsive img-circle img-profile" alt="">
+  			</div>
+  			<div class="col">
+  				<h1>BALU</h1>
+  				<h2>Oso Pardo</h2>
+  			</div>
+  			<div class="col"></div>
+  		</div>
+  	</div>
+
+  	<div class="tabs tabs-animal">
+      <a class="tab-item" ng-class="{active: tab === 'tab0'}" ng-click="toSlide(0)">
+        <i class="icon ion-information-circled"></i>
+        <span class="tabs-animal-color">Info</span>
+      </a>
+      <a class="tab-item" ng-class="{active: tab === 'tab1'}" ng-click="toSlide(1)">
+        <i class="icon ion-images"></i>
+        <span class="tabs-animal-color">Photo</span>
+      </a>
+      <a class="tab-item" ng-class="{active: tab === 'tab2'}" ng-click="toSlide(2)">
+        <i class="icon ion-calendar"></i>
+        <span class="tabs-animal-color">Calendar</span>
+      </a>
+      <a class="tab-item" ng-class="{active: tab === 'tab3'}" ng-click="toSlide(3)">
+        <i class="icon ion-person-stalker"></i>
+        <span class="tabs-animal-color">Friends</span>
+      </a>
+    </div>
+    <ion-slide-box on-slide-changed="slideHasChanged($index)" show-pager=false>
+		<ion-slide>
+	    	<div class="padding information">
+	    		<h3>Information</h3>
+	    		<hr>
+	    		<div class="info">
+	    			<p class="titulo-info">Name: </p>
+	    			<p class="info-info">{{adoption[0].get('name')}}</p>
+	    			<br>
+	    			<p class="titulo-info">Zoo: </p>
+	    			<p class="info-info">{{zoo.get('name')}}</p>
+	    			<br>
+	    			<p class="titulo-info">Scientific Name: </p>
+	    			<p class="info-info">{{adoption[0].get('scientific_name')}}</p>
+	    			<br>
+	    			<p class="titulo-info">Health: </p>
+	    			<p class="info-info">{{adoption[0].get('health')}}</p>
+	    			<br>
+					<p class="titulo-info">Description: </p>
+	    			<p class="info-info">{{adoption[0].get('description')}}</p>
+	    			<br>
+	    			<p class="titulo-info">Gender: </p>
+					<p class="info-info">{{adoption[0].get('gender')}}</p>
+					<br>
+					<p class="titulo-info">Weight: </p>
+					<p class="info-info">{{adoption[0].get('weight')}}</p>
+					<br>
+					<p class="titulo-info">Height: </p>
+					<p class="info-info">{{adoption[0].get('height')}}</p>
+	    		</div>
+	    	</div>
+	  	</ion-slide>
+	  	<ion-slide>
+	    	<div class="box yellow"><h1>PHOTO</h1></div>
+	  	</ion-slide>
+	  	<ion-slide>
+	    	<div class="box pink"><h1>CALENDAR</h1></div>
+	  	</ion-slide>
+	  	<ion-slide>
+	    	<div class="box pink"><h1>FRIENDS</h1></div>
+	  	</ion-slide>
+	</ion-slide-box>
+
+  	<!--<div class="list card">
 
 	  <div class="item item-avatar">
 	    <img src="http://puebla.goolocal.com.mx/sites/puebla.goolocal.com.mx/files/Zoo%20Parque%20Loro.jpg">
@@ -61,6 +135,6 @@
 	    </a>
 	  </div>
 
-	</div>
+	</div>-->
   </ion-content>
 </ion-view>

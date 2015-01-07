@@ -1,5 +1,5 @@
 angular.module('starter.controllers', [])
-
+/*
 .controller('LoginCtrl', ['$scope', '$state', function($scope, $state) {
     var fbStatus = new Parse.Promise();
     var fbLogged = new Parse.Promise();
@@ -80,7 +80,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.create = function() {
-		$state.go('bondzu.account')
+		$state.go('createUser')
 	}
 
     $scope.login = function() {
@@ -88,7 +88,8 @@ angular.module('starter.controllers', [])
         facebookConnectPlugin.getLoginStatus(fbStatusSuccess, fbStatusError);
     };
 }])
-/*
+*/
+
 .controller('LoginCtrl', function($scope, $state) {
 
 	$scope.create = function() {
@@ -140,7 +141,7 @@ angular.module('starter.controllers', [])
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
 	}
-})*/
+})
 
 .controller('FriendsCtrl', function($scope, Friends) {
 	$scope.friends = Friends.all();
@@ -258,8 +259,28 @@ angular.module('starter.controllers', [])
 	});
 })
 
-.controller('AdoptionDetailCtrl', function($scope, $state, $stateParams, Catalog){
-	var animalQuery = Catalog.all();
+.controller('AdoptionDetailCtrl', function($scope, $state, $stateParams, $ionicSlideBoxDelegate, Catalog){
+	$scope.tab = "tab0";
+	$scope.toSlide = function(slide) {
+		$ionicSlideBoxDelegate.slide(slide);
+	}
+	$scope.slideHasChanged = function(slide) {
+		if (slide == 0) {
+			$scope.tab = "tab0";
+		}
+		if (slide == 1) {
+			$scope.tab = "tab1";
+		}
+		if (slide == 2) {
+			$scope.tab = "tab2";
+		}
+		if (slide == 3) {
+			$scope.tab = "tab3";
+		}
+	}
+
+
+	animalQuery = Catalog.all();
 	animalQuery.equalTo('objectId', $stateParams.animalId);
 	//LA SIGUIENTE LINEA DE CODIGO ES IMPORTANTE PARA REGRESAR EL OBJECTO QUE APUNTA A id_zoo sin hacer otro query
 	animalQuery.include('id_zoo');
@@ -281,8 +302,8 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ZooCtrl', function($scope){
-	$scope.playVideo = function() {
-		console.log("Llamando video")
-		//window.plugins.videoPlayer.play("https://www.youtube.com/watch?v=souqaPAN8wE");
+	$scope.playVideo = function(url) {
+		console.log("Llamando video: " + url);
+		window.plugins.streamingMedia.playVideo(url);
 	}
 })

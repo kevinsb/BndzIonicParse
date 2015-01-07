@@ -1,5 +1,12 @@
 <ion-view title="Catalog">
   	<ion-content>
+  	<div ng-repeat="animal in animals">
+  		<div class="animal">
+  			<img src="img/bear.jpg">
+  			<a href="#/bondzu/animal/{{animal.id}}"><cite>{{animal.get('name')}} - {{animal.get('species')}}</cite></a>
+  		</div>
+	</div>
+	<!--
   	<div class="list card" ng-repeat="animal in animals">
 	  <div class="item item-avatar">
 	    <img src="http://puebla.goolocal.com.mx/sites/puebla.goolocal.com.mx/files/Zoo%20Parque%20Loro.jpg">
@@ -13,6 +20,6 @@
 	    <i class="icon ion-information-circled"></i>
 	    See profile
 	  </a>
-	</div>
+	</div>-->
   </ion-content>
 </ion-view>

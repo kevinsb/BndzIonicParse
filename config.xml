@@ -2,10 +2,10 @@
 <widget id="com.ionicframework.bondzu771703" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
   <name>Bondzu</name>
   <description>
-        An Ionic Framework and Cordova project.
+    Connecting real people with real animals
   </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
+  <author email="contacto@bondzu.com" href="http://bondzu.com/">
+    Bondzu Team
   </author>
   <icon src="logo.png" />
   <content src="index.html"/>

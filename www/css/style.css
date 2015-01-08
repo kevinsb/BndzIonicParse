@@ -11,17 +11,17 @@ body, h1, h2, h3, h4, p, strong {
 }
 
 .tabs {
-	border-color: #FFB921;
-	background-color: #FFB921;
+	border-color: #FFB921 !important;
+	background-color: #FFB921 !important;
 }
 
 .tabs i, span {
-	color: white;
+	color: white !important;
 }
 
 .bar.bar-stable {
-	border-color: #FFB921;
-	background-color: #FFB921;
+	border-color: #FFB921 !important;
+	background-color: #FFB921 !important;
 	background-image: linear-gradient(0deg, #b2b2b2, #b2b2b2 50%, transparent 50%);
 	color: #444;
 }
@@ -33,7 +33,7 @@ body, h1, h2, h3, h4, p, strong {
 }
 
 .bar.bar-stable .title {
-	color: white;
+	color: white !important;
 }
 
 .item-bondzu{
@@ -83,15 +83,9 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 	font-size: 20px;q
 }
 
-.animal img {
-	width: 100%;
-	min-height: 380px;
-	max-height: 380px;
-	background-image: url();
-}
+
 
 .img-back {
-	background-image: url('../img/bear.jpg');
 	background-position: center;
 	background-size: 100%;
 	width: 100%;
@@ -166,4 +160,19 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 .info-info {
 	font-size: 17px;
 	display: inline;
+}
+
+.video { 
+	position: relative; 
+	display: inline-block;
+}
+
+.play {
+	background-image: url('../img/play.png');
+	background-size: 90px 90px;
+	background-repeat: no-repeat;
+   	margin: -240px 60px 0px 140px;
+    height: 140px;
+    position: relative;
+    z-index: 10;
 }

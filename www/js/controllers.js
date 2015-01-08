@@ -1,5 +1,5 @@
 angular.module('starter.controllers', [])
-/*
+
 .controller('LoginCtrl', ['$scope', '$state', function($scope, $state) {
     var fbStatus = new Parse.Promise();
     var fbLogged = new Parse.Promise();
@@ -88,8 +88,8 @@ angular.module('starter.controllers', [])
         facebookConnectPlugin.getLoginStatus(fbStatusSuccess, fbStatusError);
     };
 }])
-*/
 
+/*
 .controller('LoginCtrl', function($scope, $state) {
 
 	$scope.create = function() {
@@ -141,7 +141,7 @@ angular.module('starter.controllers', [])
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
 	}
-})
+})*/
 
 .controller('FriendsCtrl', function($scope, Friends) {
 	$scope.friends = Friends.all();
@@ -151,9 +151,10 @@ angular.module('starter.controllers', [])
   	$scope.friend = Friends.get($stateParams.friendId);
 })
 
-.controller('CreateUser', function($scope, Users) {
+.controller('CreateUser', function($scope, Users, $state) {
 	$scope.createUser = function(user){
 	    Users.create(user);
+	    $state.go('bondzu.catalog');
 	}
 })
 
@@ -183,7 +184,30 @@ angular.module('starter.controllers', [])
 	});
 })
 
-.controller('AnimalDetailCtrl', function($scope, $state, $stateParams, Catalog, $ionicPopup){
+.controller('AnimalDetailCtrl', function($scope, $state, $stateParams, $ionicSlideBoxDelegate, Catalog, $ionicPopup){
+	$scope.playVideo = function(url) {
+		console.log("Llamando video: " + url);
+		window.plugins.streamingMedia.playVideo(url);
+	}
+
+	$scope.tab = "tab0";
+	$scope.toSlide = function(slide) {
+		$ionicSlideBoxDelegate.slide(slide);
+	}
+	$scope.slideHasChanged = function(slide) {
+		if (slide == 0) {
+			$scope.tab = "tab0";
+		}
+		if (slide == 1) {
+			$scope.tab = "tab1";
+		}
+		if (slide == 2) {
+			$scope.tab = "tab2";
+		}
+		if (slide == 3) {
+			$scope.tab = "tab3";
+		}
+	}
 	var animalQuery = Catalog.all();
 	animalQuery.equalTo('objectId', $stateParams.animalId);
 	//LA SIGUIENTE LINEA DE CODIGO ES IMPORTANTE PARA REGRESAR EL OBJECTO QUE APUNTA A id_zoo sin hacer otro query
@@ -223,22 +247,25 @@ angular.module('starter.controllers', [])
 
 .controller('AdoptionsCtrl', function($scope, Catalog){
 	var fotos = [];
-	var relationAdoptions = Catalog.getAdoptions();
+    var relationAdoptions = Catalog.getAdoptions();
 	relationAdoptions.query().find({
-    	success: function(result) {
-    		for (var i = 0; i < result.length; i++) {
-				foto = result[i].get('photo');
+    	success: function(resulta) {
+    		for (var i = 0; i < resulta.length; i++) {
+				foto = resulta[i].get('photo');
 				fotos.push({
 					url: foto.url()
 				});
 				console.log(foto.url)
 			};
       		$scope.$apply(function(){
-	            $scope.adoptions = result;
+	            $scope.adoptions = resulta;
 	            $scope.fotos = fotos;
 	        });
     	}
   	});
+
+	
+	
 })
 
 .controller('ZoosCtrl', function($scope, Zoo){
@@ -260,6 +287,11 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AdoptionDetailCtrl', function($scope, $state, $stateParams, $ionicSlideBoxDelegate, Catalog){
+	$scope.playVideo = function(url) {
+		console.log("Llamando video: " + url);
+		window.plugins.streamingMedia.playVideo(url);
+	}
+
 	$scope.tab = "tab0";
 	$scope.toSlide = function(slide) {
 		$ionicSlideBoxDelegate.slide(slide);

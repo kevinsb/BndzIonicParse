@@ -1,6 +1,94 @@
 <ion-view title="{{animal[0].get('name')}}">
-  	<ion-content class="padding">
-  	<div class="list card">
+  <ion-content has-header="true">
+  	<div class="img-back" style="background-image: url('{{foto}}')">
+  		<div class="row">
+  			<div class="col">
+  				<img src="{{foto}}" class="img-responsive img-circle img-profile" alt="">
+  			</div>
+  			<div class="col">
+  				<h1>BALU</h1>
+  				<h2>Oso Pardo</h2>
+  			</div>
+  			<div class="col"></div>
+  		</div>
+  	</div>
+
+  	<div class="tabs tabs-animal">
+      <a class="tab-item" ng-class="{active: tab === 'tab0'}" ng-click="toSlide(0)">
+        <i class="icon ion-information-circled"></i>
+        <span class="tabs-animal-color">Info</span>
+      </a>
+      <a class="tab-item" ng-class="{active: tab === 'tab1'}" ng-click="toSlide(1)">
+        <i class="icon ion-images"></i>
+        <span class="tabs-animal-color">Video</span>
+      </a>
+      <a class="tab-item" ng-class="{active: tab === 'tab2'}" ng-click="toSlide(2)">
+        <i class="icon ion-calendar"></i>
+        <span class="tabs-animal-color">Calendar</span>
+      </a>
+      <a class="tab-item" ng-class="{active: tab === 'tab3'}" ng-click="toSlide(3)">
+        <i class="icon ion-person-stalker"></i>
+        <span class="tabs-animal-color">Friends</span>
+      </a>
+    </div>
+    <ion-slide-box on-slide-changed="slideHasChanged($index)" show-pager=false>
+		<ion-slide>
+	    	<div class="padding information">
+	    		<h3>Information</h3>
+	    		<hr>
+	    		<div class="info">
+	    			<p class="titulo-info">Name: </p>
+	    			<p class="info-info">{{animal[0].get('name')}}</p>
+	    			<br>
+	    			<p class="titulo-info">Zoo: </p>
+	    			<a href="#/bondzu/zoo/{{zoo.id}}"><p class="info-info">{{zoo.get('name')}}</p></a>
+	    			<br>
+	    			<p class="titulo-info">Scientific Name: </p>
+	    			<p class="info-info">{{animal[0].get('scientific_name')}}</p>
+	    			<br>
+	    			<p class="titulo-info">Health: </p>
+	    			<p class="info-info">{{animal[0].get('health')}}</p>
+	    			<br>
+					<p class="titulo-info">Description: </p>
+	    			<p class="info-info">{{animal[0].get('description')}}</p>
+	    			<br>
+	    			<p class="titulo-info">Gender: </p>
+					<p class="info-info">{{animal[0].get('gender')}}</p>
+					<br>
+					<p class="titulo-info">Weight: </p>
+					<p class="info-info">{{animal[0].get('weight')}}</p>
+					<br>
+					<p class="titulo-info">Height: </p>
+					<p class="info-info">{{animal[0].get('height')}}</p>
+	    		</div>
+	    		<!--
+	    		<button class="button button-full button-energized" ng-click="adopt(animal[0].get('name'), animal[0].id)">
+					Addopt
+				</button>
+				-->
+	    	</div>
+	  	</ion-slide>
+	  	<ion-slide>
+	    	<div class="box yellow">
+		    	<div class="video">
+				    <img src="{{foto}}" class="img-responsive video" alt="">
+				    <a ng-click="playVideo('http://wpc.50C7.sigmacdn.net/hls-live/2050C7/beczbziul/bondzu-stream-test_/bondzu-stream-test_,428,778,278,.m3u8')"><div class="play"></div></a>
+				</div>
+	    	</div>
+	  	</ion-slide>
+	  	<ion-slide>
+	    	<div class="box pink">
+	    		<img src="img/calendar.jpg" alt="" class="img-responsive centered">
+	    	</div>
+	  	</ion-slide>
+	  	<ion-slide>
+	    	<div class="box pink">
+	    		<img src="img/comment.png" alt="" class="img-responsive centered">
+	    	</div>
+	  	</ion-slide>
+	</ion-slide-box>
+
+  	<!--<div class="list card">
 
 	  <div class="item item-avatar">
 	    <img src="http://puebla.goolocal.com.mx/sites/puebla.goolocal.com.mx/files/Zoo%20Parque%20Loro.jpg">
@@ -10,6 +98,17 @@
 
 	  <div class="item item-body">
 	    <img class="full-image" src="{{foto}}">
+	    <div class="row">
+	    	<div class="col">
+	    		 <i class="icon ion-camera" style="font-size:100px"></i>
+	    	</div>
+	    	<div class="col">
+	    		<a href="#/bondzu/calendar/{{animal.id}}"><i class="icon ion-calendar" style="font-size:80px"></i></a>
+	    	</div>
+	    	<div class="col">
+	    		<i class="icon ion-stats-bars" style="font-size:100px"></i>
+	    	</div>
+	    </div>
 	    <h2>Description</h2>
 	    <p>{{animal[0].get('description')}}</p>
 	    <h2>Zoo</h2>
@@ -50,7 +149,6 @@
 	    </a>
 	  </div>
 
-	</div>
-		
-  	</ion-content>
+	</div>-->
+  </ion-content>
 </ion-view>

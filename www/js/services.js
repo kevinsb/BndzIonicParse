@@ -3,6 +3,7 @@ angular.module('starter.services', [])
 .factory('Catalog', function(){
   AnimalObject = Parse.Object.extend("Animal");
   ZooObject = Parse.Object.extend("Zoo");
+  UserObject = Parse.Object.extend("User");
   return {
     all: function (){
       var query = new Parse.Query(AnimalObject);
@@ -54,8 +55,14 @@ angular.module('starter.services', [])
       });
       console.log(succ);
     },
+    getCUser: function(){
+      var query = new Parse.Query(UserObject);
+      query.equalTo("objectId", 'fFEmuvHlvu');
+      return query;
+    },
     getAdoptions: function(){
       var user = Parse.User.current();
+      console.log(user);
       var relation = user.relation("adoptions");
       return relation;
     }

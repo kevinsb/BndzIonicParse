@@ -1,9 +1,9 @@
 <ion-view title="{{adoption[0].get('name')}}">
   <ion-content has-header="true">
-  	<div class="img-back">
+  	<div class="img-back" style="background-image: url('{{foto}}')">
   		<div class="row">
   			<div class="col">
-  				<img src="img/bear.jpg" class="img-responsive img-circle img-profile" alt="">
+  				<img src="{{foto}}" class="img-responsive img-circle img-profile" alt="">
   			</div>
   			<div class="col">
   				<h1>BALU</h1>
@@ -20,7 +20,7 @@
       </a>
       <a class="tab-item" ng-class="{active: tab === 'tab1'}" ng-click="toSlide(1)">
         <i class="icon ion-images"></i>
-        <span class="tabs-animal-color">Photo</span>
+        <span class="tabs-animal-color">Video</span>
       </a>
       <a class="tab-item" ng-class="{active: tab === 'tab2'}" ng-click="toSlide(2)">
         <i class="icon ion-calendar"></i>
@@ -64,10 +64,17 @@
 	    	</div>
 	  	</ion-slide>
 	  	<ion-slide>
-	    	<div class="box yellow"><h1>PHOTO</h1></div>
+	    	<div class="box yellow">
+		    	<div class="video">
+				    <img src="{{foto}}" class="img-responsive video" alt="">
+				    <a ng-click="playVideo('http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8')"><div class="play"></div></a>
+				</div>
+	    	</div>
 	  	</ion-slide>
 	  	<ion-slide>
-	    	<div class="box pink"><h1>CALENDAR</h1></div>
+	    	<div class="box pink"><h1>
+	    		<img src="img/calendar.jpg" alt="" class="img-responsive">
+	    	</h1></div>
 	  	</ion-slide>
 	  	<ion-slide>
 	    	<div class="box pink"><h1>FRIENDS</h1></div>

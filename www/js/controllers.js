@@ -184,7 +184,41 @@ angular.module('starter.controllers', [])
 	});
 })
 
-.controller('AnimalDetailCtrl', function($scope, $state, $stateParams, $ionicSlideBoxDelegate, Catalog, $ionicPopup){
+.controller('AnimalDetailCtrl', function($scope, $state, $stateParams, $ionicSlideBoxDelegate, Catalog, Calendar, $ionicPopup){
+	var animalQuery = Catalog.all();
+	animalQuery.equalTo('objectId', $stateParams.animalId);
+	//LA SIGUIENTE LINEA DE CODIGO ES IMPORTANTE PARA REGRESAR EL OBJECTO QUE APUNTA A id_zoo sin hacer otro query
+	animalQuery.include('id_zoo');
+	animalQuery.find({
+		success: function(result){
+			fotoObj    = result[0].get('photo');
+			fotoAnimal = fotoObj.url();
+			idZoo      = result[0].get('id_zoo');
+			$scope.$apply(function(){
+	            $scope.animal = result;
+	            $scope.foto = fotoAnimal;
+	            $scope.zoo = idZoo;
+	        });
+		},
+		error: function(error){
+			console.log(error);
+		}
+	});
+
+	var calendarQuery = Calendar.get($stateParams.animalId);
+	calendarQuery.find({
+        success: function(calendar){
+        	$scope.$apply(function(){
+	        	$scope.calendar = calendar;
+	    	});
+        },
+        error: function(error){
+        	console.log(error);
+    	}
+    });
+
+
+
 	$scope.playVideo = function(url) {
 		console.log("Llamando video: " + url);
 		window.plugins.streamingMedia.playVideo(url);
@@ -208,25 +242,7 @@ angular.module('starter.controllers', [])
 			$scope.tab = "tab3";
 		}
 	}
-	var animalQuery = Catalog.all();
-	animalQuery.equalTo('objectId', $stateParams.animalId);
-	//LA SIGUIENTE LINEA DE CODIGO ES IMPORTANTE PARA REGRESAR EL OBJECTO QUE APUNTA A id_zoo sin hacer otro query
-	animalQuery.include('id_zoo');
-	animalQuery.find({
-		success: function(result){
-			fotoObj    = result[0].get('photo');
-			fotoAnimal = fotoObj.url();
-			idZoo      = result[0].get('id_zoo');
-			$scope.$apply(function(){
-	            $scope.animal = result;
-	            $scope.foto = fotoAnimal;
-	            $scope.zoo = idZoo;
-	        });
-		},
-		error: function(error){
-			console.log(error);
-		}
-	});
+	
 
 	$scope.adopt = function(nameAnimal, idAnimal) {
 	   var confirmPopup = $ionicPopup.confirm({
@@ -242,7 +258,73 @@ angular.module('starter.controllers', [])
 	     }
 	   });
 	 };
-	
+
+	$scope.changeMode = function (mode) {
+        console.log("Entrando a change mod: " + mode);
+        $scope.mode = mode;
+    };
+
+    $scope.today = function () {
+        $scope.currentDate = new Date();
+    }
+
+    $scope.isToday = function () {
+        var today = new Date(),
+            currentCalendarDate = new Date($scope.currentDate);
+
+        today.setHours(0, 0, 0, 0);
+        currentCalendarDate.setHours(0, 0, 0, 0);
+        return today.getTime() === currentCalendarDate.getTime();
+    }
+
+    $scope.loadEvents = function () {
+    	console.log("LLamar eventos");
+        $scope.eventSource = createRandomEvents();
+    };
+
+    $scope.onEventSelected = function (event) {
+        $scope.event = event;
+    };
+
+    function createRandomEvents() {
+    	console.log("creando random events");
+        var events = [];
+        for (var i = 0; i < 20; i += 1) {
+            var date = new Date();
+            var eventType = Math.floor(Math.random() * 2);
+            var startDay = Math.floor(Math.random() * 90) - 45;
+            var endDay = Math.floor(Math.random() * 2) + startDay;
+            var startTime;
+            var endTime;
+            if (eventType === 0) {
+                startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + startDay));
+                if (endDay === startDay) {
+                    endDay += 1;
+                }
+                endTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + endDay));
+                events.push({
+                    title: 'All Day - ' + i,
+                    startTime: startTime,
+                    endTime: endTime,
+                    allDay: true
+                });
+            } else {
+                var startMinute = Math.floor(Math.random() * 24 * 60);
+                var endMinute = Math.floor(Math.random() * 180) + startMinute;
+                startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + startDay, 0, date.getMinutes() + startMinute);
+                endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + endDay, 0, date.getMinutes() + endMinute);
+                events.push({
+                    title: 'Event - ' + i,
+                    startTime: startTime,
+                    endTime: endTime,
+                    allDay: false
+                });
+            }
+        }
+        return events;
+    }
+
+	 
 })
 
 .controller('AdoptionsCtrl', function($scope, Catalog){
@@ -338,4 +420,8 @@ angular.module('starter.controllers', [])
 		console.log("Llamando video: " + url);
 		window.plugins.streamingMedia.playVideo(url);
 	}
+})
+
+.controller('CalendarCtrl', function($scope, Calendar){
+	
 })

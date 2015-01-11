@@ -176,3 +176,45 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
     position: relative;
     z-index: 10;
 }
+
+/*CALENDAR*/
+.cal {
+	width: 100%;
+}
+
+.cal-title {
+	background-color: #17B585;
+	height: auto;
+}
+
+.cal-title h3 {
+	vertical-align: middle;
+	text-align: center;
+	color: white;
+}
+
+.cal-day-name p {
+	text-align: center;
+	vertical-align: middle;
+	color: #FFB921;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+.border {
+	border: solid;
+	border-width: 1px;
+	background-color: #6D6D6D;
+}
+
+.border p {
+	vertical-align: middle;
+	text-align: center;
+	color: white;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+.marked-day {
+	background-color: #FFB921;
+}

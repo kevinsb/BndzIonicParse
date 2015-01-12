@@ -4,6 +4,19 @@ angular.module('starter.controllers', [])
     var fbStatus = new Parse.Promise();
     var fbLogged = new Parse.Promise();
 
+    var fbStatusStartSuccess = function(response) {
+    	if (!response.status){
+            fbStatusError("Cannot find the status");
+            return;
+        }
+        var status = response.status;
+        console.log("Status: " + status);
+        if(status == "connected"){
+        	console.log("Ya estas conectado, te llevo a adopciones");
+        	$state.go('bondzu.adoptions');
+        }
+    }
+
 
     var fbStatusSuccess = function(response) {
 		if (!response.status){
@@ -87,6 +100,8 @@ angular.module('starter.controllers', [])
         console.log('Login Started');
         facebookConnectPlugin.getLoginStatus(fbStatusSuccess, fbStatusError);
     };
+
+    facebookConnectPlugin.getLoginStatus(fbStatusStartSuccess, fbStatusError);
 }])
 
 /*

@@ -146,15 +146,6 @@ angular.module('starter.services', [])
       var query = new Parse.Query(CalendarObject);
       query.equalTo("id_animal", animal);
       return query;
-      query.find({
-        success: function(results){
-          console.log(results[0].get('description'));
-        },
-        error: function(error){
-          console.log(error);
-        }
-      });
-
     }
   }
 })

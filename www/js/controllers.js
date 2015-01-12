@@ -205,20 +205,6 @@ angular.module('starter.controllers', [])
 		}
 	});
 
-	var calendarQuery = Calendar.get($stateParams.animalId);
-	calendarQuery.find({
-        success: function(calendar){
-        	$scope.$apply(function(){
-	        	$scope.calendar = calendar;
-	    	});
-        },
-        error: function(error){
-        	console.log(error);
-    	}
-    });
-
-
-
 	$scope.playVideo = function(url) {
 		console.log("Llamando video: " + url);
 		window.plugins.streamingMedia.playVideo(url);
@@ -260,7 +246,7 @@ angular.module('starter.controllers', [])
 	 };
 
 	$scope.changeMode = function (mode) {
-        console.log("Entrando a change mod: " + mode);
+        console.log("Entrando a change mod " + mode);
         $scope.mode = mode;
     };
 
@@ -277,18 +263,39 @@ angular.module('starter.controllers', [])
         return today.getTime() === currentCalendarDate.getTime();
     }
 
-    $scope.loadEvents = function () {
-    	console.log("LLamar eventos");
+    /*$scope.loadEvents = function () {
         $scope.eventSource = createRandomEvents();
-    };
+    };*/
 
     $scope.onEventSelected = function (event) {
         $scope.event = event;
     };
 
+    createRandomEvents();
+
     function createRandomEvents() {
-    	console.log("creando random events");
-        var events = [];
+    	var calendarQuery = Calendar.get($stateParams.animalId);
+		calendarQuery.find({
+	        success: function(calendar){
+	        	$scope.$apply(function(){
+	        		var events = [];
+	        		//console.log(calendar.length);
+	        		for (var i = 0; i < calendar.length; i++) {
+	        			events.push({
+		                    title: calendar[i].get('title'),
+		                    startTime: calendar[i].get('start_date'),
+		                    endTime: calendar[i].get('end_date'),
+		                    allDay: false
+		                });
+	        		}
+		        	$scope.eventSource = events;
+		    	});
+	        },
+	        error: function(error){
+	        	console.log(error);
+	    	}
+	    });
+        /*var events = [];
         for (var i = 0; i < 20; i += 1) {
             var date = new Date();
             var eventType = Math.floor(Math.random() * 2);
@@ -298,6 +305,7 @@ angular.module('starter.controllers', [])
             var endTime;
             if (eventType === 0) {
                 startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + startDay));
+                console.log(startTime);
                 if (endDay === startDay) {
                     endDay += 1;
                 }
@@ -321,10 +329,8 @@ angular.module('starter.controllers', [])
                 });
             }
         }
-        return events;
+        return events;*/
     }
-
-	 
 })
 
 .controller('AdoptionsCtrl', function($scope, Catalog){
@@ -345,9 +351,6 @@ angular.module('starter.controllers', [])
 	        });
     	}
   	});
-
-	
-	
 })
 
 .controller('ZoosCtrl', function($scope, Zoo){

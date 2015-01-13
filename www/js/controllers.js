@@ -1,9 +1,8 @@
 angular.module('starter.controllers', [])
 
 .controller('LoginCtrl', ['$scope', '$state', function($scope, $state) {
-    var fbStatus = new Parse.Promise();
     var fbLogged = new Parse.Promise();
-
+/*
     var fbStatusStartSuccess = function(response) {
     	if (!response.status){
             fbStatusError("Cannot find the status");
@@ -15,10 +14,11 @@ angular.module('starter.controllers', [])
         	console.log("Ya estas conectado, te llevo a adopciones");
         	$state.go('bondzu.adoptions');
         }
-    }
+    }*/
 
 
     var fbStatusSuccess = function(response) {
+		console.log("Entrando");
 		if (!response.status){
             fbStatusError("Cannot find the status");
             return;
@@ -40,7 +40,9 @@ angular.module('starter.controllers', [])
 	            var authData = userObject.get('authData');
 	            facebookConnectPlugin.api('/me', null, 
 	                function(response) {
-	                    console.log(response);
+	                	console.log("Nombre: " + response.name);
+	                	console.log("Email: " + response.email);
+	                    console.log("Respuesta de datos de usuario: " + response);
 	                    userObject.set('name', response.name);
 	                    userObject.set('email', response.email);
 	                    userObject.save();
@@ -51,7 +53,7 @@ angular.module('starter.controllers', [])
 	            );
 	            facebookConnectPlugin.api('/me/picture', null,
 	                function(response) {
-	                    userObject.set('profilePicture', response.data.url);
+	                    userObject.set('photo', response.data.url);
 	                    userObject.save();
 	                }, 
 	                function(error) {
@@ -63,11 +65,11 @@ angular.module('starter.controllers', [])
 	            console.log(error);
 	        });
         }
-	};
+	}
 
 	var fbStatusError = function(error) {
 		console.log(error);
-	};
+	}
 
     var fbLoginSuccess = function(response) {
         if (!response.authResponse){
@@ -85,23 +87,23 @@ angular.module('starter.controllers', [])
         }
         fbLogged.resolve(authData);
         fbLoginSuccess = null;
-        console.log(response);
-    };
+        console.log("fbLoginSuccess " + response);
+    }
 
     var fbLoginError = function(error){
         fbLogged.reject(error);
-    };
+    }
 
     $scope.create = function() {
-		$state.go('createUser')
+		$state.go('createUser');
 	}
 
     $scope.login = function() {
         console.log('Login Started');
         facebookConnectPlugin.getLoginStatus(fbStatusSuccess, fbStatusError);
-    };
+    }
 
-    facebookConnectPlugin.getLoginStatus(fbStatusStartSuccess, fbStatusError);
+    //facebookConnectPlugin.getLoginStatus(fbStatusStartSuccess, fbStatusError);
 }])
 
 /*

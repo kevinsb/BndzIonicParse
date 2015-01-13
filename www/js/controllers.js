@@ -6,17 +6,17 @@ angular.module('starter.controllers', [])
 		statusFb = response.status;
 
 		if (statusFb = "connected") {
-			$state.go('bondzu.adoptions');
+			$state.go('bondzu.catalog');
 		}
 	}
 
 	var fbFail = function (error) {
-		console.log(error);
+		console.log("Error en recolectar estatus: " + error);
 	}
 
 	$scope.fbStatus = function facebookLogin () {
 		console.log("Llamando a facebookConnectPlugin");
-		setTimeout(function(){ facebookConnectPlugin.getLoginStatus(fbSuccess, fbFail); }, 1000);
+		setTimeout(function(){ facebookConnectPlugin.getLoginStatus(fbSuccess, fbFail); }, 500);
 	}
 	
     var fbLogged = new Parse.Promise();
@@ -31,7 +31,7 @@ angular.module('starter.controllers', [])
         console.log("Status: " + status);
         if(status == "connected"){
         	console.log("Ya estas conectado, te llevo a adopciones");
-        	$state.go('bondzu.adoptions');
+        	$state.go('bondzu.catalog');
         }
         else{
         	facebookConnectPlugin.login(['email'], fbLoginSuccess, fbLoginError);

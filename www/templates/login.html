@@ -1,4 +1,4 @@
-<ion-view title="Account">
+<ion-view title="Account" data-ng-init="fbStatus()">
   <ion-content class="padding">
     <div style="padding: 10px; height: 100%;">
     <div class="fb-root"></div>
@@ -9,7 +9,7 @@
         <label class="item item-input item-bondzu">
             <input type="text" ng-model="user.apellido" placeholder="password">
         </label><br>
-    	<button class="button button-block button-energized" ng-click="login()">
+    	<button class="button button-block button-energized" ng-click="fbStatus()">
         	<strong>LOG IN WITH <i class="ion-social-facebook" style="font-size: 23px"></i></strong>
         </button>
         <button class="button button-block button-stable" ng-click="create()">

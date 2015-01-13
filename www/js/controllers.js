@@ -1,21 +1,26 @@
 angular.module('starter.controllers', [])
 
 .controller('LoginCtrl', ['$scope', '$state', function($scope, $state) {
-    var fbLogged = new Parse.Promise();
-/*
-    var fbStatusStartSuccess = function(response) {
-    	if (!response.status){
-            fbStatusError("Cannot find the status");
-            return;
-        }
-        var status = response.status;
-        console.log("Status: " + status);
-        if(status == "connected"){
-        	console.log("Ya estas conectado, te llevo a adopciones");
-        	$state.go('bondzu.adoptions');
-        }
-    }*/
+	var fbSuccess = function (response) {
+		console.log(response.status);
+		statusFb = response.status;
 
+		if (statusFb = "connected") {
+			$state.go('bondzu.adoptions');
+		}
+	}
+
+	var fbFail = function (error) {
+		console.log(error);
+		alert("Inicia sesión otra vez");
+	}
+
+	$scope.fbStatus = function facebookLogin () {
+		console.log("Llamando a facebookConnectPlugin");
+		setTimeout(function(){ facebookConnectPlugin.getLoginStatus(fbSuccess, fbFail); }, 3000);
+	}
+	
+    var fbLogged = new Parse.Promise();
 
     var fbStatusSuccess = function(response) {
 		console.log("Entrando");
@@ -102,8 +107,6 @@ angular.module('starter.controllers', [])
         console.log('Login Started');
         facebookConnectPlugin.getLoginStatus(fbStatusSuccess, fbStatusError);
     }
-
-    //facebookConnectPlugin.getLoginStatus(fbStatusStartSuccess, fbStatusError);
 }])
 
 /*

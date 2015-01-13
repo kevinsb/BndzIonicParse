@@ -26,10 +26,10 @@
         <i class="icon ion-calendar"></i>
         <span class="tabs-animal-color">Calendar</span>
       </a>
-      <a class="tab-item" ng-class="{active: tab === 'tab3'}" ng-click="toSlide(3)">
+      <!--<a class="tab-item" ng-class="{active: tab === 'tab3'}" ng-click="toSlide(3)">
         <i class="icon ion-person-stalker"></i>
         <span class="tabs-animal-color">Friends</span>
-      </a>
+      </a>-->
     </div>
     <ion-slide-box on-slide-changed="slideHasChanged($index)" show-pager=false>
 		<ion-slide>
@@ -61,11 +61,9 @@
 					<p class="titulo-info">Height: </p>
 					<p class="info-info">{{animal[0].get('height')}}</p>
 	    		</div>
-	    		<!--
 	    		<button class="button button-full button-energized" ng-click="adopt(animal[0].get('name'), animal[0].id)">
-					Addopt
+					Addopt {{animal[0].get('name')}}
 				</button>
-				-->
 	    	</div>
 	  	</ion-slide>
 	  	<ion-slide>
@@ -77,85 +75,22 @@
 	    	</div>
 	  	</ion-slide>
 	  	<ion-slide>
-        <section>
-            <div class="alert alert-success" ng-show="event">Event selected:{{event.startTime|date:
-                'MMM/dd,yyyy,HH:mm'}} - {{event.endTime|date:'MMM/dd,yyyy,HH:mm'}}, {{event.title}}
-            </div>
-            <div class="well well-sm">
-                <calendar ng-model="currentDate" calendar-mode="mode" event-source="eventSource"
-                          range-changed="reloadSource(startTime, endTime)"
-                          event-selected="onEventSelected(event)"></calendar>
-            </div>
-        </section>
+	        <section>
+	            <div class="alert alert-success" ng-show="event">Event selected:{{event.startTime|date:
+	                'MMM/dd,yyyy,HH:mm'}} - {{event.endTime|date:'MMM/dd,yyyy,HH:mm'}}, {{event.title}}
+	            </div>
+	            <div class="well well-sm">
+	                <calendar ng-model="currentDate" calendar-mode="mode" event-source="eventSource"
+	                          range-changed="reloadSource(startTime, endTime)"
+	                          event-selected="onEventSelected(event)"></calendar>
+	            </div>
+	        </section>
 	  	</ion-slide>
-	  	<ion-slide>
+	  	<!--<ion-slide>
 	    	<div class="box pink">
 	    		
 	    	</div>
-	  	</ion-slide>
+	  	</ion-slide>-->
 	</ion-slide-box>
-
-  	<!--<div class="list card">
-
-	  <div class="item item-avatar">
-	    <img src="http://puebla.goolocal.com.mx/sites/puebla.goolocal.com.mx/files/Zoo%20Parque%20Loro.jpg">
-	    <h2>{{animal[0].get('name')}}</h2>
-	    <p>{{animal[0].get('birthdate')}}</p>
-	  </div>
-
-	  <div class="item item-body">
-	    <img class="full-image" src="{{foto}}">
-	    <div class="row">
-	    	<div class="col">
-	    		 <i class="icon ion-camera" style="font-size:100px"></i>
-	    	</div>
-	    	<div class="col">
-	    		<a href="#/bondzu/calendar/{{animal.id}}"><i class="icon ion-calendar" style="font-size:80px"></i></a>
-	    	</div>
-	    	<div class="col">
-	    		<i class="icon ion-stats-bars" style="font-size:100px"></i>
-	    	</div>
-	    </div>
-	    <h2>Description</h2>
-	    <p>{{animal[0].get('description')}}</p>
-	    <h2>Zoo</h2>
-	    <a href="#/bondzu/zoo/{{zoo.id}}"><p>{{zoo.get('name')}}</p></a>
-	    <h2>Especie</h2>
-	    <p>{{animal[0].get('species')}}</p>
-	    <h2>Scientific Name</h2>
-	    <p>{{animal[0].get('scientific_name')}}</p>
-	    <h2>Estado de Salud</h2>
-	    <p>{{animal[0].get('health')}}</p>
-	    <h2>Gender</h2>
-	    <p>{{animal[0].get('gender')}}</p>
-	    <h2>Weight</h2>
-	    <p>{{animal[0].get('weight')}}</p>
-	    <h2>Height</h2>
-	    <p>{{animal[0].get('height')}}</p>
-	    <button class="button button-full button-positive" ng-click="adopt(animal[0].get('name'), animal[0].id)">
-			Addopt
-		</button>
-	    <p>
-	      <a href="#" class="subdued">1 Like</a>
-	      <a href="#" class="subdued">5 Comments</a>
-	    </p>
-	  </div>
-
-	  <div class="item tabs tabs-secondary tabs-icon-left">
-	    <a class="tab-item" href="#">
-	      <i class="icon ion-thumbsup"></i>
-	      Like
-	    </a>
-	    <a class="tab-item" href="#">
-	      <i class="icon ion-chatbox"></i>
-	      Comment
-	    </a>
-	    <a class="tab-item" href="#">
-	      <i class="icon ion-share"></i>
-	      Share
-	    </a>
-	  </div>
-
-	</div>-->
   </ion-content>
 </ion-view>

@@ -102,65 +102,27 @@ angular.module('starter.controllers', [])
 		$state.go('createUser');
 	}
 
-    $scope.login = function() {
+    $scope.loginFB = function() {
         console.log('Login Started');
         facebookConnectPlugin.getLoginStatus(fbStatusSuccess, fbStatusError);
     }
+
+    $scope.login = function(user){
+    	var user = new Parse.User({
+		  username: user.username,
+		  password: user.password
+		});
+
+		user.logIn({
+			success: function(response){
+				$state.go('bondzu.catalog');
+			},
+			error: function(error) {
+				alert("Error en login, intenta de nuevo");
+			}
+		});
+    }
 }])
-
-/*
-.controller('LoginCtrl', function($scope, $state) {
-
-	$scope.create = function() {
-		$state.go('createUser')
-	}
-
-	$scope.login = function() {
-		window.fbAsyncInit = function() {
-			Parse.FacebookUtils.init({ // this line replaces FB.init({
-				appId      : '376601475842237', // Facebook App ID
-			  	status     : true, // check Facebook Login status
-			  	cookie     : true, // enable cookies to allow Parse to access the session
-			  	xfbml      : true,
-			  	version    : 'v2.1'
-			});
-
-			// Additional init code here
-			FB.getLoginStatus(function(response) {
-				if (response.status === 'connected') {
-			    	// user logged in and linked to app
-			    	// handle this case HERE
-			    	$state.go('bondzu.account')
-			  	}
-			  	else{
-			  		Parse.FacebookUtils.logIn(null, {
-					success: function(user) {
-				    	if (!user.existed()) {
-				      		console.log("Usuario registrado via Facebook");
-				      		$state.go('bondzu.account')
-				    	} else {
-				    		console.log("Login exitoso");
-				      		$state.go('bondzu.account')
-				    	}
-				  	},
-				  	
-				  	error: function(user, error) {
-				    	console.log("User cancelled the Facebook login or did not fully authorize.");
-				  	}
-				});
-			  	}
-			});
-		};
-
-		(function(d, s, id){
-			var js, fjs = d.getElementsByTagName(s)[0];
-			if (d.getElementById(id)) {return;}
-			js = d.createElement(s); js.id = id;
-			js.src = "//connect.facebook.net/en_US/sdk.js";
-			fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));
-	}
-})*/
 
 .controller('FriendsCtrl', function($scope, Friends) {
 	$scope.friends = Friends.all();
@@ -224,9 +186,18 @@ angular.module('starter.controllers', [])
 		}
 	});
 
+	var options = {
+		successCallback: function() {
+	  		alert("Video was closed without error.");
+		},
+		errorCallback: function(errMsg) {
+	  		alert("Video streaming not available. Try again later");
+		}
+	}
+
 	$scope.playVideo = function(url) {
 		console.log("Llamando video: " + url);
-		window.plugins.streamingMedia.playVideo(url);
+		window.plugins.streamingMedia.playVideo(url, options);
 	}
 
 	$scope.tab = "tab0";
@@ -390,7 +361,7 @@ angular.module('starter.controllers', [])
 	});
 })
 
-.controller('AdoptionDetailCtrl', function($scope, $state, $stateParams, $ionicSlideBoxDelegate, Catalog){
+.controller('AdoptionDetailCtrl', function($scope, $state, $stateParams, $ionicSlideBoxDelegate, Catalog, Calendar){
 	$scope.playVideo = function(url) {
 		console.log("Llamando video: " + url);
 		window.plugins.streamingMedia.playVideo(url);
@@ -435,12 +406,73 @@ angular.module('starter.controllers', [])
 			console.log(error);
 		}
 	});
+
+	$scope.changeMode = function (mode) {
+        console.log("Entrando a change mod " + mode);
+        $scope.mode = mode;
+    };
+
+    $scope.today = function () {
+        $scope.currentDate = new Date();
+    }
+
+    $scope.isToday = function () {
+        var today = new Date(),
+            currentCalendarDate = new Date($scope.currentDate);
+
+        today.setHours(0, 0, 0, 0);
+        currentCalendarDate.setHours(0, 0, 0, 0);
+        return today.getTime() === currentCalendarDate.getTime();
+    }
+
+    /*$scope.loadEvents = function () {
+        $scope.eventSource = createRandomEvents();
+    };*/
+
+    $scope.onEventSelected = function (event) {
+        $scope.event = event;
+    };
+
+    createRandomEvents();
+
+    function createRandomEvents() {
+    	var calendarQuery = Calendar.get($stateParams.animalId);
+		calendarQuery.find({
+	        success: function(calendar){
+	        	$scope.$apply(function(){
+	        		var events = [];
+	        		//console.log(calendar.length);
+	        		for (var i = 0; i < calendar.length; i++) {
+	        			events.push({
+		                    title: calendar[i].get('title'),
+		                    startTime: calendar[i].get('start_date'),
+		                    endTime: calendar[i].get('end_date'),
+		                    allDay: false
+		                });
+	        		}
+		        	$scope.eventSource = events;
+		    	});
+	        },
+	        error: function(error){
+	        	console.log(error);
+	    	}
+	    });
+	}
 })
 
 .controller('ZooCtrl', function($scope){
+	var options = {
+		successCallback: function() {
+	  		alert("Video was closed without error.");
+		},
+		errorCallback: function(errMsg) {
+	  		alert("Error! " + errMsg);
+		}
+	};
+
 	$scope.playVideo = function(url) {
 		console.log("Llamando video: " + url);
-		window.plugins.streamingMedia.playVideo(url);
+		window.plugins.streamingMedia.playVideo(url, options);
 	}
 })
 

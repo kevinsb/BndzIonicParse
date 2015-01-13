@@ -12,12 +12,11 @@ angular.module('starter.controllers', [])
 
 	var fbFail = function (error) {
 		console.log(error);
-		alert("Inicia sesión otra vez");
 	}
 
 	$scope.fbStatus = function facebookLogin () {
 		console.log("Llamando a facebookConnectPlugin");
-		setTimeout(function(){ facebookConnectPlugin.getLoginStatus(fbSuccess, fbFail); }, 3000);
+		setTimeout(function(){ facebookConnectPlugin.getLoginStatus(fbSuccess, fbFail); }, 1000);
 	}
 	
     var fbLogged = new Parse.Promise();

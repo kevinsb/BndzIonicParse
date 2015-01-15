@@ -114,7 +114,7 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 
 .img-profile {
 	margin-top: 10px;
-	min-width: 100%;
+	min-width: 50%;
 	height: auto;
 	vertical-align: middle;
 	padding: 4px;
@@ -144,6 +144,7 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 .information h3 {
 	color: #A4A4A4;
 	font-weight: bold;
+	height: auto;
 }
 
 .info {
@@ -162,6 +163,10 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 	display: inline;
 }
 
+.video-div {
+	height: auto;
+}
+
 .video { 
 	position: relative; 
 	display: inline-block;
@@ -178,6 +183,10 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 }
 
 /*CALENDAR*/
+.calendario {
+	height: auto;
+}
+
 .cal {
 	width: 100%;
 }
@@ -217,4 +226,33 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 
 .marked-day {
 	background-color: #FFB921;
+}
+
+.no-animals {
+	margin: 0 auto;
+	width: 50%;
+	vertical-align: middle;
+	margin-top: 100px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.no-animals p {
+	text-align: center;
+	font-size: 18px;
+	color: #17B585;
+}
+
+
+.box1{
+  height:auto;
+}
+.box2{
+  height:auto;
+}
+.box3{
+  height:auto;
+}
+.box4{
+  height:auto;
 }

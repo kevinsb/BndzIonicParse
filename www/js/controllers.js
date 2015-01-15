@@ -174,10 +174,13 @@ angular.module('starter.controllers', [])
 		success: function(result){
 			fotoObj    = result[0].get('photo');
 			fotoAnimal = fotoObj.url();
+			fotoProfileObj = result[0].get('profilePicture');
+			fotoAnimalProfile = fotoProfileObj.url();
 			idZoo      = result[0].get('id_zoo');
 			$scope.$apply(function(){
 	            $scope.animal = result;
 	            $scope.foto = fotoAnimal;
+	            $scope.fotoProfile = fotoAnimalProfile;
 	            $scope.zoo = idZoo;
 	        });
 		},
@@ -361,17 +364,14 @@ angular.module('starter.controllers', [])
 	});
 })
 
-.controller('AdoptionDetailCtrl', function($scope, $state, $stateParams, $ionicSlideBoxDelegate, Catalog, Calendar){
-	$scope.playVideo = function(url) {
-		console.log("Llamando video: " + url);
-		window.plugins.streamingMedia.playVideo(url);
-	}
-
+.controller('AdoptionDetailCtrl', function($scope, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, $ionicScrollDelegate, Catalog, Calendar){
+	//-----------------------------------------------------------------
 	$scope.tab = "tab0";
-	$scope.toSlide = function(slide) {
-		$ionicSlideBoxDelegate.slide(slide);
-	}
-	$scope.slideHasChanged = function(slide) {
+	$scope.data = {};
+	$scope.data.currSlide = $ionicSlideBoxDelegate.currentIndex();
+	console.log('Current Slide = ' + $scope.data.currSlide);
+
+	$scope.slideChanged = function(slide) {
 		if (slide == 0) {
 			$scope.tab = "tab0";
 		}
@@ -384,8 +384,23 @@ angular.module('starter.controllers', [])
 		if (slide == 3) {
 			$scope.tab = "tab3";
 		}
-	}
 
+		$ionicScrollDelegate.scrollTop();
+		$scope.data.currSlide = $ionicSlideBoxDelegate.currentIndex();
+		$timeout( function() {
+		  $ionicScrollDelegate.resize();
+		}, 50);
+	};
+
+	$scope.toSlide = function(slide) {
+		$ionicSlideBoxDelegate.slide(slide);
+	}
+	//---------------------------------------------------------------
+
+	$scope.playVideo = function(url) {
+		console.log("Llamando video: " + url);
+		window.plugins.streamingMedia.playVideo(url);
+	}
 
 	animalQuery = Catalog.all();
 	animalQuery.equalTo('objectId', $stateParams.animalId);
@@ -394,11 +409,14 @@ angular.module('starter.controllers', [])
 	animalQuery.find({
 		success: function(result){
 			fotoObj    = result[0].get('photo');
+			fotoProfileObj    = result[0].get('profilePicture');
 			fotoAnimal = fotoObj.url();
+			fotoAnimalProfile = fotoProfileObj.url();
 			idZoo      = result[0].get('id_zoo');
 			$scope.$apply(function(){
 	            $scope.adoption = result;
 	            $scope.foto = fotoAnimal;
+	            $scope.fotoProfile = fotoAnimalProfile;
 	            $scope.zoo = idZoo;
 	        });
 		},

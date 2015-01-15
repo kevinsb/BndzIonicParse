@@ -3,17 +3,18 @@
   	<div class="img-back" style="background-image: url('{{foto}}')">
   		<div class="row">
   			<div class="col">
-  				<img src="{{foto}}" class="img-responsive img-circle img-profile" alt="">
+  				<div class="padding">
+            <img src="{{fotoProfile}}" class="img-responsive img-circle img-profile" alt="">
+          </div>
   			</div>
   			<div class="col">
-  				<h1>BALU</h1>
-  				<h2>Oso Pardo</h2>
+  				<h1>{{adoption[0].get('name')}}</h1>
+  				<h2>{{adoption[0].get('species')}}</h2>
   			</div>
   			<div class="col"></div>
   		</div>
   	</div>
-
-  	<div class="tabs tabs-animal">
+	<div class="tabs tabs-animal">
       <a class="tab-item" ng-class="{active: tab === 'tab0'}" ng-click="toSlide(0)">
         <i class="icon ion-information-circled"></i>
         <span class="tabs-animal-color">Info</span>
@@ -31,61 +32,127 @@
         <span class="tabs-animal-color">Friends</span>
       </a>-->
     </div>
-    <ion-slide-box on-slide-changed="slideHasChanged($index)" show-pager=false>
-		<ion-slide>
-	    	<div class="padding information">
-	    		<h3>Information</h3>
-	    		<hr>
-	    		<div class="info">
-	    			<p class="titulo-info">Name: </p>
-	    			<p class="info-info">{{adoption[0].get('name')}}</p>
-	    			<br>
-	    			<p class="titulo-info">Zoo: </p>
-	    			<p class="info-info">{{zoo.get('name')}}</p>
-	    			<br>
-	    			<p class="titulo-info">Scientific Name: </p>
-	    			<p class="info-info">{{adoption[0].get('scientific_name')}}</p>
-	    			<br>
-	    			<p class="titulo-info">Health: </p>
-	    			<p class="info-info">{{adoption[0].get('health')}}</p>
-	    			<br>
-					<p class="titulo-info">Description: </p>
-	    			<p class="info-info">{{adoption[0].get('description')}}</p>
-	    			<br>
-	    			<p class="titulo-info">Gender: </p>
-					<p class="info-info">{{adoption[0].get('gender')}}</p>
-					<br>
-					<p class="titulo-info">Weight: </p>
-					<p class="info-info">{{adoption[0].get('weight')}}</p>
-					<br>
-					<p class="titulo-info">Height: </p>
-					<p class="info-info">{{adoption[0].get('height')}}</p>
-	    		</div>
-	    	</div>
-	  	</ion-slide>
-	  	<ion-slide>
-	    	<div class="box yellow">
-		    	<div class="video">
+	<ion-slide-box show-pager="false" on-slide-changed="slideChanged($index)">
+        <ion-slide>
+          <div class="padding information">
+            <h3>Information</h3>
+	    	<hr>
+            <div class="box1 info" ng-if="data.currSlide === 0 || !data.currSlide">
+            	<p class="titulo-info">Name: </p>
+    			<p class="info-info">{{adoption[0].get('name')}}</p>
+    			<br>
+    			<p class="titulo-info">Zoo: </p>
+    			<p class="info-info">{{zoo.get('name')}}</p>
+    			<br>
+    			<p class="titulo-info">Scientific Name: </p>
+    			<p class="info-info">{{adoption[0].get('scientific_name')}}</p>
+    			<br>
+    			<p class="titulo-info">Health: </p>
+    			<p class="info-info">{{adoption[0].get('health')}}</p>
+    			<br>
+				<p class="titulo-info">Description: </p>
+    			<p class="info-info">{{adoption[0].get('description')}}</p>
+    			<br>
+    			<p class="titulo-info">Gender: </p>
+				<p class="info-info">{{adoption[0].get('gender')}}</p>
+				<br>
+				<p class="titulo-info">Weight: </p>
+				<p class="info-info">{{adoption[0].get('weight')}}</p>
+				<br>
+				<p class="titulo-info">Height: </p>
+				<p class="info-info">{{adoption[0].get('height')}}</p>
+            </div>
+          </div>
+        </ion-slide>
+
+        <ion-slide>
+          <div class="information video-div">
+            <div class="padding">
+            	<h3>Live video streaming</h3>
+            <hr> 
+            </div>
+            <div class="box2" ng-if="data.currSlide === 1">
+            	<div class="video">
 				    <img src="{{foto}}" class="img-responsive video" alt="">
 				    <a ng-click="playVideo('http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8')"><div class="play"></div></a>
 				</div>
-	    	</div>
-	  	</ion-slide>
-	  	<ion-slide>
-	  		<section>
-	            <div class="alert alert-success" ng-show="event">Event selected:{{event.startTime|date:
-	                'MMM/dd,yyyy,HH:mm'}} - {{event.endTime|date:'MMM/dd,yyyy,HH:mm'}}, {{event.title}}
-	            </div>
-	            <div class="well well-sm">
-	                <calendar ng-model="currentDate" calendar-mode="mode" event-source="eventSource"
-	                          range-changed="reloadSource(startTime, endTime)"
-	                          event-selected="onEventSelected(event)"></calendar>
-	            </div>
-	        </section>
-	  	</ion-slide>
-	  	<!--<ion-slide>
-	    	<div class="box pink"><h1>FRIENDS</h1></div>
-	  	</ion-slide>-->
-	</ion-slide-box>
+            </div>
+          </div>
+        </ion-slide>
+
+        <ion-slide>
+          <div class="padding information">
+            <h3>Calendar</h3>
+            <hr>
+            <div class="box3 calendario" ng-if="data.currSlide === 2">
+            	<section>
+		            <div class="alert alert-success" ng-show="event">Event selected:{{event.startTime|date:
+		                'MMM/dd,yyyy,HH:mm'}} - {{event.endTime|date:'MMM/dd,yyyy,HH:mm'}}, {{event.title}}
+		            </div>
+		            <div class="well well-sm">
+		                <calendar ng-model="currentDate" calendar-mode="mode" event-source="eventSource"
+		                          range-changed="reloadSource(startTime, endTime)"
+		                          event-selected="onEventSelected(event)"></calendar>
+		            </div>
+		        </section>
+            </div>
+          </div>
+        </ion-slide>
+        <!--<ion-slide>
+          <div class="padding information">
+            <h1>Green height: 1200px</h1>
+            <div class="box4" ng-if="data.currSlide === 3">
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	<h1>Green height: 1200px</h1>
+            	
+            </div>
+          </div>
+        </ion-slide>-->
+
+      </ion-slide-box>
   </ion-content>
 </ion-view>

@@ -72,10 +72,17 @@
             <hr> 
             </div>
             <div class="box2" ng-if="data.currSlide === 1">
-            	<div class="video">
-				    <img src="{{foto}}" class="img-responsive video" alt="">
-				    <a ng-click="playVideo('http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8')"><div class="play"></div></a>
-				</div>
+            	<div class="video-div">
+                <!--<div class="video">
+                  <img src="{{foto}}" class="img-responsive video" alt="">
+                  <a ng-click="playVideo('http://wpc.50C7.sigmacdn.net/hls-live/2050C7/beczbziul/bondzu-stream-test_/bondzu-stream-test_,428,778,278,.m3u8')">
+                    <div class="play"></div>
+                  </a>
+                </div> -->
+                <div class="img-video" style="background-image: url('{{foto}}')">
+                  <img src="img/play.png" class="img-responsive centered img-play" width="23%">
+                </div>
+              </div>
             </div>
           </div>
         </ion-slide>

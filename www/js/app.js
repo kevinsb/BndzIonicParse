@@ -96,7 +96,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       views: {
         'bondzu-account': {
           templateUrl: 'templates/tab-account.html',
-          controller: 'ZooCtrl'
+          controller: 'AccountCtrl'
         }
       }
     })

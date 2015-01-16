@@ -18,12 +18,12 @@
 
 .no-event-label {
     font-weight: bold;
-    color: darkgrey;
+    color: #FFB921;
     text-align: center;
 }
 
 .event-detail-container {
-    border-top: 2px darkgrey solid;
+    border-top: 2px #FFB921 solid;
 }
 
 .event-detail {
@@ -59,8 +59,8 @@
 
 .calendar-event-inner {
     overflow: hidden;
-    background-color: #3a87ad;
-    color: white;
+    background-color: #17B585;
+    color: #FFB921;
     height: 100%;
     width: 100%;
     padding: 2px;
@@ -73,17 +73,17 @@
 }
 
 .monthview-primary-with-event {
-    background-color: #3a87ad;
+    background-color: #FFB921;
     color: white;
 }
 
 .monthview-selected {
-    background-color: #009900;
+    background-color: lightgrey;
     color: white;
 }
 
 .monthview-current {
-    background-color: lightgrey;
+    background-color: #17B585;
 }
 
 .monthview-eventdetail-timecolumn {
@@ -96,7 +96,7 @@
 }
 
 .monthview-secondary-with-event {
-    background-color: #d9edf7;
+    background-color: #FFB921;
 }
 
 .weekview-allday-label, .dayview-allday-label {
@@ -106,7 +106,7 @@
     text-align: center;
     width: 50px;
     border-width: 1px 0px 1px 1px;
-    border-color: #ddd;
+    border-color: #FFB921;
     border-style: solid;
 }
 

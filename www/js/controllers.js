@@ -139,8 +139,13 @@ angular.module('starter.controllers', [])
 	}
 })
 
-.controller('AccountCtrl', function($scope) {
-
+.controller('AccountCtrl', function($scope, $state) {
+	$scope.logOut = function(){
+	    Parse.User.logOut();
+	    var currentUser = Parse.User.current();
+	    console.log(currentUser);
+	    $state.go('login');
+	}
 })
 
 .controller('CatalogCtrl', function($scope, Catalog) {
@@ -332,7 +337,7 @@ angular.module('starter.controllers', [])
 	relationAdoptions.query().find({
     	success: function(resulta) {
     		for (var i = 0; i < resulta.length; i++) {
-				foto = resulta[i].get('photo');
+				foto = resulta[i].get('profilePicture');
 				fotos.push({
 					url: foto.url()
 				});

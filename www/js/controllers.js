@@ -2,11 +2,14 @@ angular.module('starter.controllers', [])
 
 .controller('LoginCtrl', ['$scope', '$state', function($scope, $state) {
 	var fbSuccess = function (response) {
-		console.log(response.status);
 		statusFb = response.status;
+		console.log(statusFb);
 
-		if (statusFb = "connected") {
+		if (statusFb == "connected") {
 			$state.go('bondzu.catalog');
+		}
+		else{
+			console.log("Conectate");
 		}
 	}
 
@@ -142,8 +145,8 @@ angular.module('starter.controllers', [])
 .controller('AccountCtrl', function($scope, $state) {
 	$scope.logOut = function(){
 	    Parse.User.logOut();
-	    var currentUser = Parse.User.current();
-	    console.log(currentUser);
+	    facebookConnectPlugin.logout();
+	    console.log("Voy a salir");
 	    $state.go('login');
 	}
 })

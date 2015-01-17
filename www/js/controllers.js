@@ -405,9 +405,18 @@ angular.module('starter.controllers', [])
 	}
 	//---------------------------------------------------------------
 
+	var options = {
+		successCallback: function() {
+	  		console.log("Exito en video");
+		},
+		errorCallback: function(errMsg) {
+	  		alert("Sorry, try again later");
+		}
+	};
+
 	$scope.playVideo = function(url) {
 		console.log("Llamando video: " + url);
-		window.plugins.streamingMedia.playVideo(url);
+		window.plugins.streamingMedia.playVideo(url, options);
 	}
 
 	animalQuery = Catalog.all();

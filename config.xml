@@ -8,8 +8,9 @@
     Bondzu Team
   </author>
   <icon src="logo.png" />
+  <gap:splash src="splash.png" />
+  <!--
   <platform name="android">
-    <!-- you can use any density that exists in the Android project -->
     <splash src="splash.png" density="land-hdpi"/>
     <splash src="splash.png" density="land-ldpi"/>
     <splash src="splash.png" density="land-mdpi"/>
@@ -22,7 +23,6 @@
   </platform>
 
   <platform name="ios">
-    <!-- images are determined by width and height. The following are supported -->
     <splash src="splash.png" width="320" height="480"/>
     <splash src="splash.png" width="640" height="960"/>
     <splash src="splash.png" width="768" height="1024"/>
@@ -33,7 +33,8 @@
     <splash src="splash.png" width="750" height="1334"/>
     <splash src="splash.png" width="1242" height="2208"/>
     <splash src="splash.png" width="2208" height="1242"/>
-  </platform>
+  </platform>-->
+
   <content src="index.html"/>
   <access origin="*"/>
   <preference name="webviewbounce" value="false"/>

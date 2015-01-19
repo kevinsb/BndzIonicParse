@@ -7,7 +7,7 @@
   <author email="contacto@bondzu.com" href="http://bondzu.com/">
     Bondzu Team
   </author>
-  <icon src="logo.png" />
+  <icon src="icon.png" />
   <gap:splash src="screen.png" />
   <!--
   <platform name="android">

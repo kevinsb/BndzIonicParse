@@ -7,7 +7,6 @@
 	<author email="contacto@bondzu.com" href="http://bondzu.com/">
 	Bondzu Team
 	</author>
-	<icon src="icon.png" />
 	<platform name="ios">
 		<!-- iOS 7.0+ -->
 		<!-- iPhone / iPod Touch -->

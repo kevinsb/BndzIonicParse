@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('LoginCtrl', ['$scope', '$state', function($scope, $state) {
+.controller('LoginCtrl', ['$scope', '$state', function($scope, $state, $ionicPopup) {
 	var fbSuccess = function (response) {
 		statusFb = response.status;
 		console.log(statusFb);
@@ -121,7 +121,7 @@ angular.module('starter.controllers', [])
 				$state.go('bondzu.catalog');
 			},
 			error: function(error) {
-				alert("Error en login, intenta de nuevo");
+				alert("Error");
 			}
 		});
     }
@@ -135,10 +135,50 @@ angular.module('starter.controllers', [])
   	$scope.friend = Friends.get($stateParams.friendId);
 })
 
-.controller('CreateUser', function($scope, Users, $state) {
+.controller('CreateUser', function($scope, Users, $state, $ionicPopup) {
 	$scope.createUser = function(user){
-	    Users.create(user);
-	    $state.go('bondzu.catalog');
+		if (user.nombre == undefined || user.apellido == undefined || user.email == undefined || user.username == undefined || user.password == undefined || user.password2 == undefined){
+			var alertPopup = $ionicPopup.alert({
+				title: 'Sing Up',
+				template: 'All the fields are required'
+			});
+		}
+
+		else{
+			if(user.email.indexOf('@') === -1){
+			    var alertPopup2 = $ionicPopup.alert({
+					title: 'Sing Up',
+					template: 'Invalid email'
+				});
+			}
+			else{
+				if (user.password == user.password2){
+			    	var nuevoUsuario = Users.create(user);
+			    	nuevoUsuario.signUp(null, {
+				        success:function(object) {
+				          	var alertPopup3 = $ionicPopup.alert({
+								title: 'Sing Up',
+								template: 'Welcome to Bondzu'
+							});
+							$state.go('bondzu.catalog');
+				        }, 
+				        error:function(user, error) {
+				          	console.dir(error);
+				          	var alertPopup4 = $ionicPopup.alert({
+								title: 'Sing Up',
+								template: 'Something happen, please try again'
+							});
+				        }
+				    });
+			    }
+			    else{
+		    		var alertPopup = $ionicPopup.alert({
+						title: 'Password',
+						template: 'The password do not match'
+					});
+			    }
+			}			
+		}    
 	}
 })
 
@@ -173,7 +213,7 @@ angular.module('starter.controllers', [])
 	});
 })
 
-.controller('AnimalDetailCtrl', function($scope, $state, $stateParams, $ionicSlideBoxDelegate, Catalog, Calendar, $ionicPopup){
+.controller('AnimalDetailCtrl', function($scope, $state, $stateParams, $ionicSlideBoxDelegate, $ionicPopup, Catalog, Calendar, $ionicPopup){
 	var animalQuery = Catalog.all();
 	animalQuery.equalTo('objectId', $stateParams.animalId);
 	//LA SIGUIENTE LINEA DE CODIGO ES IMPORTANTE PARA REGRESAR EL OBJECTO QUE APUNTA A id_zoo sin hacer otro query
@@ -199,10 +239,16 @@ angular.module('starter.controllers', [])
 
 	var options = {
 		successCallback: function() {
-	  		alert("Video was closed without error.");
+	  		var alertPopup = $ionicPopup.alert({
+				title: 'Video',
+				template: 'Video was closed without error.'
+			});
 		},
 		errorCallback: function(errMsg) {
-	  		alert("Video streaming not available. Try again later");
+	  		var alertPopup = $ionicPopup.alert({
+				title: 'Video',
+				template: 'Video streaming not available. Try again later'
+			});
 		}
 	}
 
@@ -239,6 +285,7 @@ angular.module('starter.controllers', [])
 	   confirmPopup.then(function(res) {
 	     if(res) {
 	     	Catalog.adopt(idAnimal);
+	     	console.log("Adopcion");
 	       	$state.go('bondzu.adoptions');
 	     } else {
 	       console.log('You are not sure');
@@ -403,21 +450,6 @@ angular.module('starter.controllers', [])
 	$scope.toSlide = function(slide) {
 		$ionicSlideBoxDelegate.slide(slide);
 	}
-	//---------------------------------------------------------------
-
-	var options = {
-		successCallback: function() {
-	  		console.log("Exito en video");
-		},
-		errorCallback: function(errMsg) {
-	  		alert("Sorry, try again later");
-		}
-	};
-
-	$scope.playVideo = function(url) {
-		console.log("Llamando video: " + url);
-		window.plugins.streamingMedia.playVideo(url, options);
-	}
 
 	animalQuery = Catalog.all();
 	animalQuery.equalTo('objectId', $stateParams.animalId);
@@ -460,10 +492,6 @@ angular.module('starter.controllers', [])
         return today.getTime() === currentCalendarDate.getTime();
     }
 
-    /*$scope.loadEvents = function () {
-        $scope.eventSource = createRandomEvents();
-    };*/
-
     $scope.onEventSelected = function (event) {
         $scope.event = event;
     };
@@ -496,19 +524,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ZooCtrl', function($scope){
-	var options = {
-		successCallback: function() {
-	  		alert("Video was closed without error.");
-		},
-		errorCallback: function(errMsg) {
-	  		alert("Error! " + errMsg);
-		}
-	};
 
-	$scope.playVideo = function(url) {
-		console.log("Llamando video: " + url);
-		window.plugins.streamingMedia.playVideo(url, options);
-	}
 })
 
 .controller('CalendarCtrl', function($scope, Calendar){

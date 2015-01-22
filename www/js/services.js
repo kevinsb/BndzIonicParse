@@ -24,7 +24,6 @@ angular.module('starter.services', [])
       return result;
     },
     adopt: function(animalId){
-      var succ;
       var user = Parse.User.current();
       console.log(user);
       var relation = user.relation("adoptions");
@@ -46,14 +45,11 @@ angular.module('starter.services', [])
               console.log("Error en Carer: " + error);
             }
           })
-          succ = true;
         },
         error: function(error){
           console.log("Error en Adoption: " + error);
-          succ = false;
         }
       });
-      console.log(succ);
     },
     getCUser: function(){
       var query = new Parse.Query(UserObject);
@@ -72,24 +68,15 @@ angular.module('starter.services', [])
   UserObject = Parse.Object.extend("User");
   return {
     create: function(user){
-      var usuario = new UserObject();
+      var usuario = new Parse.User();
       usuario.set('username', user.username)
       usuario.set('name', user.nombre);
       usuario.set('lastname', user.apellido);
       usuario.set('email', user.email);
       usuario.set('password', user.password);
 
-      usuario.save(null, {
-        success:function(object) {
-          alert("Nuevo usuario agregado");
-        }, 
-        error:function(object, error) {
-          console.dir(error);
-          alert("No se pudo guardar el usuario, intente de nuevo");
-        }
-      });
+      return usuario;
     },
-
     get: function(userId){
       var usuario = new UserObject();
       var query = new Parse.Query(usuario);

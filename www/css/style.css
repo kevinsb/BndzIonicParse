@@ -276,3 +276,7 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 .box4{
   height:auto;
 }
+
+.popup-body span {
+	color: black !important;
+}

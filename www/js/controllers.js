@@ -237,26 +237,6 @@ angular.module('starter.controllers', [])
 		}
 	});
 
-	var options = {
-		successCallback: function() {
-	  		var alertPopup = $ionicPopup.alert({
-				title: 'Video',
-				template: 'Video was closed without error.'
-			});
-		},
-		errorCallback: function(errMsg) {
-	  		var alertPopup = $ionicPopup.alert({
-				title: 'Video',
-				template: 'Video streaming not available. Try again later'
-			});
-		}
-	}
-
-	$scope.playVideo = function(url) {
-		console.log("Llamando video: " + url);
-		window.plugins.streamingMedia.playVideo(url, options);
-	}
-
 	$scope.tab = "tab0";
 	$scope.toSlide = function(slide) {
 		$ionicSlideBoxDelegate.slide(slide);
@@ -520,6 +500,26 @@ angular.module('starter.controllers', [])
 	        	console.log(error);
 	    	}
 	    });
+	}
+
+	var options = {
+		successCallback: function() {
+	  		var alertPopup = $ionicPopup.alert({
+				title: 'Video',
+				template: 'Video was closed without error.'
+			});
+		},
+		errorCallback: function(errMsg) {
+	  		var alertPopup = $ionicPopup.alert({
+				title: 'Video',
+				template: 'Video streaming not available. Try again later'
+			});
+		}
+	}
+
+	$scope.playVideo = function(url) {
+		console.log("Llamando video: " + url);
+		window.plugins.streamingMedia.playVideo(url, options);
 	}
 })
 

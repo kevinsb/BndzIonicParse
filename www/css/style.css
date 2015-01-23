@@ -11,8 +11,8 @@ body, h1, h2, h3, h4, p, strong {
 }
 
 .tabs {
-	border-color: #FFB921 !important;
-	background-color: #FFB921 !important;
+	border-color: #C8580E !important;
+	background-color: #C8580E !important;
 }
 
 .tabs i, span {
@@ -20,8 +20,8 @@ body, h1, h2, h3, h4, p, strong {
 }
 
 .bar.bar-stable {
-	border-color: #FFB921 !important;
-	background-color: #FFB921 !important;
+	border-color: #C8580E !important;
+	background-color: #C8580E !important;
 	background-image: linear-gradient(0deg, #b2b2b2, #b2b2b2 50%, transparent 50%);
 	color: #444;
 }
@@ -37,7 +37,7 @@ body, h1, h2, h3, h4, p, strong {
 }
 
 .item-bondzu{
-	border-color: #FFB921;
+	border-color: #C8580E;
 	border-radius: 10px;
 }
 
@@ -151,12 +151,12 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 }
 
 .tabs-animal i {
-	color: #FFB921;
+	color: #C8580E;
 }
 
 .tabs-animal-color {
 	font-weight: 600;
-	color: #FFB921;
+	color: #C8580E;
 }
 
 .information h3 {
@@ -225,7 +225,7 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 .cal-day-name p {
 	text-align: center;
 	vertical-align: middle;
-	color: #FFB921;
+	color: #C8580E;
 	font-weight: bold;
 	font-size: 15px;
 }
@@ -245,7 +245,7 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 }
 
 .marked-day {
-	background-color: #FFB921;
+	background-color: #C8580E;
 }
 
 .no-animals {

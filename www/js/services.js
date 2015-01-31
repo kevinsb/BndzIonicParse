@@ -51,14 +51,15 @@ angular.module('starter.services', [])
         }
       });
     },
-    getCUser: function(){
-      var query = new Parse.Query(UserObject);
-      query.equalTo("objectId", 'fFEmuvHlvu');
-      return query;
-    },
     getAdoptions: function(){
       var user = Parse.User.current();
       var relation = user.relation("adoptions");
+      return relation;
+    },
+    getCarers: function(animalId){
+      var animal = new AnimalObject();
+      animal.id = animalId;
+      var relation = animal.relation("carer");
       return relation;
     }
   }
@@ -77,24 +78,18 @@ angular.module('starter.services', [])
 
       return usuario;
     },
-    get: function(userId){
-      var usuario = new UserObject();
-      var query = new Parse.Query(usuario);
-      
-      query.get(userId, {
-        success: function(resusuario){
-          console.log(resusuario);
-        },
-        error: function(object, error) {
-          console.dir(error);
-          alert("No se pudo guardar el usuario, intente de nuevo");
-        }
-      });
+    get: function(){
+      var query = new Parse.Query(UserObject);
+      return query;
     },
 
     update: function(user){
       var usuario = new UserObject();
       usuario.set
+    },
+    getCurrentUser: function(){
+      var current_user = Parse.User.current();
+      return current_user;
     }
   }
 })

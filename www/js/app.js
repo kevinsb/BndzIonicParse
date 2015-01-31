@@ -121,6 +121,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
     })
 
+    .state('bondzu.user-detail', {
+      url: '/user/:userId',
+      views: {
+        'bondzu-catalog': {
+          templateUrl: 'templates/user-detail.html',
+          controller: 'UserDetailCtrl'
+        }
+      }
+    })
+
     .state('bondzu.adoption-calendar', {
       url: '/adoption/calendar/:animalId',
       views: {

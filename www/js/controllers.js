@@ -21,6 +21,8 @@ angular.module('starter.controllers', [])
 		console.log("Llamando a facebookConnectPlugin");
 		setTimeout(function(){ facebookConnectPlugin.getLoginStatus(fbSuccess, fbFail); }, 500);
 	}
+
+	//---------------------------------------------------------------------------
 	
     var fbLogged = new Parse.Promise();
 
@@ -43,33 +45,49 @@ angular.module('starter.controllers', [])
 	            console.log('Promised');
 	            return Parse.FacebookUtils.logIn(authData);
 	        })
+
 	        .then( function(userObject) {
 	            var authData = userObject.get('authData');
 	            facebookConnectPlugin.api('/me', null, 
 	                function(response) {
-	                	console.log("Nombre: " + response.name);
-	                	console.log("Email: " + response.email);
-	                    console.log("Respuesta de datos de usuario: " + response);
-	                    userObject.set('name', response.name);
+	                    userObject.set('name', response.first_name);
+	                    userObject.set('lastname', response.last_name);
 	                    userObject.set('email', response.email);
-	                    userObject.save();
+	                    userObject.set('gender', response.gender);
+	                    userObject.set('birthday', response.birthday);
+	                    userObject.set('about', response.about);
+	                    userObject.save(null, {
+	                    	success: function(success){
+	                    		facebookConnectPlugin.api('/me?fields=picture.width(800).height(800)', null,
+					                function(responsephoto) {
+					                	if (responsephoto && !responsephoto.error) {
+									    	console.log("Todo chingón");
+									    	var profile_picture = responsephoto.picture.data.url;
+									    	console.log(profile_picture);
+									    	userObject.set('photo', profile_picture);
+					                    	userObject.save();
+									    }
+									    else {
+									    	console.log("Todo mal")
+									    }
+					                }, 
+					                function(error) {
+					                    console.log("Error en foto: " + JSON.stringify(error));
+					                }
+					            );
+	                    	},
+	                    	error: function(errorSave){
+	                    		console.log("Error Save");
+	                    	}
+	                    });
 	                },
 	                function(error) {
 	                    console.log(error);
 	                }
 	            );
-	            facebookConnectPlugin.api('/me/picture', null,
-	                function(response) {
-	                    userObject.set('photo', response.data.url);
-	                    userObject.save();
-	                }, 
-	                function(error) {
-	                    console.log(error);
-	                }
-	            );
-	            $state.go('bondzu.account');
+	            $state.go('bondzu.catalog');
 	        }, function(error) {
-	            console.log(error);
+	            console.log("Error nuevo: " + error);
 	        });
         }
 	}
@@ -92,6 +110,7 @@ angular.module('starter.controllers', [])
             access_token: response.authResponse.accessToken,
             expiration_date: expDate
         }
+
         fbLogged.resolve(authData);
         fbLoginSuccess = null;
         console.log("fbLoginSuccess " + response);
@@ -182,11 +201,14 @@ angular.module('starter.controllers', [])
 	}
 })
 
-.controller('AccountCtrl', function($scope, $state) {
+.controller('AccountCtrl', function($scope, $state, Users) {
+	
+	var current_user = Users.getCurrentUser();
+	$scope.user = current_user;
+
 	$scope.logOut = function(){
 	    Parse.User.logOut();
 	    facebookConnectPlugin.logout();
-	    console.log("Voy a salir");
 	    $state.go('login');
 	}
 })
@@ -237,10 +259,24 @@ angular.module('starter.controllers', [])
 		}
 	});
 
+
+	var carersRelation = Catalog.getCarers($stateParams.animalId);
+	carersRelation.query().find({
+        success: function(carers){
+          	$scope.$apply(function(){
+	            $scope.carers = carers;
+	        });
+        },
+        error: function(error){
+          response.error(error);
+        }
+    });
+
 	$scope.tab = "tab0";
 	$scope.toSlide = function(slide) {
 		$ionicSlideBoxDelegate.slide(slide);
 	}
+
 	$scope.slideHasChanged = function(slide) {
 		if (slide == 0) {
 			$scope.tab = "tab0";
@@ -523,10 +559,17 @@ angular.module('starter.controllers', [])
 	}
 })
 
-.controller('ZooCtrl', function($scope){
-
-})
-
-.controller('CalendarCtrl', function($scope, Calendar){
-	
+.controller('UserDetailCtrl', function($scope, $stateParams, Users){
+	var queryUser = Users.get();
+	queryUser.get($stateParams.userId, {
+        success: function(resusuario){
+          	$scope.$apply(function(){
+	            $scope.user = resusuario;
+	        });
+        },
+        error: function(object, error) {
+          console.dir(error);
+          alert("No se pudo guardar el usuario, intente de nuevo");
+        }
+    });
 })

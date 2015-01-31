@@ -1,0 +1,33 @@
+<ion-view title="{{user.get('name')}} {{user.get('lastname')}}">
+  <ion-content has-header="true">
+    <div class="img-back" style="background-image: url('{{user.get('photo')}}')">
+      <div class="row">
+        <div class="col col-33">
+          <div class="padding"><img src="{{user.get('photo')}}" class="img-responsive img-circle img-profile" alt=""></div>
+        </div>
+        <div class="col col-67">
+          <h1>{{user.get('name')}}</h1>
+          <h2>{{user.get('lastname')}}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="padding information">
+      <h3>Information</h3>
+      <hr>
+      <div class="info">
+        <p class="titulo-info">Name: </p>
+        <p class="info-info">{{user.get('name')}}</p>
+        <br>
+        <p class="titulo-info">Lastname: </p>
+        <p class="info-info">{{user.get('lastname')}}</p>
+        <br>
+        <p class="titulo-info">Gender: </p>
+        <p class="info-info">{{user.get('gender')}}</p>
+        <br>
+        <p class="titulo-info">Email: </p>
+        <p class="info-info">{{user.get('email')}}</p>
+        <br>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

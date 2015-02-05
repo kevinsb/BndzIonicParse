@@ -47,7 +47,7 @@ angular.module('starter.services', [])
           })
         },
         error: function(error){
-          console.log("Error en Adoption: " + error);
+          console.dir("Error en Adoption: " + error);
         }
       });
     },

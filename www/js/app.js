@@ -110,6 +110,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
       }
     })
+
+    .state('bondzu.carer-detail', {
+      url: '/carer/:userId',
+      views: {
+        'bondzu-adoptions': {
+          templateUrl: 'templates/user-detail.html',
+          controller: 'UserDetailCtrl'
+        }
+      }
+    })
+
+    .state('bondzu.zooCarer-detail', {
+      url: '/zoo_carer/:zooId',
+      views: {
+        'bondzu-adoptions': {
+          templateUrl: 'templates/catalog/zoo-detail.html',
+          controller: 'ZooDetailCtrl'
+        }
+      }
+    })
     
     .state('bondzu.adoption-detail', {
       url: '/adoption/:animalId',

@@ -490,6 +490,18 @@ angular.module('starter.controllers', [])
 		}
 	});
 
+	var carersRelation = Catalog.getCarers($stateParams.animalId);
+	carersRelation.query().find({
+        success: function(carers){
+          	$scope.$apply(function(){
+	            $scope.carers = carers;
+	        });
+        },
+        error: function(error){
+          response.error(error);
+        }
+    });
+
 	$scope.changeMode = function (mode) {
         console.log("Entrando a change mod " + mode);
         $scope.mode = mode;

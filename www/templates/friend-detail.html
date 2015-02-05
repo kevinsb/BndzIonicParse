@@ -39,28 +39,34 @@
 	    	<hr>
             <div class="box1 info" ng-if="data.currSlide === 0 || !data.currSlide">
             	<p class="titulo-info">Name: </p>
-    			<p class="info-info">{{adoption[0].get('name')}}</p>
-    			<br>
-    			<p class="titulo-info">Zoo: </p>
-    			<p class="info-info">{{zoo.get('name')}}</p>
-    			<br>
-    			<p class="titulo-info">Scientific Name: </p>
-    			<p class="info-info">{{adoption[0].get('scientific_name')}}</p>
-    			<br>
-    			<p class="titulo-info">Health: </p>
-    			<p class="info-info">{{adoption[0].get('health')}}</p>
-    			<br>
-				<p class="titulo-info">Description: </p>
-    			<p class="info-info">{{adoption[0].get('description')}}</p>
-    			<br>
-    			<p class="titulo-info">Gender: </p>
-				<p class="info-info">{{adoption[0].get('gender')}}</p>
-				<br>
-				<p class="titulo-info">Weight: </p>
-				<p class="info-info">{{adoption[0].get('weight')}}</p>
-				<br>
-				<p class="titulo-info">Height: </p>
-				<p class="info-info">{{adoption[0].get('height')}}</p>
+        			<p class="info-info">{{adoption[0].get('name')}}</p>
+        			<br>
+        			<p class="titulo-info">Zoo: </p>
+              <a href="#/bondzu/zoo_carer/{{zoo.id}}"><p class="info-info">{{zoo.get('name')}}</p></a>
+        			<br>
+        			<p class="titulo-info">Scientific Name: </p>
+        			<p class="info-info">{{adoption[0].get('scientific_name')}}</p>
+        			<br>
+        			<p class="titulo-info">Health: </p>
+        			<p class="info-info">{{adoption[0].get('health')}}</p>
+        			<br>
+    				  <p class="titulo-info">Description: </p>
+        			<p class="info-info">{{adoption[0].get('description')}}</p>
+        			<br>
+        			<p class="titulo-info">Gender: </p>
+      				<p class="info-info">{{adoption[0].get('gender')}}</p>
+      				<br>
+      				<p class="titulo-info">Weight: </p>
+      				<p class="info-info">{{adoption[0].get('weight')}}</p>
+      				<br>
+      				<p class="titulo-info">Height: </p>
+      				<p class="info-info">{{adoption[0].get('height')}}</p>
+              <h3>Carers</h3>
+              <ion-list>
+                <ion-item ng-repeat="carer in carers">
+                  <a href="#/bondzu/carer/{{carer.id}}">{{carer.get('name')}} {{carer.get('lastname')}}</a>
+                </ion-item>
+              </ion-list>
             </div>
           </div>
         </ion-slide>

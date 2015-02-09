@@ -11,10 +11,10 @@
   				<h1>{{adoption[0].get('name')}}</h1>
   				<h2>{{adoption[0].get('species')}}</h2>
   			</div>
-  			<div class="col"></div>
-  		</div>
-  	</div>
-	<div class="tabs tabs-animal">
+  		<div class="col"></div>
+      </div>
+    </div>
+    <div class="tabs tabs-animal">
       <a class="tab-item" ng-class="{active: tab === 'tab0'}" ng-click="toSlide(0)">
         <i class="icon ion-information-circled"></i>
         <span class="tabs-animal-color">Info</span>
@@ -27,6 +27,10 @@
         <i class="icon ion-calendar"></i>
         <span class="tabs-animal-color">Calendar</span>
       </a>
+      <a class="tab-item">
+        <i class="ion-chevron-right" style="font-size: 30px"></i>
+      </a>
+
       <!--<a class="tab-item" ng-class="{active: tab === 'tab3'}" ng-click="toSlide(3)">
         <i class="icon ion-person-stalker"></i>
         <span class="tabs-animal-color">Friends</span>

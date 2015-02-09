@@ -435,7 +435,7 @@ angular.module('starter.controllers', [])
 	});
 })
 
-.controller('AdoptionDetailCtrl', function($scope, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, $ionicScrollDelegate, Catalog, Calendar){
+.controller('AdoptionDetailCtrl', function($scope, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, $ionicScrollDelegate, $ionicPopup, Catalog, Calendar){
 	//-----------------------------------------------------------------
 	$scope.tab = "tab0";
 	$scope.data = {};
@@ -552,13 +552,13 @@ angular.module('starter.controllers', [])
 
 	var options = {
 		successCallback: function() {
-	  		var alertPopup = $ionicPopup.alert({
+	  		var alertPopupError = $ionicPopup.alert({
 				title: 'Video',
 				template: 'Video was closed without error.'
 			});
 		},
 		errorCallback: function(errMsg) {
-	  		var alertPopup = $ionicPopup.alert({
+	  		var alertPopupStreamError = $ionicPopup.alert({
 				title: 'Video',
 				template: 'Video streaming not available. Try again later'
 			});

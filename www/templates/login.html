@@ -10,16 +10,24 @@
             <label class="item item-input item-bondzu">
                 <input type="password" ng-model="user.password" placeholder="password">
             </label><br>
-        	<button class="button button-block button-energized">
-                <strong>LOG IN</strong>
-            </button>
+        	
+        
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <button class="button button-block button-energized">
+                    <strong>LOG IN</strong>
+                </button>
         </form>
-        <button class="button button-block button-energized" ng-click="loginFB()">
-        	<strong>LOG IN WITH <i class="ion-social-facebook" style="font-size: 23px"></i></strong>
-        </button>
-        <button class="button button-block button-stable" ng-click="create()">
-        	<strong>SING UP</strong>
-        </button>
+                <button class="button button-block button-energized" ng-click="loginFB()">
+                    <strong>LOG IN WITH <i class="ion-social-facebook" style="font-size: 23px"></i></strong>
+                </button>
+                <button class="button button-block button-stable" ng-click="create()">
+                    <strong style="color:white">SING UP</strong>
+                </button>
+            </div>
+            <div class="col"></div>
+        </div>
     </div>
   </ion-content>
 </ion-view>

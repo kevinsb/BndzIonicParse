@@ -11,17 +11,17 @@ body, h1, h2, h3, h4, p, strong {
 }
 
 .tabs {
-	border-color: #C8580E !important;
-	background-color: #C8580E !important;
+	border-color: white !important;
+	background-color: white !important;
 }
 
 .tabs i, span {
-	color: white !important;
+	color: #F47621 !important;
 }
 
 .bar.bar-stable {
-	border-color: #C8580E !important;
-	background-color: #C8580E !important;
+	border-color: #F47621 !important;
+	background-color: #F47621 !important;
 	background-image: linear-gradient(0deg, #b2b2b2, #b2b2b2 50%, transparent 50%);
 	color: #444;
 }
@@ -37,7 +37,8 @@ body, h1, h2, h3, h4, p, strong {
 }
 
 .item-bondzu{
-	border-color: #C8580E;
+	border-width: 3px;
+	border-color: #F47621;
 	border-radius: 10px;
 }
 
@@ -47,16 +48,28 @@ body, h1, h2, h3, h4, p, strong {
 	margin: 0 auto;
 }
 
+.button.button-energized {
+	border-color: #F47621;
+	background-color: #F47621;
+	color: #fff; 
+}
+
+.button.button-stable {
+	border-color: #b2b2b2;
+	background-color: #727272;
+	color: #444; 
+}
+
 input::-moz-placeholder, textarea::-moz-placeholder {
   /* Firefox 19+ */
   	font-size: 20px;
-  	color: #FFC649; }
+  	color: #F47621; }
 input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 	font-size: 20px;
-  	color: #FFC649; }
+  	color: #F47621; }
 input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
   	font-size: 20px;
-  	color: #FFC649;
+  	color: #F47621;
   	text-indent: 0; }
 
 .button {
@@ -151,12 +164,12 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 }
 
 .tabs-animal i {
-	color: #C8580E;
+	color: #F47621;
 }
 
 .tabs-animal-color {
 	font-weight: 600;
-	color: #C8580E;
+	color: #F47621;
 }
 
 .information h3 {
@@ -225,7 +238,7 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 .cal-day-name p {
 	text-align: center;
 	vertical-align: middle;
-	color: #C8580E;
+	color: #F47621;
 	font-weight: bold;
 	font-size: 15px;
 }
@@ -245,7 +258,7 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 }
 
 .marked-day {
-	background-color: #C8580E;
+	background-color: #F47621;
 }
 
 .no-animals {

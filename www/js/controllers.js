@@ -211,6 +211,141 @@ angular.module('starter.controllers', [])
 	    facebookConnectPlugin.logout();
 	    $state.go('login');
 	}
+
+	// Android and Amazon Fire OS
+	// 
+	window.onNotification = function(e){
+		console.log(e.event);
+		$scope.$apply(function(){
+            $scope.status = e.event;
+        });
+
+	    switch( e.event )
+	    {
+	    case 'registered':
+	        if ( e.regid.length > 0 )
+	        {	
+	        	console.log(e.regid);
+	        	$scope.$apply(function(){
+		            $scope.status = e.regid;
+		        });
+	            // Your GCM push server needs to know the regID before it can push to this device
+	            // here is where you might want to send it the regID for later use.
+	            console.log("regID = " + e.regid);
+	        }
+	    break;
+
+	    case 'message':
+	        // if this flag is set, this notification happened while we were in the foreground.
+	        // you might want to play a sound to get the user's attention, throw up a dialog, etc.
+	        if ( e.foreground )
+	        {	
+	        	console.log("INLINE NOTIFICATION");
+	        	$scope.$apply(function(){
+		            $scope.status = "INLINE NOTIFICATION";
+		        });
+
+	            // on Android soundname is outside the payload.
+	            // On Amazon FireOS all custom attributes are contained within payload
+	            var soundfile = e.soundname || e.payload.sound;
+	            // if the notification contains a soundname, play it.
+	            var my_media = new Media("/android_asset/www/"+ soundfile);
+	            my_media.play();
+	        }
+	        else
+	        {  // otherwise we were launched because the user touched a notification in the notification tray.
+	            if ( e.coldstart )
+	            {
+	            	console.log("COLDSTART NOTIFICATION");
+	            	$scope.$apply(function(){
+			            $scope.status = "COLDSTART NOTIFICATION";
+			        });
+	            }
+	            else
+	            {	
+	            	console.log("BACKGROUND NOTIFICATION");
+	            	$scope.$apply(function(){
+			            $scope.status = "BACKGROUND NOTIFICATION";
+			        });
+	            }
+	        }
+	        console.log(e.payload.message);
+	        $scope.$apply(function(){
+	            $scope.status = e.payload.message;
+	        });
+	        //Only works for GCM
+	        console.log(e.payload.msgcnt);
+	        $scope.$apply(function(){
+	            $scope.status = e.payload.msgcnt;
+	        });
+	       	//Only works on Amazon Fire OS
+	       	$status.append('<li>MESSAGE -> TIME: ' + e.payload.timeStamp + '</li>');
+	    break;
+
+	    case 'error':
+	    	$scope.$apply(function(){
+	            $scope.status = e.msg;
+	        });
+	    break;
+
+	    default:
+	    	console.log("Unknown, an event was received and we do not know what it is");
+	    	$scope.$apply(function(){
+	            $scope.status = "Unknown, an event was received and we do not know what it is";
+	        });
+	        break;
+	  }
+	}
+
+	/* Push notifications */
+	var pushNotification;
+	console.log(device.platform);
+	pushNotification = window.plugins.pushNotification;
+	if ( device.platform == 'android' || device.platform == 'Android' || device.platform == "amazon-fireos" ){
+	    pushNotification.register(
+	    successHandler,
+	    errorHandler,
+	    {
+	        "senderID":"63030166701",
+	        "ecb":"onNotification"
+	    });
+	    console.log("Soy un dispositivo: " + device.platform);
+	} else if ( device.platform == 'blackberry10'){
+	    pushNotification.register(
+	    successHandler,
+	    errorHandler,
+	    {
+	        invokeTargetId : "replace_with_invoke_target_id",
+	        appId: "replace_with_app_id",
+	        ppgUrl:"replace_with_ppg_url", //remove for BES pushes
+	        ecb: "pushNotificationHandler",
+	        simChangeCallback: replace_with_simChange_callback,
+	        pushTransportReadyCallback: replace_with_pushTransportReady_callback,
+	        launchApplicationOnPush: true
+	    });
+	} else {
+	    pushNotification.register(
+	    tokenHandler,
+	    errorHandler,
+	    {
+	        "badge":"true",
+	        "sound":"true",
+	        "alert":"true",
+	        "ecb":"onNotificationAPN"
+	    });
+	}
+
+	// result contains any error description text returned from the plugin call
+	function errorHandler (error) {
+	    alert('error = ' + error);
+	}
+
+	// result contains any message sent from the plugin call
+	function successHandler (result) {
+	    alert('result = ' + result);
+	}
+
+	/*End Push Notifications*/
 })
 
 .controller('CatalogCtrl', function($scope, Catalog) {

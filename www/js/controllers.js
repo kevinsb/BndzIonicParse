@@ -201,7 +201,7 @@ angular.module('starter.controllers', [])
 	}
 })
 
-.controller('AccountCtrl', function($scope, $state, Users) {
+.controller('AccountCtrl', function($scope, $state, Users, Device) {
 	
 	var current_user = Users.getCurrentUser();
 	$scope.user = current_user;
@@ -231,7 +231,19 @@ angular.module('starter.controllers', [])
 		        });
 	            // Your GCM push server needs to know the regID before it can push to this device
 	            // here is where you might want to send it the regID for later use.
-	            console.log("regID = " + e.regid);
+	            
+	            //Aqui subimos el regid
+	            var current_user = Users.getCurrentUser();
+	            var newDevice = Device.create(current_user, e.regid);
+	            newDevice.save(null, {
+	            	success: function(result){
+	            		console.log("Exito al salvar regId");
+	            	},
+	            	error: function(error){
+	            		console.log("Fallo al salvar regId");
+	            		console.dir(error);
+	            	}
+	            });
 	        }
 	    break;
 
@@ -307,7 +319,7 @@ angular.module('starter.controllers', [])
 	    errorHandler,
 	    {
 	        "senderID":"63030166701",
-	        "ecb":"onNotification"
+	        "ecb":"window.onNotification"
 	    });
 	    console.log("Soy un dispositivo: " + device.platform);
 	} else if ( device.platform == 'blackberry10'){

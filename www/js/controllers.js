@@ -349,12 +349,12 @@ angular.module('starter.controllers', [])
 
 	// result contains any error description text returned from the plugin call
 	function errorHandler (error) {
-	    alert('error = ' + error);
+	    console('error = ' + error);
 	}
 
 	// result contains any message sent from the plugin call
 	function successHandler (result) {
-	    alert('result = ' + result);
+	    console('result = ' + result);
 	}
 
 	/*End Push Notifications*/

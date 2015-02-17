@@ -550,7 +550,7 @@ angular.module('starter.controllers', [])
     });
 })
 
-.controller('PushCtrl', function($scope, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast, $http){
+.controller('PushCtrl', function($scope, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast, $http, Device){
 	$scope.notifications = [];
 
     // Register
@@ -578,7 +578,9 @@ angular.module('starter.controllers', [])
             // ** NOTE: Android regid result comes back in the pushNotificationReceived, only iOS returned here
             if (ionic.Platform.isIOS()) {
                 $scope.regId = result;
-                //storeDeviceToken("ios");
+                var current_user = Users.getCurrentUser();
+                var newDevice = Device.create(current_user, result, "ios");
+                newDevice.save();
             }
         }, function (err) {
             alert("Register error " + err)
@@ -606,6 +608,9 @@ angular.module('starter.controllers', [])
         alert("In foreground " + notification.foreground  + " Coldstart " + notification.coldstart);
         if (notification.event == "registered") {
             $scope.regId = notification.regid;
+            var current_user = Users.getCurrentUser();
+            var newDevice = Device.create(current_user, result, "android");
+            newDevice.save();
             //storeDeviceToken("android");
         }
         else if (notification.event == "message") {

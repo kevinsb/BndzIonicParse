@@ -578,9 +578,16 @@ angular.module('starter.controllers', [])
             // ** NOTE: Android regid result comes back in the pushNotificationReceived, only iOS returned here
             if (ionic.Platform.isIOS()) {
                 $scope.regId = result;
-                var current_user = Users.getCurrentUser();
+                var current_user = Parse.User.current();
                 var newDevice = Device.create(current_user, result, "ios");
-                newDevice.save();
+                newDevice.save(null, {
+	            	success: function(result){
+	            		console.log("Se salvo idReg");
+	            	},
+	            	error: function(error){
+	            		console.log("No se salgo idReg " + error);
+	            	}
+	            });
             }
         }, function (err) {
             alert("Register error " + err)
@@ -608,9 +615,16 @@ angular.module('starter.controllers', [])
         alert("In foreground " + notification.foreground  + " Coldstart " + notification.coldstart);
         if (notification.event == "registered") {
             $scope.regId = notification.regid;
-            var current_user = Users.getCurrentUser();
+            var current_user = Parse.User.current();
             var newDevice = Device.create(current_user, notification.regid, "android");
-            newDevice.save();
+            newDevice.save(null, {
+            	success: function(result){
+            		console.log("Se salvo idReg");
+            	},
+            	error: function(error){
+            		console.log("No se salgo idReg " + error);
+            	}
+            });
             //storeDeviceToken("android");
         }
         else if (notification.event == "message") {
@@ -658,24 +672,6 @@ angular.module('starter.controllers', [])
             }
             else $cordovaDialogs.alert(notification.alert, "(RECEIVED WHEN APP IN BACKGROUND) Push Notification Received");
         }
-    }
-
-    // Stores the device token in a db using node-pushserver (running locally in this case)
-    //
-    // type:  Platform type (ios, android etc)
-    function storeDeviceToken(type) {
-        // Create a random userid to store with it
-        var user = { user: 'user' + Math.floor((Math.random() * 10000000) + 1), type: type, token: $scope.regId };
-        console.log("Post token for registered device with data " + JSON.stringify(user));
-
-        $http.post('http://192.168.1.16:8000/subscribe', JSON.stringify(user))
-            .success(function (data, status) {
-                console.log("Token stored, device is successfully subscribed to receive push notifications.");
-            })
-            .error(function (data, status) {
-                console.log("Error storing device token." + data + " " + status)
-            }
-        );
     }
 
     // Removes the device token from the db via node-pushserver API unsubscribe (running locally in this case).

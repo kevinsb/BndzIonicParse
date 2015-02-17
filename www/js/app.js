@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ui.rCalendar'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ui.rCalendar', 'ngCordova'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -97,6 +97,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         'bondzu-account': {
           templateUrl: 'templates/tab-account.html',
           controller: 'AccountCtrl'
+        }
+      }
+    })
+
+    .state('bondzu.push', {
+      url: '/push',
+      views: {
+        'bondzu-push': {
+          templateUrl: 'templates/push.html',
+          controller: 'PushCtrl'
         }
       }
     })

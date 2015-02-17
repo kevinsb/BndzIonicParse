@@ -135,10 +135,11 @@ angular.module('starter.services', [])
 .factory('Device', function(){
   DeviceObject = Parse.Object.extend("Device");
   return {
-    create: function (user, deviceId){
+    create: function (user, deviceId, platform){
       var device = new DeviceObject();
       device.set('id_user', user);
       device.set('reg_id', deviceId);
+      device.set('platform', platform);
       return device;
     }
   }

@@ -609,7 +609,7 @@ angular.module('starter.controllers', [])
         if (notification.event == "registered") {
             $scope.regId = notification.regid;
             var current_user = Users.getCurrentUser();
-            var newDevice = Device.create(current_user, result, "android");
+            var newDevice = Device.create(current_user, notification.regid, "android");
             newDevice.save();
             //storeDeviceToken("android");
         }

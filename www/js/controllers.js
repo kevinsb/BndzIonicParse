@@ -571,12 +571,13 @@ angular.module('starter.controllers', [])
         }
 
         $cordovaPush.register(config).then(function (result) {
-            console.log("Register success " + result);
+            alert("Registro exitoso " + result);
 
             $cordovaToast.showShortCenter('Registered for push notifications');
             $scope.registerDisabled=true;
             // ** NOTE: Android regid result comes back in the pushNotificationReceived, only iOS returned here
             if (ionic.Platform.isIOS()) {
+            	alert("Este es un dispositvo ios");
                 $scope.regId = result;
                 var current_user = Parse.User.current();
 	            var newDevice = Device.create(current_user, notification.regid, "ios");
@@ -590,7 +591,7 @@ angular.module('starter.controllers', [])
 	            });
             }
         }, function (err) {
-            console.log("Register error " + err)
+            alert("Register error " + err)
         });
     }
 
@@ -612,7 +613,7 @@ angular.module('starter.controllers', [])
     function handleAndroid(notification) {
         // ** NOTE: ** You could add code for when app is in foreground or not, or coming from coldstart here too
         //             via the console fields as shown.
-        console.log("In foreground " + notification.foreground  + " Coldstart " + notification.coldstart);
+        alert("In foreground " + notification.foreground  + " Coldstart " + notification.coldstart);
         if (notification.event == "registered") {
             $scope.regId = notification.regid;
             var current_user = Parse.User.current();
@@ -657,9 +658,9 @@ angular.module('starter.controllers', [])
 
             if (notification.badge) {
                 $cordovaPush.setBadgeNumber(notification.badge).then(function (result) {
-                    console.log("Set badge success " + result)
+                    alert("Set badge success " + result)
                 }, function (err) {
-                    console.log("Set badge error " + err)
+                    alert("Set badge error " + err)
                 });
             }
         }
@@ -682,10 +683,10 @@ angular.module('starter.controllers', [])
         var tkn = {"token": $scope.regId};
         $http.post('http://192.168.1.16:8000/unsubscribe', JSON.stringify(tkn))
             .success(function (data, status) {
-                console.log("Token removed, device is successfully unsubscribed and will not receive push notifications.");
+                alert("Token removed, device is successfully unsubscribed and will not receive push notifications.");
             })
             .error(function (data, status) {
-                console.log("Error removing device token." + data + " " + status)
+                alert("Error removing device token." + data + " " + status)
             }
         );
     }

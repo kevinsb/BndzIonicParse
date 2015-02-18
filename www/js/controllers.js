@@ -563,6 +563,7 @@ angular.module('starter.controllers', [])
             };
         }
         else if (ionic.Platform.isIOS()) {
+        	alert("Este es un dispositvo ios");
             config = {
                 "badge": "true",
                 "sound": "true",
@@ -572,6 +573,16 @@ angular.module('starter.controllers', [])
 
         $cordovaPush.register(config).then(function (result) {
             alert("Registro exitoso " + result);
+            var current_user = Parse.User.current();
+            var newDevice = Device.create(current_user, result, "ios");
+            newDevice.save(null, {
+            	success: function(result){
+            		console.log("Se salvo idReg");
+            	},
+            	error: function(error){
+            		console.log("No se salgo idReg " + error);
+            	}
+            });
 
             $cordovaToast.showShortCenter('Registered for push notifications');
             $scope.registerDisabled=true;
@@ -580,7 +591,7 @@ angular.module('starter.controllers', [])
             	alert("Este es un dispositvo ios");
                 $scope.regId = result;
                 var current_user = Parse.User.current();
-	            var newDevice = Device.create(current_user, notification.regid, "ios");
+	            var newDevice = Device.create(current_user, result, "ios");
 	            newDevice.save(null, {
 	            	success: function(result){
 	            		console.log("Se salvo idReg");

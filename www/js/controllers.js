@@ -571,7 +571,7 @@ angular.module('starter.controllers', [])
         }
 
         $cordovaPush.register(config).then(function (result) {
-            alert("Register success " + result);
+            console.log("Register success " + result);
 
             $cordovaToast.showShortCenter('Registered for push notifications');
             $scope.registerDisabled=true;
@@ -590,7 +590,7 @@ angular.module('starter.controllers', [])
 	            });
             }
         }, function (err) {
-            alert("Register error " + err)
+            console.log("Register error " + err)
         });
     }
 
@@ -612,7 +612,7 @@ angular.module('starter.controllers', [])
     function handleAndroid(notification) {
         // ** NOTE: ** You could add code for when app is in foreground or not, or coming from coldstart here too
         //             via the console fields as shown.
-        alert("In foreground " + notification.foreground  + " Coldstart " + notification.coldstart);
+        console.log("In foreground " + notification.foreground  + " Coldstart " + notification.coldstart);
         if (notification.event == "registered") {
             $scope.regId = notification.regid;
             var current_user = Parse.User.current();
@@ -657,9 +657,9 @@ angular.module('starter.controllers', [])
 
             if (notification.badge) {
                 $cordovaPush.setBadgeNumber(notification.badge).then(function (result) {
-                    alert("Set badge success " + result)
+                    console.log("Set badge success " + result)
                 }, function (err) {
-                    alert("Set badge error " + err)
+                    console.log("Set badge error " + err)
                 });
             }
         }
@@ -682,10 +682,10 @@ angular.module('starter.controllers', [])
         var tkn = {"token": $scope.regId};
         $http.post('http://192.168.1.16:8000/unsubscribe', JSON.stringify(tkn))
             .success(function (data, status) {
-                alert("Token removed, device is successfully unsubscribed and will not receive push notifications.");
+                console.log("Token removed, device is successfully unsubscribed and will not receive push notifications.");
             })
             .error(function (data, status) {
-                alert("Error removing device token." + data + " " + status)
+                console.log("Error removing device token." + data + " " + status)
             }
         );
     }

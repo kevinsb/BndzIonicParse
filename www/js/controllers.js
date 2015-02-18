@@ -579,8 +579,8 @@ angular.module('starter.controllers', [])
             if (ionic.Platform.isIOS()) {
                 $scope.regId = result;
                 var current_user = Parse.User.current();
-                var newDevice = Device.create(current_user, result, "ios");
-                newDevice.save(null, {
+	            var newDevice = Device.create(current_user, notification.regid, "ios");
+	            newDevice.save(null, {
 	            	success: function(result){
 	            		console.log("Se salvo idReg");
 	            	},

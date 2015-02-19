@@ -551,7 +551,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PushCtrl', function($scope, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast, $http, Device){
-	$scope.notifications = [];
+	/*$scope.notifications = [];
 
     // Register
     $scope.register = function () {
@@ -705,5 +705,37 @@ angular.module('starter.controllers', [])
 //        }, function(err) {
 //            console.log("Unregister error " + err)
 //        });
-    }
+    }*/
+
+    var appId = "jhTh4SWoNgoUQDan04oOPnKqVs0aIPTsw7djH0Da";
+    var clientKey = "NrB1pacSX0lzFwmJgudq1YkTpVOoWA5gDTrv8JQy";
+
+    parsePlugin.initialize(appId, clientKey, function() {
+
+	    parsePlugin.subscribe('SampleChannel', function() {
+
+	        parsePlugin.getInstallationId(function(id) {
+
+	        	console.log("Mi id es el siguiente: " + id);
+	            /**
+	             * Now you can construct an object and save it to your own services, or Parse, and corrilate users to parse installations
+	             * 
+	             var install_data = {
+	                installation_id: id,
+	                channels: ['SampleChannel']
+	             }
+	             *
+	             */
+
+	        }, function(e) {
+	            alert('error');
+	        });
+
+	    }, function(e) {
+	        alert('error');
+	    });
+
+	}, function(e) {
+	    alert('error');
+	});
 })

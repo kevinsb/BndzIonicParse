@@ -399,7 +399,7 @@ angular.module('starter.controllers', [])
 	});
 })
 
-.controller('AdoptionDetailCtrl', function($scope, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, $ionicScrollDelegate, $ionicPopup, Catalog, Calendar){
+.controller('AdoptionDetailCtrl', function($scope, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, $ionicScrollDelegate, $ionicPopup, Catalog, Calendar, Message){
 	//-----------------------------------------------------------------
 	$scope.tab = "tab0";
 	$scope.data = {};
@@ -533,6 +533,44 @@ angular.module('starter.controllers', [])
 		console.log("Llamando video: " + url);
 		window.plugins.streamingMedia.playVideo(url, options);
 	}
+
+	//Mensajes
+	$scope.postMessage = function(message){
+		var current_user = Parse.User.current();
+		var animal = new AnimalObject();
+      	animal.id = $stateParams.animalId;
+      	var mensaje = message.message;
+      	var newMessage = Message.create(current_user, animal, mensaje);
+      	newMessage.save(null, {
+      		success: function(result){
+      			getMensajes();
+
+      		},
+      		error: function(error){
+      			console.log("Error: " + error);
+      		}
+      	});
+	}
+
+	function getMensajes(){
+		var animalX = new AnimalObject();
+	    animalX.id = $stateParams.animalId;
+		var mensajesQuery = Message.all();
+		mensajesQuery.equalTo('id_animal', animalX);
+		//LA SIGUIENTE LINEA DE CODIGO ES IMPORTANTE PARA REGRESAR EL OBJECTO QUE APUNTA A id_zoo sin hacer otro query
+		mensajesQuery.include('id_user');
+		mensajesQuery.find({
+			success: function(result){
+				$scope.$apply(function(){
+		            $scope.userMessage = result;
+		        });
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+	}
+	getMensajes();
 })
 
 .controller('UserDetailCtrl', function($scope, $stateParams, Users){

@@ -144,3 +144,20 @@ angular.module('starter.services', [])
     }
   }
 })
+
+.factory('Message', function(){
+  MessageObject = Parse.Object.extend("Messages");
+  return {
+    create: function (user, animal, mensaje){
+      var message = new MessageObject();
+      message.set('id_user', user);
+      message.set('id_animal', animal);
+      message.set('message', mensaje);
+      return message;
+    },
+    all: function (){
+      var query = new Parse.Query(MessageObject);
+      return query;
+    }
+  }
+})

@@ -27,14 +27,14 @@
         <i class="icon ion-calendar"></i>
         <span class="tabs-animal-color">Calendar</span>
       </a>
-      <a class="tab-item">
+      <!--<a class="tab-item">
         <i class="ion-chevron-right" style="font-size: 30px"></i>
-      </a>
+      </a>-->
 
-      <!--<a class="tab-item" ng-class="{active: tab === 'tab3'}" ng-click="toSlide(3)">
+      <a class="tab-item" ng-class="{active: tab === 'tab3'}" ng-click="toSlide(3)">
         <i class="icon ion-person-stalker"></i>
         <span class="tabs-animal-color">Friends</span>
-      </a>-->
+      </a>
     </div>
 	<ion-slide-box show-pager="false" on-slide-changed="slideChanged($index)">
         <ion-slide>
@@ -117,61 +117,29 @@
             </div>
           </div>
         </ion-slide>
-        <!--<ion-slide>
+        <ion-slide>
           <div class="padding information">
-            <h1>Green height: 1200px</h1>
+            <h3>Community</h3>
             <div class="box4" ng-if="data.currSlide === 3">
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	<h1>Green height: 1200px</h1>
-            	
+            {{userMessage[0].get('id_user').get('name ')}}
+            <div class="list">
+              <a class="item item-avatar" ng-repeat="message in userMessage">
+                <img src="{{message.get('id_user').get('photo')}}">
+                <h2>{{message.get('id_user').get('name')}} {{message.get('id_user').get('lastname')}}</h2>
+                <p>{{message.get('message')}}</p>
+              </a>
+            </div>
+              <form ng-submit="postMessage(message)">
+                  <label class="item item-input item-stacked-label">
+                    <input type="text" placeholder="Message" ng-model="message.message">
+                  </label>
+                  <button class="button button-block button-energized">
+                      <strong>Post</strong>
+                  </button>
+              </form>
             </div>
           </div>
-        </ion-slide>-->
-
+        </ion-slide>
       </ion-slide-box>
   </ion-content>
 </ion-view>

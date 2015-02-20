@@ -1,14 +1,14 @@
 <ion-view title="Catalog">
   	<ion-content>
-  	<div class="no-animals">
+  	<!--<div class="no-animals">
   		<p>There are no animals to be adopted yet.</p>
   		<p>Please comeback in a few days.</p>
-  	</div>
-  	<!--<div ng-repeat="animal in animals">
+  	</div>-->
+  	<div ng-repeat="animal in animals">
   		<div class="animal">
   			<a href="#/bondzu/animal/{{animal.id}}"><img class="img-responsive" src="{{fotos[$index].url}}">
   			<cite>{{animal.get('name')}} - {{animal.get('species')}}</cite></a>
       </div>
-	</div>-->
+	</div>
   </ion-content>
 </ion-view>

@@ -1,5 +1,9 @@
 <ion-view title="{{adoption[0].get('name')}}">
   <ion-content has-header="true">
+    <ion-refresher
+      pulling-text="Pull to refresh..."
+      on-refresh="getMensajes()">
+    </ion-refresher>
   	<div class="img-back" style="background-image: url('{{foto}}')">
   		<div class="row">
   			<div class="col">
@@ -131,7 +135,7 @@
             </div>
               <form ng-submit="postMessage(message)">
                   <label class="item item-input item-stacked-label">
-                    <input type="text" placeholder="Message" ng-model="message.message">
+                    <input type="text" ng-model="message.message" required id="mes">
                   </label>
                   <button class="button button-block button-energized">
                       <strong>Post</strong>

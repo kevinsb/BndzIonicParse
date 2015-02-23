@@ -543,8 +543,8 @@ angular.module('starter.controllers', [])
       	var newMessage = Message.create(current_user, animal, mensaje);
       	newMessage.save(null, {
       		success: function(result){
-      			getMensajes();
-
+      			document.getElementById('mes').value = "";
+      			$scope.getMensajes();
       		},
       		error: function(error){
       			console.log("Error: " + error);
@@ -552,7 +552,7 @@ angular.module('starter.controllers', [])
       	});
 	}
 
-	function getMensajes(){
+	$scope.getMensajes = function(){
 		var animalX = new AnimalObject();
 	    animalX.id = $stateParams.animalId;
 		var mensajesQuery = Message.all();
@@ -560,17 +560,19 @@ angular.module('starter.controllers', [])
 		//LA SIGUIENTE LINEA DE CODIGO ES IMPORTANTE PARA REGRESAR EL OBJECTO QUE APUNTA A id_zoo sin hacer otro query
 		mensajesQuery.include('id_user');
 		mensajesQuery.find({
-			success: function(result){
+			success: function(result){	
 				$scope.$apply(function(){
 		            $scope.userMessage = result;
 		        });
+		        $scope.$broadcast('scroll.refreshComplete');
 			},
 			error: function(error){
 				console.log(error);
-			}
+			},
 		});
 	}
-	getMensajes();
+
+	$scope.getMensajes();
 })
 
 .controller('UserDetailCtrl', function($scope, $stateParams, Users){

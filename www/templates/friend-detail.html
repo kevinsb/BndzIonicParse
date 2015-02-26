@@ -24,8 +24,8 @@
         <span class="tabs-animal-color">Info</span>
       </a>
       <a class="tab-item" ng-class="{active: tab === 'tab1'}" ng-click="toSlide(1)">
-        <i class="icon ion-images"></i>
-        <span class="tabs-animal-color">Video</span>
+        <i class="icon ion-person-stalker"></i>
+        <span class="tabs-animal-color">Friends</span>
       </a>
       <a class="tab-item" ng-class="{active: tab === 'tab2'}" ng-click="toSlide(2)">
         <i class="icon ion-calendar"></i>
@@ -36,77 +36,85 @@
       </a>-->
 
       <a class="tab-item" ng-class="{active: tab === 'tab3'}" ng-click="toSlide(3)">
-        <i class="icon ion-person-stalker"></i>
-        <span class="tabs-animal-color">Friends</span>
+        <i class="icon ion-chatboxes"></i>
+        <span class="tabs-animal-color">Community</span>
       </a>
     </div>
 	<ion-slide-box show-pager="false" on-slide-changed="slideChanged($index)">
         <ion-slide>
           <div class="padding information">
             <h3>Information</h3>
-	    	<hr>
+	    	    <hr>
             <div class="box1 info" ng-if="data.currSlide === 0 || !data.currSlide">
-            	<p class="titulo-info">Name: </p>
-        			<p class="info-info">{{adoption[0].get('name')}}</p>
-        			<br>
-        			<p class="titulo-info">Zoo: </p>
-              <a href="#/bondzu/zoo_carer/{{zoo.id}}"><p class="info-info">{{zoo.get('name')}}</p></a>
-        			<br>
-        			<p class="titulo-info">Scientific Name: </p>
-        			<p class="info-info">{{adoption[0].get('scientific_name')}}</p>
-        			<br>
-        			<p class="titulo-info">Health: </p>
-        			<p class="info-info">{{adoption[0].get('health')}}</p>
-        			<br>
-    				  <p class="titulo-info">Description: </p>
-        			<p class="info-info">{{adoption[0].get('description')}}</p>
-        			<br>
-        			<p class="titulo-info">Gender: </p>
-      				<p class="info-info">{{adoption[0].get('gender')}}</p>
-      				<br>
-      				<p class="titulo-info">Weight: </p>
-      				<p class="info-info">{{adoption[0].get('weight')}}</p>
-      				<br>
-      				<p class="titulo-info">Height: </p>
-      				<p class="info-info">{{adoption[0].get('height')}}</p>
-              <h3>Carers</h3>
-              <ion-list>
-                <ion-item ng-repeat="carer in carers">
-                  <a href="#/bondzu/carer/{{carer.id}}">{{carer.get('name')}} {{carer.get('lastname')}}</a>
-                </ion-item>
-              </ion-list>
+              <div class="row">
+                <div class="col">
+                  <p class="titulo-info">Name: </p>
+                  <p class="info-info">{{adoption[0].get('name')}}</p>
+                  <br>
+                  <p class="titulo-info">Zoo: </p>
+                  <a href="#/bondzu/zoo_carer/{{zoo.id}}"><p class="info-info">{{zoo.get('name')}}</p></a>
+                  <br>
+                  <p class="titulo-info">Description: </p>
+                  <p class="info-info">{{adoption[0].get('description')}}</p>
+                </div>
+                <div class="col">
+                  <p class="titulo-info">Scientific Name: </p>
+                  <p class="info-info">{{adoption[0].get('scientific_name')}}</p>
+                  <br>
+                  <p class="titulo-info">Health: </p>
+                  <p class="info-info">{{adoption[0].get('health')}}</p>
+                  <br>
+                  <p class="titulo-info">Gender: </p>
+                  <p class="info-info">{{adoption[0].get('gender')}}</p>
+                  <br>
+                  <p class="titulo-info">Weight: </p>
+                  <p class="info-info">{{adoption[0].get('weight')}}</p>
+                  <br>
+                  <p class="titulo-info">Height: </p>
+                  <p class="info-info">{{adoption[0].get('height')}}</p>
+                </div>
+              </div>
             </div>
           </div>
+          <br>
+          <a ng-click="playVideo('http://wpc.50C7.sigmacdn.net/hls-live/2050C7/bednxurcj/bondzutest_/bondzutest_,164,.m3u8')">
+            <div class="img-back" style="background-image: url('{{foto}}')">
+              <div class="video-div">
+                <div class="row">
+                  <div class="col col-33">
+                    <i class="icon ion-videocamera icon-camera"></i>
+                  </div>
+                  <div class="col col-67">
+                    <h3><strong>Nest Room</strong></h3>
+                    <h4><strong>Live from Parque LORO</strong></h4>
+                  </div>
+                </div>
+                <div class="row">
+                   <div class="col">
+                     <p style="color:white; font-size: 20px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. <strong>TAP HERE</strong></p>
+                   </div>
+                </div>
+              </div>
+            </div>
+          </a>
         </ion-slide>
 
         <ion-slide>
-          <div class="information video-div">
-            <div class="padding">
-            	<h3>Live video streaming</h3>
-            <hr> 
-            </div>
-            <div class="box2" ng-if="data.currSlide === 1">
-            	<div class="video-div">
-                <!--<div class="video">
-                  <img src="{{foto}}" class="img-responsive video" alt="">
-                  <a ng-click="playVideo('http://wpc.50C7.sigmacdn.net/hls-live/2050C7/beczbziul/bondzu-stream-test_/bondzu-stream-test_,428,778,278,.m3u8')">
-                    <div class="play"></div>
-                  </a>
-                </div> -->
-                <div class="img-video" style="background-image: url('{{foto}}')">
-                  <a ng-click="playVideo('http://wpc.50C7.sigmacdn.net/hls-live/2050C7/bednxurcj/bondzutest_/bondzutest_,164,.m3u8')">
-                    <img src="img/play.png" class="img-responsive centered img-play" width="23%">
-                  </a>
-                </div>
-              </div>
+          <div class="padding information">
+          </div>
+          <div class="box2" ng-if="data.currSlide === 1">
+            <div class="list">
+                <a class="item item-thumbnail-left" ng-repeat="carer in carers" href="">
+                  <img class="img-responsive img-circle img-adoptions" src="{{carer.get('photo')}}">
+                  <h2>{{carer.get('name')}}</h2>
+                  <h2>{{carer.get('lastname')}}</h2>
+                </a>
             </div>
           </div>
         </ion-slide>
 
         <ion-slide>
           <div class="padding information">
-            <h3>Calendar</h3>
-            <hr>
             <div class="box3 calendario" ng-if="data.currSlide === 2">
             	<section>
 		            <div class="alert alert-success" ng-show="event">Event selected:{{event.startTime|date:
@@ -123,7 +131,6 @@
         </ion-slide>
         <ion-slide>
           <div class="padding information">
-            <h3>Community</h3>
             <div class="box4" ng-if="data.currSlide === 3">
             {{userMessage[0].get('id_user').get('name ')}}
             <div class="list">

@@ -590,6 +590,10 @@ angular.module('starter.controllers', [])
     });
 })
 
+.controller('AdoptionCtrl', function($scope, $stateParams, Users){
+
+})
+
 .controller('PushCtrl', function($scope, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast, $http, Device){
 	/*$scope.notifications = [];
 

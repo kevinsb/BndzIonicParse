@@ -195,14 +195,24 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 }
 
 .video-div {
-	padding-left: 20px;
-	padding-right: 20px;
-	margin-bottom: 20px;
+	padding-left: 40px;
+	padding-right: 40px;
+	padding-top: 20px;
+}
+
+.video-div h3, h4 {
+	color: white;
 }
 
 .video { 
 	position: relative; 
 	display: inline-block;
+}
+
+.icon-camera {
+	color: white;
+	font-size: 50px;
+	float: right;
 }
 
 .play {
@@ -307,3 +317,16 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 .has-bottom{
   bottom:60px !important;
 }
+
+.certificados {
+	background-image: url('../img/certificado.png');
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 100%;
+	height: 100%;
+	display: table;
+}
+
+
+
+

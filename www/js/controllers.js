@@ -294,25 +294,19 @@ angular.module('starter.controllers', [])
 	
 
 	$scope.adopt = function(nameAnimal, idAnimal) {
-		var current_user = Users.getCurrentUser();
-		if (current_user != null || current_user == undefined){
-			var confirmPopup = $ionicPopup.confirm({
-		    	title: 'Adopt ' + nameAnimal,
-		     	template: 'Are you sure you want to adopt ' + nameAnimal + '?'
-		   	});
-		   	confirmPopup.then(function(res) {
-		    	if(res) {
-		    		Catalog.adopt(idAnimal);
-		     		console.log("Adopcion");
-		       		$state.go('bondzu.adoptions');
-		    	} else {
-		    		console.log('You are not sure');
-		    	}
-		   	});
-		}
-	   	else{
-	   		alert("No estas logeado");
-	   	}
+	   var confirmPopup = $ionicPopup.confirm({
+	     title: 'Adopt ' + nameAnimal,
+	     template: 'Are you sure you want to adopt ' + nameAnimal + '?'
+	   });
+	   confirmPopup.then(function(res) {
+	     if(res) {
+	     	Catalog.adopt(idAnimal);
+	     	console.log("Adopcion");
+	       	$state.go('bondzu.adoptions');
+	     } else {
+	       console.log('You are not sure');
+	     }
+	   });
 	 };
 
 	$scope.changeMode = function (mode) {
@@ -594,10 +588,6 @@ angular.module('starter.controllers', [])
           alert("No se pudo guardar el usuario, intente de nuevo");
         }
     });
-})
-
-.controller('AdoptionCtrl', function($scope, $stateParams, Users){
-
 })
 
 .controller('PushCtrl', function($scope, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast, $http, Device){

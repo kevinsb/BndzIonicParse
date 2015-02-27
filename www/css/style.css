@@ -191,6 +191,7 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 
 .info-info {
 	font-size: 17px;
+	padding-left: 10px;
 	display: inline;
 }
 
@@ -327,6 +328,14 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 	display: table;
 }
 
+.dia-semana {
+	color: #F47621;
+	font-weight: 700;
+	font-size: 15px;
+}
 
-
-
+.well {
+	background-color: white;
+	border-color: white;
+	border: 0px solid #e3e3e3;
+}

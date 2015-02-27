@@ -43,34 +43,29 @@
 	<ion-slide-box show-pager="false" on-slide-changed="slideChanged($index)">
         <ion-slide>
           <div class="padding information">
-            <h3>Information</h3>
-	    	    <hr>
             <div class="box1 info" ng-if="data.currSlide === 0 || !data.currSlide">
               <div class="row">
                 <div class="col">
-                  <p class="titulo-info">Name: </p>
+                  <p class="titulo-info">Name: </p><br>
                   <p class="info-info">{{adoption[0].get('name')}}</p>
                   <br>
-                  <p class="titulo-info">Zoo: </p>
+                  <p class="titulo-info">Zoo: </p><br>
                   <a href="#/bondzu/zoo_carer/{{zoo.id}}"><p class="info-info">{{zoo.get('name')}}</p></a>
                   <br>
-                  <p class="titulo-info">Description: </p>
-                  <p class="info-info">{{adoption[0].get('description')}}</p>
-                </div>
-                <div class="col">
-                  <p class="titulo-info">Scientific Name: </p>
+                  <p class="titulo-info">Scientific Name: </p><br>
                   <p class="info-info">{{adoption[0].get('scientific_name')}}</p>
                   <br>
-                  <p class="titulo-info">Health: </p>
-                  <p class="info-info">{{adoption[0].get('health')}}</p>
-                  <br>
-                  <p class="titulo-info">Gender: </p>
+                  <p class="titulo-info">Health: </p><br>
+                  <p class="info-info">{{adoption[0].get('health')}}</p>  
+                </div>
+                <div class="col">
+                  <p class="titulo-info">Gender: </p><br>
                   <p class="info-info">{{adoption[0].get('gender')}}</p>
                   <br>
-                  <p class="titulo-info">Weight: </p>
+                  <p class="titulo-info">Weight: </p><br>
                   <p class="info-info">{{adoption[0].get('weight')}}</p>
                   <br>
-                  <p class="titulo-info">Height: </p>
+                  <p class="titulo-info">Height: </p><br>
                   <p class="info-info">{{adoption[0].get('height')}}</p>
                 </div>
               </div>
@@ -100,25 +95,25 @@
         </ion-slide>
 
         <ion-slide>
-          <div class="padding information">
-          </div>
-          <div class="box2" ng-if="data.currSlide === 1">
-            <div class="list">
-                <a class="item item-thumbnail-left" ng-repeat="carer in carers" href="">
-                  <img class="img-responsive img-circle img-adoptions" src="{{carer.get('photo')}}">
-                  <h2>{{carer.get('name')}}</h2>
-                  <h2>{{carer.get('lastname')}}</h2>
-                </a>
+          <div class="padding">
+            <div class="box2" ng-if="data.currSlide === 1">
+              <div class="list">
+                  <a class="item item-thumbnail-left" ng-repeat="carer in carers" href="">
+                    <img class="img-responsive img-circle img-adoptions" src="{{carer.get('photo')}}">
+                    <h2>{{carer.get('name')}}</h2>
+                    <h2>{{carer.get('lastname')}}</h2>
+                  </a>
+              </div>
             </div>
           </div>
         </ion-slide>
 
         <ion-slide>
-          <div class="padding information">
+          <div class="padding">
             <div class="box3 calendario" ng-if="data.currSlide === 2">
             	<section>
-		            <div class="alert alert-success" ng-show="event">Event selected:{{event.startTime|date:
-		                'MMM/dd,yyyy,HH:mm'}} - {{event.endTime|date:'MMM/dd,yyyy,HH:mm'}}, {{event.title}}
+		            <div class="alert alert-success" ng-show="event">
+                  Event selected:{{event.startTime|date:'MMM/dd,yyyy,HH:mm'}} - {{event.endTime|date:'MMM/dd,yyyy,HH:mm'}}, {{event.title}}
 		            </div>
 		            <div class="well well-sm">
 		                <calendar ng-model="currentDate" calendar-mode="mode" event-source="eventSource"
@@ -130,7 +125,7 @@
           </div>
         </ion-slide>
         <ion-slide>
-          <div class="padding information">
+          <div class="padding">
             <div class="box4" ng-if="data.currSlide === 3">
             {{userMessage[0].get('id_user').get('name ')}}
             <div class="list">

@@ -30,19 +30,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   $stateProvider
 
     // setup an abstract state for the tabs directive
-    
-    .state('login', {
-      url: "/login",
-      templateUrl: "templates/login.html",
-      controller: 'LoginCtrl'
-    })
-
-    .state('createUser', {
-      url: '/createUser',
-      templateUrl: 'templates/tab-create-user.html',
-      controller: 'CreateUser'
-    })
-
     .state('bondzu', {
       url: "/bondzu",
       abstract: true,
@@ -50,6 +37,27 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     })
 
     // Each tab has its own nav history stack:
+    // 
+
+    .state('bondzu.login', {
+      url: '/login',
+      views: {
+        'bondzu-catalog': {
+          templateUrl: 'templates/login.html',
+          controller: 'LoginCtrl'
+        }
+      }
+    })
+
+    .state('bondzu.createUser', {
+      url: '/createUser',
+      views: {
+        'bondzu-catalog': {
+          templateUrl: 'templates/tab-create-user.html',
+          controller: 'CreateUser'
+        }
+      }
+    })
     
     .state('bondzu.catalog', {
       url: '/catalog',
@@ -174,7 +182,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     
 
   // if none of the above states are matched, use this as the fallback
-  //$urlRouterProvider.otherwise('/bondzu/catalog');
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/bondzu/catalog');
+  //$urlRouterProvider.otherwise('/login');
 
 });

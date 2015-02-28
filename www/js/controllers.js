@@ -121,7 +121,7 @@ angular.module('starter.controllers', [])
     }
 
     $scope.create = function() {
-		$state.go('createUser');
+		$state.go('bondzu.createUser');
 	}
 
     $scope.loginFB = function() {
@@ -294,20 +294,59 @@ angular.module('starter.controllers', [])
 	
 
 	$scope.adopt = function(nameAnimal, idAnimal) {
-	   var confirmPopup = $ionicPopup.confirm({
-	     title: 'Adopt ' + nameAnimal,
-	     template: 'Are you sure you want to adopt ' + nameAnimal + '?'
-	   });
-	   confirmPopup.then(function(res) {
-	     if(res) {
-	     	Catalog.adopt(idAnimal);
-	     	console.log("Adopcion");
-	       	$state.go('bondzu.adoptions');
-	     } else {
-	       console.log('You are not sure');
-	     }
-	   });
-	 };
+		var current_user = Parse.User.current();
+		if (current_user != null || current_user != undefined){
+			//Checar si ya esta adoptado ese animal
+			var relation = current_user.relation("adoptions");
+			var query = relation.query();
+			AnimalObject = Parse.Object.extend("Animal");
+			var animal = new AnimalObject();
+			animal.id = idAnimal;
+			query.equalTo("objectId", idAnimal);
+			query.find({
+			  success:function(list) {
+			  	if (list.length > 0) {
+			  		var alertPopup = $ionicPopup.alert({
+				     title: 'You already are carer',
+				     template: 'You already are carer'
+				   });
+				   alertPopup.then(function(res) {
+				     $state.go('bondzu.adoptions');
+				   });
+			  	}
+			  	else {
+			  		var confirmPopup = $ionicPopup.confirm({
+				    	title: 'Adopt ' + nameAnimal,
+				     	template: 'Are you sure you want to adopt ' + nameAnimal + '?'
+				   	});
+				   	confirmPopup.then(function(res) {
+				    	if(res) {
+				    		Catalog.adopt(idAnimal);
+				     		console.log("Adopcion");
+				       		$state.go('bondzu.adoptions');
+				    	} else {
+				    		console.log('You are not sure');
+				    	}
+				   	});
+			  	}
+			  },
+			  error: function(error){
+			  	console.log("Error en relation query: " + error)
+			  }
+			});
+
+			
+		}
+	   	else{
+			var alertPopup = $ionicPopup.alert({
+		     title: 'You need a Bondzu Account',
+		     template: 'Create my account or login'
+		   });
+		   alertPopup.then(function(res) {
+		     $state.go('bondzu.login');
+		   });
+	   	}
+ 	 };
 
 	$scope.changeMode = function (mode) {
         console.log("Entrando a change mod " + mode);

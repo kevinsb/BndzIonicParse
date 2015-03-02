@@ -130,13 +130,22 @@ angular.module('starter.controllers', [])
     }
 
     $scope.login = function(user){
-    	var user = new Parse.User({
+    	/*var user = new Parse.User({
 		  username: user.username,
 		  password: user.password
 		});
 
 		user.logIn({
 			success: function(response){
+				$state.go('bondzu.catalog');
+			},
+			error: function(error) {
+				alert("Error");
+			}
+		});*/
+		
+		Parse.User.logIn(user.username, user.password, {
+			success: function(user){
 				$state.go('bondzu.catalog');
 			},
 			error: function(error) {
@@ -203,13 +212,15 @@ angular.module('starter.controllers', [])
 
 .controller('AccountCtrl', function($scope, $state, Users, Device) {
 	
-	var current_user = Users.getCurrentUser();
+	var current_user = Parse.User.current();
 	$scope.user = current_user;
 
 	$scope.logOut = function(){
-	    Parse.User.logOut();
+		console.log("Va a salir el usuario: " + current_user);
+		Parse.User.logOut();
+		console.log("Esta regresando null? " + current_user);
 	    facebookConnectPlugin.logout();
-	    $state.go('login');
+	    $state.go('bondzu.catalog');
 	}
 })
 

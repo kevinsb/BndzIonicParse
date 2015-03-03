@@ -132,7 +132,7 @@ angular.module('starter.controllers', [])
     $scope.login = function(user){		
 		Parse.User.logIn(user.username, user.password, {
 			success: function(user){
-				$state.go('bondzu.catalog');
+				$state.go('bondzu.adoptions');
 			},
 			error: function(error) {
 				alert("Error");
@@ -141,13 +141,6 @@ angular.module('starter.controllers', [])
     }
 }])
 
-.controller('FriendsCtrl', function($scope, Friends) {
-	$scope.friends = Friends.all();
-})
-
-.controller('FriendDetailCtrl', function($scope, $stateParams, Friends) {
-  	$scope.friend = Friends.get($stateParams.friendId);
-})
 
 .controller('CreateUser', function($scope, Users, $state, $ionicPopup) {
 	$scope.createUser = function(user){
@@ -209,10 +202,7 @@ angular.module('starter.controllers', [])
 	$scope.user = current_user;
 
 	$scope.logOut = function(){
-		console.log("Va a salir el usuario: " + current_user);
 		Parse.User.logOut();
-		console.log("Esta regresando null? " + current_user);
-	    facebookConnectPlugin.logout();
 	    $state.go('bondzu.catalog');
 	}
 
@@ -406,22 +396,28 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AdoptionsCtrl', function($scope, Catalog){
-	var fotos = [];
-    var relationAdoptions = Catalog.getAdoptions();
-	relationAdoptions.query().find({
-    	success: function(resulta) {
-    		for (var i = 0; i < resulta.length; i++) {
-				foto = resulta[i].get('profilePicture');
-				fotos.push({
-					url: foto.url()
-				});
-			};
-      		$scope.$apply(function(){
-	            $scope.adoptions = resulta;
-	            $scope.fotos = fotos;
-	        });
-    	}
-  	});
+	var user = Parse.User.current();
+	if (user == null | user == undefined){
+    	$scope.adoptions = 0;
+	}
+	else{
+		var fotos = [];
+	    var relationAdoptions = Catalog.getAdoptions(user);
+		relationAdoptions.query().find({
+	    	success: function(resulta) {
+				for (var i = 0; i < resulta.length; i++) {
+					foto = resulta[i].get('profilePicture');
+					fotos.push({
+						url: foto.url()
+					});
+				};
+	      		$scope.$apply(function(){
+		            $scope.adoptions = resulta;
+		            $scope.fotos = fotos;
+		        });
+	    	}
+	  	});
+	}
 })
 
 .controller('ZoosCtrl', function($scope, Zoo){

@@ -1,11 +1,16 @@
 <ion-view title="Adoptions">
   <ion-content>
-    <div class="list">
+    <div ng-if="adoptions != 0">
+    	<div class="list">
 		    <a class="item item-thumbnail-left" ng-repeat="adoption in adoptions" href="#/bondzu/adoption/{{adoption.id}}">
 		      <img class="img-responsive img-circle img-adoptions" src="{{fotos[$index].url}}">
 		      <h2>{{adoption.get('name')}}</h2>
 		      <h2>{{adoption.get('species')}}</h2>
 		    </a>
 		</div>
+    </div>
+    <div ng-if="adoptions == 0">
+    	<h1>Inicia sesion para ver tus adopciones</h1>
+    </div>
   </ion-content>
 </ion-view>

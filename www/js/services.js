@@ -51,8 +51,7 @@ angular.module('starter.services', [])
         }
       });
     },
-    getAdoptions: function(){
-      var user = Parse.User.current();
+    getAdoptions: function(user){
       var relation = user.relation("adoptions");
       return relation;
     },

@@ -129,21 +129,7 @@ angular.module('starter.controllers', [])
         facebookConnectPlugin.getLoginStatus(fbStatusSuccess, fbStatusError);
     }
 
-    $scope.login = function(user){
-    	/*var user = new Parse.User({
-		  username: user.username,
-		  password: user.password
-		});
-
-		user.logIn({
-			success: function(response){
-				$state.go('bondzu.catalog');
-			},
-			error: function(error) {
-				alert("Error");
-			}
-		});*/
-		
+    $scope.login = function(user){		
 		Parse.User.logIn(user.username, user.password, {
 			success: function(user){
 				$state.go('bondzu.catalog');
@@ -210,9 +196,16 @@ angular.module('starter.controllers', [])
 	}
 })
 
-.controller('AccountCtrl', function($scope, $state, Users, Device) {
+.controller('AccountCtrl', function($scope, $state, Users) {
 	
 	var current_user = Parse.User.current();
+	console.log(current_user);
+	if (current_user == null | current_user == undefined){
+		console.log("Eres null");
+		current_user = 1;
+		console.log(current_user);
+	}
+
 	$scope.user = current_user;
 
 	$scope.logOut = function(){
@@ -221,6 +214,10 @@ angular.module('starter.controllers', [])
 		console.log("Esta regresando null? " + current_user);
 	    facebookConnectPlugin.logout();
 	    $state.go('bondzu.catalog');
+	}
+
+	$scope.logIn = function(){
+	    $state.go('bondzu.loginAccount');
 	}
 })
 
@@ -376,10 +373,6 @@ angular.module('starter.controllers', [])
         currentCalendarDate.setHours(0, 0, 0, 0);
         return today.getTime() === currentCalendarDate.getTime();
     }
-
-    /*$scope.loadEvents = function () {
-        $scope.eventSource = createRandomEvents();
-    };*/
 
     $scope.onEventSelected = function (event) {
         $scope.event = event;
@@ -638,194 +631,4 @@ angular.module('starter.controllers', [])
           alert("No se pudo guardar el usuario, intente de nuevo");
         }
     });
-})
-
-.controller('PushCtrl', function($scope, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast, $http, Device){
-	/*$scope.notifications = [];
-
-    // Register
-    $scope.register = function () {
-        var config = null;
-
-        if (ionic.Platform.isAndroid()) {
-            config = {
-                "senderID": "63030166701" // REPLACE THIS WITH YOURS FROM GCM CONSOLE - also in the project URL like: https://console.developers.google.com/project/434205989073
-            };
-        }
-        else if (ionic.Platform.isIOS()) {
-            config = {
-                "badge": "true",
-                "sound": "true",
-                "alert": "true"
-            }
-        }
-
-        $cordovaPush.register(config).then(function (result) {
-            alert("Registro exitoso " + result);
-
-            $scope.registerDisabled=true;
-            // ** NOTE: Android regid result comes back in the pushNotificationReceived, only iOS returned here
-            if (ionic.Platform.isIOS()) {
-            	alert("Este es un dispositvo ios");
-                $scope.regId = result;
-                var current_user = Parse.User.current();
-	            var newDevice = Device.create(current_user, result, "ios");
-	            newDevice.save(null, {
-	            	success: function(result){
-	            		console.log("Se salvo idReg");
-	            	},
-	            	error: function(error){
-	            		console.log("No se salgo idReg " + error);
-	            	}
-	            });
-            }
-        }, function (err) {
-            alert("Register error " + err)
-        });
-    }
-
-    // Notification Received
-    $scope.$on('$cordovaPush:notificationReceived', function (event, notification) {
-        alert(JSON.stringify([notification]));
-        if (ionic.Platform.isAndroid()) {
-            handleAndroid(notification);
-        }
-        else if (ionic.Platform.isIOS()) {
-            handleIOS(notification);
-            $scope.$apply(function () {
-                $scope.notifications.push(JSON.stringify(notification.alert));
-            })
-        }
-    });
-
-    // Android Notification Received Handler
-    function handleAndroid(notification) {
-        // ** NOTE: ** You could add code for when app is in foreground or not, or coming from coldstart here too
-        //             via the console fields as shown.
-        alert("In foreground " + notification.foreground  + " Coldstart " + notification.coldstart);
-        if (notification.event == "registered") {
-            $scope.regId = notification.regid;
-            var current_user = Parse.User.current();
-            var newDevice = Device.create(current_user, notification.regid, "android");
-            newDevice.save(null, {
-            	success: function(result){
-            		console.log("Se salvo idReg");
-            	},
-            	error: function(error){
-            		console.log("No se salgo idReg " + error);
-            	}
-            });
-            //storeDeviceToken("android");
-        }
-        else if (notification.event == "message") {
-            $cordovaDialogs.alert(notification.message, "Push Notification Received");
-            $scope.$apply(function () {
-                $scope.notifications.push(JSON.stringify(notification.message));
-            })
-        }
-        else if (notification.event == "error")
-            $cordovaDialogs.alert(notification.msg, "Push notification error event");
-        else $cordovaDialogs.alert(notification.event, "Push notification handler - Unprocessed Event");
-    }
-
-    // IOS Notification Received Handler
-    function handleIOS(notification) {
-        // The app was already open but we'll still show the alert and sound the tone received this way. If you didn't check
-        // for foreground here it would make a sound twice, once when received in background and upon opening it from clicking
-        // the notification when this code runs (weird).
-        if (notification.foreground == "1") {
-            // Play custom audio if a sound specified.
-            if (notification.sound) {
-                var mediaSrc = $cordovaMedia.newMedia(notification.sound);
-                mediaSrc.promise.then($cordovaMedia.play(mediaSrc.media));
-            }
-
-            if (notification.body && notification.messageFrom) {
-                $cordovaDialogs.alert(notification.body, notification.messageFrom);
-            }
-            else $cordovaDialogs.alert(notification.alert, "Push Notification Received");
-
-            if (notification.badge) {
-                $cordovaPush.setBadgeNumber(notification.badge).then(function (result) {
-                    alert("Set badge success " + result)
-                }, function (err) {
-                    alert("Set badge error " + err)
-                });
-            }
-        }
-        // Otherwise it was received in the background and reopened from the push notification. Badge is automatically cleared
-        // in this case. You probably wouldn't be displaying anything at this point, this is here to show that you can process
-        // the data in this situation.
-        else {
-            if (notification.body && notification.messageFrom) {
-                $cordovaDialogs.alert(notification.body, "(RECEIVED WHEN APP IN BACKGROUND) " + notification.messageFrom);
-            }
-            else $cordovaDialogs.alert(notification.alert, "(RECEIVED WHEN APP IN BACKGROUND) Push Notification Received");
-        }
-    }
-
-    // Removes the device token from the db via node-pushserver API unsubscribe (running locally in this case).
-    // If you registered the same device with different userids, *ALL* will be removed. (It's recommended to register each
-    // time the app opens which this currently does. However in many cases you will always receive the same device token as
-    // previously so multiple userids will be created with the same token unless you add code to check).
-    function removeDeviceToken() {
-        var tkn = {"token": $scope.regId};
-        $http.post('http://192.168.1.16:8000/unsubscribe', JSON.stringify(tkn))
-            .success(function (data, status) {
-                alert("Token removed, device is successfully unsubscribed and will not receive push notifications.");
-            })
-            .error(function (data, status) {
-                alert("Error removing device token." + data + " " + status)
-            }
-        );
-    }
-
-    // Unregister - Unregister your device token from APNS or GCM
-    // Not recommended:  See http://developer.android.com/google/gcm/adv.html#unreg-why
-    //                   and https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplication_Class/index.html#//apple_ref/occ/instm/UIApplication/unregisterForRemoteNotifications
-    //
-    // ** Instead, just remove the device token from your db and stop sending notifications **
-    $scope.unregister = function () {
-        console.log("Unregister called");
-        removeDeviceToken();
-        $scope.registerDisabled=false;
-        //need to define options here, not sure what that needs to be but this is not recommended anyway
-//        $cordovaPush.unregister(options).then(function(result) {
-//            console.log("Unregister success " + result);//
-//        }, function(err) {
-//            console.log("Unregister error " + err)
-//        });
-    }*/
-
-    var appId = "jhTh4SWoNgoUQDan04oOPnKqVs0aIPTsw7djH0Da";
-    var clientKey = "NrB1pacSX0lzFwmJgudq1YkTpVOoWA5gDTrv8JQy";
-
-    parsePlugin.initialize(appId, clientKey, function() {
-
-	    parsePlugin.subscribe('SampleChannel', function() {
-
-	        parsePlugin.getInstallationId(function(id) {
-
-	        	console.log("Mi id es el siguiente: " + id);
-	            /**
-	             * Now you can construct an object and save it to your own services, or Parse, and corrilate users to parse installations
-	             * 
-	             var install_data = {
-	                installation_id: id,
-	                channels: ['SampleChannel']
-	             }
-	             *
-	             */
-
-	        }, function(e) {
-	            alert('error');
-	        });
-
-	    }, function(e) {
-	        alert('error');
-	    });
-
-	}, function(e) {
-	    alert('error');
-	});
 })

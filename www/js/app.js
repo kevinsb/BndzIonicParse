@@ -109,6 +109,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
     })
 
+    .state('bondzu.loginAccount', {
+      url: '/loginAccount',
+      views: {
+        'bondzu-account': {
+          templateUrl: 'templates/login.html',
+          controller: 'LoginCtrl'
+        }
+      }
+    })
+
     .state('bondzu.push', {
       url: '/push',
       views: {

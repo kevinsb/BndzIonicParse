@@ -209,7 +209,7 @@ angular.module('starter.controllers', [])
 
 	$scope.logIn = function(){
 	    $state.go('bondzu.loginAccount');
-	}t
+	}
 })
 
 .controller('CatalogCtrl', function($scope, Catalog) {

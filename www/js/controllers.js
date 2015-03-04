@@ -203,12 +203,13 @@ angular.module('starter.controllers', [])
 
 	$scope.logOut = function(){
 		Parse.User.logOut();
+		facebookConnectPlugin.logout();
 	    $state.go('bondzu.catalog');
 	}
 
 	$scope.logIn = function(){
 	    $state.go('bondzu.loginAccount');
-	}
+	}t
 })
 
 .controller('CatalogCtrl', function($scope, Catalog) {

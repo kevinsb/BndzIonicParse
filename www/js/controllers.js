@@ -85,7 +85,7 @@ angular.module('starter.controllers', [])
 	                    console.log(error);
 	                }
 	            );
-	            $state.go('bondzu.catalog');
+	            $state.go('bondzu.account');
 	        }, function(error) {
 	            console.log("Error nuevo: " + error);
 	        });

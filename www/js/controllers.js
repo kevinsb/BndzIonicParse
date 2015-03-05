@@ -33,8 +33,10 @@ angular.module('starter.controllers', [])
             return;
         }
         var status = response.status;
+        var session_key = response.authResponse.session_key;
+        console.log("Session Key: " + session_key);
         console.log("Status: " + status);
-        if(status == "connected"){
+        if(status == "connected" || session_key == true){
         	console.log("Ya estas conectado, te llevo a adopciones");
         	$state.go('bondzu.catalog');
         }
@@ -442,7 +444,7 @@ angular.module('starter.controllers', [])
 .controller('AdoptionDetailCtrl', function($scope, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, $ionicScrollDelegate, $ionicPopup, Catalog, Calendar, Message){
 	//-----------------------------------------------------------------
 	var current_user = Parse.User.current();
-	if (current_user == null | current_user == undefined) {
+	if (current_user == null || current_user == undefined) {
 		$state.go('bondzu.adoptions');
 	};
 

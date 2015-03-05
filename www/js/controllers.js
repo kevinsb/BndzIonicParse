@@ -32,8 +32,7 @@ angular.module('starter.controllers', [])
             return;
         }
         var status = response.status;
-        var sessionKey = response.authResponse.session_key;
-        if(status == "connected" || sessionKey == true){
+        if(status == "connected" || response.authResponse.session_key){
         	$state.go('bondzu.catalog');
         }
         else{

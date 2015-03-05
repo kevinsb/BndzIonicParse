@@ -32,9 +32,9 @@ angular.module('starter.controllers', [])
             return;
         }
         var status = response.status;
-       	if (!response.authResponse){
+       	/*if (!response.authResponse){
                 alert("No encuentro authResponse");
-        }
+        }*/
         if(status == "connected"){
         	$state.go('bondzu.catalog');
         }

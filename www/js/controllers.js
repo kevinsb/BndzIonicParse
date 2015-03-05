@@ -27,17 +27,13 @@ angular.module('starter.controllers', [])
     var fbLogged = new Parse.Promise();
 
     var fbStatusSuccess = function(response) {
-		console.log("Entrando");
 		if (!response.status){
             fbStatusError("Cannot find the status");
             return;
         }
         var status = response.status;
-        var session_key = response.authResponse.session_key;
-        console.log("Session Key: " + session_key);
-        console.log("Status: " + status);
-        if(status == "connected" || session_key == true){
-        	console.log("Ya estas conectado, te llevo a adopciones");
+        var sessionKey = response.authResponse.session_key;
+        if(status == "connected" || sessionKey == true){
         	$state.go('bondzu.catalog');
         }
         else{

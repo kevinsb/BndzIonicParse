@@ -441,6 +441,11 @@ angular.module('starter.controllers', [])
 
 .controller('AdoptionDetailCtrl', function($scope, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, $ionicScrollDelegate, $ionicPopup, Catalog, Calendar, Message){
 	//-----------------------------------------------------------------
+	var current_user = Parse.User.current();
+	if (current_user == null | current_user == undefined) {
+		$state.go('bondzu.adoptions');
+	};
+
 	$scope.tab = "tab0";
 	$scope.data = {};
 	$scope.data.currSlide = $ionicSlideBoxDelegate.currentIndex();

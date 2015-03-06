@@ -127,7 +127,7 @@
             <div class="box4" ng-if="data.currSlide === 3">
             {{userMessage[0].get('id_user').get('name ')}}
             <div class="list">
-              <a class="item item-avatar" ng-repeat="message in userMessage">
+              <a class="item item-avatar" ng-repeat="message in userMessage" href="#/bondzu/carer/{{message.get('id_user').id}}">
                 <img src="{{message.get('id_user').get('photo')}}">
                 <h2>{{message.get('id_user').get('name')}} {{message.get('id_user').get('lastname')}}</h2>
                 <p>{{message.get('message')}}</p>

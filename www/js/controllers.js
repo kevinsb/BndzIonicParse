@@ -620,7 +620,7 @@ angular.module('starter.controllers', [])
 	$scope.getMensajes();
 })
 
-.controller('UserDetailCtrl', function($scope, $stateParams, Users){
+.controller('UserDetailCtrl', function($scope, $stateParams, Users, Catalog){
 	var queryUser = Users.get();
 	queryUser.get($stateParams.userId, {
         success: function(resusuario){
@@ -630,7 +630,26 @@ angular.module('starter.controllers', [])
         },
         error: function(object, error) {
           console.dir(error);
-          alert("No se pudo guardar el usuario, intente de nuevo");
         }
     });
+
+	var fotos = [];
+	UserObject = Parse.Object.extend("User");
+	var user = new UserObject();
+	user.id = $stateParams.userId;
+    var relationAdoptions = Catalog.getAdoptions(user);
+	relationAdoptions.query().find({
+    	success: function(resulta) {
+			for (var i = 0; i < resulta.length; i++) {
+				foto = resulta[i].get('profilePicture');
+				fotos.push({
+					url: foto.url()
+				});
+			};
+      		$scope.$apply(function(){
+	            $scope.adoptions = resulta;
+	            $scope.fotos = fotos;
+	        });
+    	}
+  	});
 })

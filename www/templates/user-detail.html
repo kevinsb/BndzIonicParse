@@ -24,9 +24,13 @@
         <p class="titulo-info">Gender: </p>
         <p class="info-info">{{user.get('gender')}}</p>
         <br>
-        <p class="titulo-info">Email: </p>
-        <p class="info-info">{{user.get('email')}}</p>
-        <br>
+      <h3>Adoptions</h3>
+      <hr>
+      <div class="list">
+        <a class="item item-thumbnail-left" ng-repeat="adoption in adoptions">
+          <img class="img-responsive img-circle img-adoptions" src="{{fotos[$index].url}}">
+          <h2>{{adoption.get('name')}}</h2>
+        </a>
       </div>
     </div>
   </ion-content>

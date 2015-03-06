@@ -98,7 +98,7 @@
           <div class="padding">
             <div class="box2" ng-if="data.currSlide === 1">
               <div class="list">
-                  <a class="item item-thumbnail-left" ng-repeat="carer in carers" href="">
+                  <a class="item item-thumbnail-left" ng-repeat="carer in carers" href="#/bondzu/carer/{{carer.id}}">
                     <img class="img-responsive img-circle img-adoptions" src="{{carer.get('photo')}}">
                     <h2>{{carer.get('name')}}</h2>
                     <h2>{{carer.get('lastname')}}</h2>

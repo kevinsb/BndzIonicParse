@@ -39,10 +39,10 @@
 </ion-view>-->
 <ion-view title="{{zoo[0].get('name')}}">
   <ion-content has-header="true">
-    <div class="img-back" style="background-image: url('http://puebla.goolocal.com.mx/sites/puebla.goolocal.com.mx/files/Zoo%20Parque%20Loro.jpg')">
+    <div class="img-back" style="background-image: url('{{zoo[0].get('photoUrl')}}')">
       <div class="row">
         <div class="col col-33">
-          <div class="padding"><img src="http://puebla.goolocal.com.mx/sites/puebla.goolocal.com.mx/files/Zoo%20Parque%20Loro.jpg" class="img-responsive img-circle img-profile" alt=""></div>
+          <div class="padding"><img src="{{zoo[0].get('photoUrl')}}" class="img-responsive img-circle img-profile" alt=""></div>
         </div>
         <div class="col col-67">
           <h1>{{zoo[0].get('name')}}</h1>

@@ -30,6 +30,7 @@
         <a class="item item-thumbnail-left" ng-repeat="adoption in adoptions">
           <img class="img-responsive img-circle img-adoptions" src="{{fotos[$index].url}}">
           <h2>{{adoption.get('name')}}</h2>
+          <h2>{{adoption.get('species')}}</h2>
         </a>
       </div>
     </div>

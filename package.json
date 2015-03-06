@@ -17,7 +17,6 @@
   "cordovaPlugins": [
     "https://github.com/phonegap-build/PushPlugin.git",
     "org.apache.cordova.device",
-    "org.apache.cordova.console",
     "org.apache.cordova.dialogs",
     "org.apache.cordova.file",
     "org.apache.cordova.media",

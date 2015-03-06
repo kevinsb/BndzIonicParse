@@ -37,9 +37,14 @@
 	  	</div>
   	</div>
   	<div ng-if="user == 1">
-  		<button class="button button-block button-energized" ng-click="logIn();">
+  		<div class="no-animals">
+        	<p>Please login to see your account informatio</p>
+      	</div>
+  		<div class="padding">
+  			<button class="button button-block button-energized" ng-click="logIn();">
 	    	Login
 	    </button>
+  		</div>
   	</div>
   </ion-content>
 </ion-view>

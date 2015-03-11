@@ -1,5 +1,32 @@
 <ion-view title="{{user.get('name')}} {{user.get('lastname')}}">
   <ion-content has-header="true">
+  	<button class="button button-block button-energized" ng-click="hasPermission();">
+    	Has Permisson
+    </button>
+	<button class="button button-block button-energized" ng-click="registerPermission();">
+    	Register Permission
+    </button>
+	<button class="button button-block button-energized" ng-click="schedule();">
+    	Schedule
+    </button>
+    <button class="button button-block button-energized" ng-click="scheduleMultiple();">
+    	Schedule Multiple
+    </button>
+    <button class="button button-block button-energized" ng-click="scheduleDelayed();">
+    	Schedule Delayed
+    </button>
+    <button class="button button-block button-energized" ng-click="scheduleMinutely();">
+    	Schedule Minute
+    </button>
+    <button class="button button-block button-energized" ng-click="isScheduled();">
+    	Is Scheduled
+    </button>
+    <button class="button button-block button-energized" ng-click="isTriggered();">
+    	isTriggered
+    </button>
+    <button class="button button-block button-energized" ng-click="setDefaultOptions();">
+    	Set Default Options
+    </button>
   	<div ng-if="user != 1">
   		<div class="img-back" style="background-image: url('{{user.get('photo')}}')">
 	  		<div class="row">

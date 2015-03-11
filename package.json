@@ -22,6 +22,7 @@
     "org.apache.cordova.media",
     "https://github.com/EddyVerbruggen/Toast-PhoneGap-Plugin.git",
     "https://github.com/phonegap-build/PushPlugin",
-    "https://github.com/benjie/phonegap-parse-plugin"
+    "https://github.com/benjie/phonegap-parse-plugin",
+    "de.appplant.cordova.plugin.local-notification"
   ]
 }

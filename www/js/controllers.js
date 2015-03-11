@@ -436,10 +436,6 @@ angular.module('starter.controllers', [])
 				            at:    _5_sec_from_now,
 				            sound: sound
 				        });
-
-				        if(i == calendar.length - 1){
-				        	$state.go('bondzu.adoptions');
-				        }
 	        		}
 		        },
 		        error: function(error){

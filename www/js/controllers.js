@@ -426,7 +426,7 @@ angular.module('starter.controllers', [])
 	        			var ids = i+1;
 	        			alert(titulo + description);
 	        			var now             = new Date().getTime(),
-			            _5_sec_from_now = new Date(now + 20*1000 + 20*1000*i);
+			            _5_sec_from_now = new Date(now + 20*1000);
 				        var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
 				        cordova.plugins.notification.local.schedule({
 				            id:    ids,

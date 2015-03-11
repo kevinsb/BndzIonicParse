@@ -191,37 +191,37 @@ angular.module('starter.controllers', [])
 
 .controller('AccountCtrl', function($scope, $state, $cordovaLocalNotification, Users) {
 	cordova.plugins.notification.local.on('schedule', function (notification) {
-                    console.log('onschedule', arguments);
-                    // showToast('scheduled: ' + notification.id);
-                });
-                cordova.plugins.notification.local.on('update', function (notification) {
-                    console.log('onupdate', arguments);
-                    // showToast('updated: ' + notification.id);
-                });
-                cordova.plugins.notification.local.on('trigger', function (notification) {
-                    console.log('ontrigger', arguments);
-                    showToast('triggered: ' + notification.id);
-                });
-                cordova.plugins.notification.local.on('click', function (notification) {
-                    console.log('onclick', arguments);
-                    showToast('clicked: ' + notification.id);
-                });
-                cordova.plugins.notification.local.on('cancel', function (notification) {
-                    console.log('oncancel', arguments);
-                    // showToast('canceled: ' + notification.id);
-                });
-                cordova.plugins.notification.local.on('clear', function (notification) {
-                    console.log('onclear', arguments);
-                    showToast('cleared: ' + notification.id);
-                });
-                cordova.plugins.notification.local.on('cancelall', function () {
-                    console.log('oncancelall', arguments);
-                    // showToast('canceled all');
-                });
-                cordova.plugins.notification.local.on('clearall', function () {
-                    console.log('onclearall', arguments);
-                    // showToast('cleared all');
-                });
+        console.log('onschedule', arguments);
+        // showToast('scheduled: ' + notification.id);
+    });
+    cordova.plugins.notification.local.on('update', function (notification) {
+        console.log('onupdate', arguments);
+        // showToast('updated: ' + notification.id);
+    });
+    cordova.plugins.notification.local.on('trigger', function (notification) {
+        console.log('ontrigger', arguments);
+        showToast('triggered: ' + notification.id);
+    });
+    cordova.plugins.notification.local.on('click', function (notification) {
+        console.log('onclick', arguments);
+        showToast('clicked: ' + notification.id);
+    });
+    cordova.plugins.notification.local.on('cancel', function (notification) {
+        console.log('oncancel', arguments);
+        // showToast('canceled: ' + notification.id);
+    });
+    cordova.plugins.notification.local.on('clear', function (notification) {
+        console.log('onclear', arguments);
+        showToast('cleared: ' + notification.id);
+    });
+    cordova.plugins.notification.local.on('cancelall', function () {
+        console.log('oncancelall', arguments);
+        // showToast('canceled all');
+    });
+    cordova.plugins.notification.local.on('clearall', function () {
+        console.log('onclearall', arguments);
+        // showToast('cleared all');
+    });
 
 	var id = 1;
     callback = function () {
@@ -248,11 +248,12 @@ angular.module('starter.controllers', [])
     };
 
     $scope.schedule = function () {
+    	var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
         cordova.plugins.notification.local.schedule({
             id:   1,
             text: 'Test Message 1',
             icon: 'http://www.optimizeordie.de/wp-content/plugins/social-media-widget/images/default/64/googleplus.png',
-            sound: null,
+            sound: sound,
             data: { test:id }
         });
     };
@@ -354,7 +355,7 @@ angular.module('starter.controllers', [])
 	});
 })
 
-.controller('AnimalDetailCtrl', function($scope, $state, $stateParams, $ionicSlideBoxDelegate, $ionicPopup, Catalog, Calendar, $ionicPopup){
+.controller('AnimalDetailCtrl', function($scope, $state, $stateParams, $ionicSlideBoxDelegate, $cordovaLocalNotification, $ionicPopup, Catalog, Calendar, $ionicPopup){
 	var animalQuery = Catalog.all();
 	animalQuery.equalTo('objectId', $stateParams.animalId);
 	//LA SIGUIENTE LINEA DE CODIGO ES IMPORTANTE PARA REGRESAR EL OBJECTO QUE APUNTA A id_zoo sin hacer otro query
@@ -413,6 +414,41 @@ angular.module('starter.controllers', [])
 	
 
 	$scope.adopt = function(nameAnimal, idAnimal) {
+		function agendarNotificaciones(){
+			var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
+			var calendarQuery = Calendar.get(idAnimal);
+			calendarQuery.find({
+		        success: function(calendar){
+	        		for (var i = 0; i < calendar.length; i++) {
+	        			
+	        			var titulo = calendar[i].get('title');
+	        			var description = calendar[i].get('description');
+	        			var ids = i+1;
+
+	        			var now             = new Date().getTime(),
+			            _5_sec_from_now = new Date(now + 20*1000 + 20*1000*i);
+				        var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
+				        cordova.plugins.notification.local.schedule({
+				            id:    ids,
+				            title: titulo,
+				            text:  description,
+				            icon:  "",
+				            at:    _5_sec_from_now,
+				            sound: sound
+				        });
+
+				        if(i == calendar.length - 1){
+				        	$state.go('bondzu.adoptions');
+				        }
+	        		}
+		        },
+		        error: function(error){
+		        	console.log(error);
+		        	alert("Error en agendarNotificaciones");
+		    	}
+		    });
+		}
+
 		var current_user = Parse.User.current();
 		if (current_user != null || current_user != undefined){
 			//Checar si ya esta adoptado ese animal
@@ -441,8 +477,8 @@ angular.module('starter.controllers', [])
 				   	confirmPopup.then(function(res) {
 				    	if(res) {
 				    		Catalog.adopt(idAnimal);
-				     		console.log("Adopcion");
-				       		$state.go('bondzu.adoptions');
+				    		//Aqui se procede a hacer las notificaciones
+				    		agendarNotificaciones();
 				    	} else {
 				    		console.log('You are not sure');
 				    	}

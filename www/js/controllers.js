@@ -415,7 +415,7 @@ angular.module('starter.controllers', [])
 
 	$scope.adopt = function(nameAnimal, idAnimal) {
 		//Local Notifications
-		function pushNotifications(calendar, callback){
+		function pushNotifications(calendar){
 			for (var i = 0; i < calendar.length; i++) {
     			var titulo = calendar[i].get('title');
     			var description = calendar[i].get('description');
@@ -424,17 +424,15 @@ angular.module('starter.controllers', [])
     			var now             = new Date().getTime(),
 	            _5_sec_from_now = new Date(now + 20*1000 + 20*1000*i);
 		        var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
-    			notificaciones.push({
-			        id:    ids,
+    			cordova.plugins.notification.local.schedule({
+                    id:    ids,
 		            title: titulo,
 		            text:  description,
 		            icon:  "",
 		            at:    _5_sec_from_now,
 		            sound: sound
-			    });
-			    alert(description);
+                });
     		}
-    		callback(notificaciones);
 		}
 
 		function addNotifications(notificaciones){
@@ -456,7 +454,7 @@ angular.module('starter.controllers', [])
 			var calendarQuery = Calendar.get(idAnimal);
 			calendarQuery.find({
 		        success: function(calendar){
-	        		pushNotifications(calendar, addNotifications);
+	        		pushNotifications(calendar);
 		        },
 		        error: function(error){
 		        	console.log(error);

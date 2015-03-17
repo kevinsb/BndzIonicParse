@@ -437,21 +437,25 @@ angular.module('starter.controllers', [])
 		}
 
 		function addNotifications(notificaciones){
+			alert("Agregando");
+			var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
 			var now             = new Date().getTime(),
 	            _20_sec_from_now = new Date(now + 20*1000),
 	            _40_sec_from_now = new Date(now + 40*1000);
 			cordova.plugins.notification.local.schedule([{
-			    id: 1,
-			    text: "Multi Notification 1",
-			    sound: isAndroid ? 'file://sound.mp3' : 'file://beep.caf',
-			    at:    _20_sec_from_now,
-			    icon: "http://sciactive.com/pnotify/includes/github-icon.png"
+			    id:    ids,
+	            title: titulo,
+	            text:  description,
+	            icon:  "",
+	            at:    _20_sec_from_now,
+	            sound: sound
 			},{
-			    id: 2,
-			    title: "Local Notification Example",
-			    text: "Multi Notification 2",
-			    at:    _40_sec_from_now,
-			    icon: "http://sciactive.com/pnotify/includes/github-icon.png"
+			    id:    ids,
+	            title: titulo,
+	            text:  description,
+	            icon:  "",
+	            at:    _40_sec_from_now,
+	            sound: sound
 			}]);
 
 			//cordova.plugins.notification.local.schedule([notificaciones]);

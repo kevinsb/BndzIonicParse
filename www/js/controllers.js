@@ -435,15 +435,18 @@ angular.module('starter.controllers', [])
 				            icon:  "",
 				            at:    _5_sec_from_now,
 				            sound: sound
-					    });
+					    });   
 	        		}
-	        		cordova.plugins.notification.local.schedule(notificaciones);
 		        },
 		        error: function(error){
 		        	console.log(error);
 		        	alert("Error en agendarNotificaciones");
 		    	}
-		    });
+		    }).then(function(obj){
+		    	cordova.plugins.notification.local.schedule(notificaciones);
+		    }, function(error) {
+  				// the save failed.
+			});
 		}
 
 		var current_user = Parse.User.current();

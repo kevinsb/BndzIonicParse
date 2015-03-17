@@ -414,29 +414,30 @@ angular.module('starter.controllers', [])
 	
 
 	$scope.adopt = function(nameAnimal, idAnimal) {
+		//Local Notifications
 		function agendarNotificaciones(){
 			var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
 			var calendarQuery = Calendar.get(idAnimal);
 			calendarQuery.find({
 		        success: function(calendar){
 	        		for (var i = 0; i < calendar.length; i++) {
-	        			
 	        			var titulo = calendar[i].get('title');
 	        			var description = calendar[i].get('description');
 	        			var ids = i+1;
-	        			alert(titulo + description);
+	        			var notificaciones = [];
 	        			var now             = new Date().getTime(),
-			            _5_sec_from_now = new Date(now + 20*1000);
+			            _5_sec_from_now = new Date(now + 20*1000 + 20*1000*i);
 				        var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
-				        cordova.plugins.notification.local.schedule({
-				            id:    ids,
+	        			notificaciones.push({
+					        id:    ids,
 				            title: titulo,
 				            text:  description,
 				            icon:  "",
 				            at:    _5_sec_from_now,
 				            sound: sound
-				        });
+					    });
 	        		}
+	        		cordova.plugins.notification.local.schedule(notificaciones);
 		        },
 		        error: function(error){
 		        	console.log(error);

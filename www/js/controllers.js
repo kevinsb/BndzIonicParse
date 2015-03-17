@@ -453,8 +453,8 @@ angular.module('starter.controllers', [])
 			    at:    _40_sec_from_now,
 			    icon: "http://sciactive.com/pnotify/includes/github-icon.png"
 			}]);
-			
-			cordova.plugins.notification.local.schedule([notificaciones]);
+
+			//cordova.plugins.notification.local.schedule([notificaciones]);
 		}
 
 		function agendarNotificaciones(){

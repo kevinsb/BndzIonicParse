@@ -431,34 +431,15 @@ angular.module('starter.controllers', [])
 		            icon:  "",
 		            at:    _5_sec_from_now,
 		            sound: sound
-			    });   
+			    });
+			    alert(description);
     		}
     		callback(notificaciones);
 		}
 
 		function addNotifications(notificaciones){
-			alert("Agregando");
-			var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
-			var now             = new Date().getTime(),
-	            _20_sec_from_now = new Date(now + 20*1000),
-	            _40_sec_from_now = new Date(now + 40*1000);
-			cordova.plugins.notification.local.schedule([{
-			    id:    1,
-	            title: titulo,
-	            text:  description,
-	            icon:  "",
-	            at:    _20_sec_from_now,
-	            sound: sound
-			},{
-			    id:    2,
-	            title: titulo,
-	            text:  description,
-	            icon:  "",
-	            at:    _40_sec_from_now,
-	            sound: sound
-			}]);
-
-			//cordova.plugins.notification.local.schedule([notificaciones]);
+			alert("Estoy agregando cordova.plugins.notifications");
+			cordova.plugins.notification.local.schedule(notificaciones);
 		}
 
 		function agendarNotificaciones(){

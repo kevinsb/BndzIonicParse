@@ -415,38 +415,43 @@ angular.module('starter.controllers', [])
 
 	$scope.adopt = function(nameAnimal, idAnimal) {
 		//Local Notifications
+		function pushNotifications(calendar, callback){
+			for (var i = 0; i < calendar.length; i++) {
+    			var titulo = calendar[i].get('title');
+    			var description = calendar[i].get('description');
+    			var ids = i+1;
+    			var notificaciones = [];
+    			var now             = new Date().getTime(),
+	            _5_sec_from_now = new Date(now + 20*1000 + 20*1000*i);
+		        var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
+    			notificaciones.push({
+			        id:    ids,
+		            title: titulo,
+		            text:  description,
+		            icon:  "",
+		            at:    _5_sec_from_now,
+		            sound: sound
+			    });   
+    		}
+    		callback(notificaciones);
+		}
+
+		function addNotifications(notificaciones){
+			cordova.plugins.notification.local.schedule(notificaciones);
+		}
+
 		function agendarNotificaciones(){
 			var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
 			var calendarQuery = Calendar.get(idAnimal);
 			calendarQuery.find({
 		        success: function(calendar){
-	        		for (var i = 0; i < calendar.length; i++) {
-	        			var titulo = calendar[i].get('title');
-	        			var description = calendar[i].get('description');
-	        			var ids = i+1;
-	        			var notificaciones = [];
-	        			var now             = new Date().getTime(),
-			            _5_sec_from_now = new Date(now + 20*1000 + 20*1000*i);
-				        var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
-	        			notificaciones.push({
-					        id:    ids,
-				            title: titulo,
-				            text:  description,
-				            icon:  "",
-				            at:    _5_sec_from_now,
-				            sound: sound
-					    });   
-	        		}
+	        		pushNotifications(calendar, addNotifications);
 		        },
 		        error: function(error){
 		        	console.log(error);
 		        	alert("Error en agendarNotificaciones");
 		    	}
-		    }).then(function(obj){
-		    	cordova.plugins.notification.local.schedule(notificaciones);
-		    }, function(error) {
-  				// the save failed.
-			});
+		    });
 		}
 
 		var current_user = Parse.User.current();

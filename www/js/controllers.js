@@ -439,7 +439,16 @@ angular.module('starter.controllers', [])
 
 		function addNotifications(notificaciones){
 			alert("Estoy agregando cordova.plugins.notifications");
-			cordova.plugins.notification.local.schedule(notificaciones);
+			cordova.plugins.notification.local.schedule([{
+                id:   1,
+                text: 'Multi Message 1'
+            },{
+                id:   2,
+                text: 'Multi Message 2'
+            },{
+                id:   3,
+                text: 'Multi Message 3'
+            }]);
 		}
 
 		function agendarNotificaciones(){

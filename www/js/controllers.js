@@ -443,14 +443,14 @@ angular.module('starter.controllers', [])
 	            _20_sec_from_now = new Date(now + 20*1000),
 	            _40_sec_from_now = new Date(now + 40*1000);
 			cordova.plugins.notification.local.schedule([{
-			    id:    ids,
+			    id:    1,
 	            title: titulo,
 	            text:  description,
 	            icon:  "",
 	            at:    _20_sec_from_now,
 	            sound: sound
 			},{
-			    id:    ids,
+			    id:    2,
 	            title: titulo,
 	            text:  description,
 	            icon:  "",

@@ -419,16 +419,19 @@ angular.module('starter.controllers', [])
 			for (var i = 0; i < calendar.length; i++) {
     			var titulo = calendar[i].get('title');
     			var description = calendar[i].get('description');
+    			var date = calendar[i].get('start_date');
+    			console.log("Fecha: " + date);
+    			var now             = new Date().getTime(),
+	            _5_sec_from_now = new Date(now + 20*1000);
+	            console.log("Fecha de 5 sec: " + _5_sec_from_now);
     			var ids = i+1;
     			var notificaciones = [];
-    			var now             = new Date().getTime(),
-	                _5_sec_from_now = new Date(now + 20*1000 + 20*1000*i);
 		        var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
     			cordova.plugins.notification.local.schedule({
     				id:    ids,
 		            title: titulo,
 		            text:  description,
-		            at:    _5_sec_from_now,
+		            at:    date,
 		            sound: sound
     			});
     		}

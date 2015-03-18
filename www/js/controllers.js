@@ -415,37 +415,50 @@ angular.module('starter.controllers', [])
 
 	$scope.adopt = function(nameAnimal, idAnimal) {
 		//Local Notifications
-		function pushNotifications(calendar){
+		function pushNotifications(calendar, callback){
 			for (var i = 0; i < calendar.length; i++) {
     			var titulo = calendar[i].get('title');
     			var description = calendar[i].get('description');
     			var ids = i+1;
+    			var notificaciones = [];
     			var now             = new Date().getTime(),
-	            _5_sec_from_now = new Date(now + 20*1000);
+	                _5_sec_from_now = new Date(now + 20*1000 + 20*1000*i);
 		        var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
     			cordova.plugins.notification.local.schedule({
-                    id:    ids,
+    				id:    ids,
 		            title: titulo,
 		            text:  description,
-		            icon:  "",
 		            at:    _5_sec_from_now,
 		            sound: sound
-                });
+    			});
     		}
 		}
 
 		function addNotifications(notificaciones){
 			alert("Estoy agregando cordova.plugins.notifications");
+			cordova.plugins.notification.local.schedule(notificaciones);
+			/*var now             = new Date().getTime(),
+	            _5_sec_from_now = new Date(now + 20*1000);
+	        var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
 			cordova.plugins.notification.local.schedule([{
                 id:   1,
-                text: 'Multi Message 1'
+                title: "Titulo 1",
+                text: 'Multi Message 1',
+                at:    _5_sec_from_now,
+                sound: sound
             },{
                 id:   2,
-                text: 'Multi Message 2'
+                title: "Titulo 2",
+                text: 'Multi Message 2',
+                at:    _5_sec_from_now,
+                sound: sound
             },{
                 id:   3,
-                text: 'Multi Message 3'
-            }]);
+                title: "Titulo 3",
+                text: 'Multi Message 3',
+                at:    _5_sec_from_now,
+                sound: sound
+            }]);*/
 		}
 
 		function agendarNotificaciones(){
@@ -453,7 +466,7 @@ angular.module('starter.controllers', [])
 			var calendarQuery = Calendar.get(idAnimal);
 			calendarQuery.find({
 		        success: function(calendar){
-	        		pushNotifications(calendar);
+	        		pushNotifications(calendar, addNotifications);
 		        },
 		        error: function(error){
 		        	console.log(error);

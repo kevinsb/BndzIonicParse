@@ -192,29 +192,29 @@ angular.module('starter.controllers', [])
 .controller('AccountCtrl', function($scope, $state, $cordovaLocalNotification, Users) {
 	//Push notifications 
 	
-	parsePlugin.initialize(jhTh4SWoNgoUQDan04oOPnKqVs0aIPTsw7djH0Da, NrB1pacSX0lzFwmJgudq1YkTpVOoWA5gDTrv8JQy, function() {
+	parsePlugin.initialize("jhTh4SWoNgoUQDan04oOPnKqVs0aIPTsw7djH0Da", "NrB1pacSX0lzFwmJgudq1YkTpVOoWA5gDTrv8JQy", function() {
 
-    parsePlugin.subscribe('SampleChannel', function() {
+	    parsePlugin.subscribe('SampleChannel', function() {
 
-    parsePlugin.getInstallationId(function(id) {
+		    parsePlugin.getInstallationId(function(id) {
+		    	console.log("Entrando a push notifications");
+		    /**
+		     * Now you can construct an object and save it to your own services, or Parse, and corrilate users to parse installations
+		     * 
+		     var install_data = {
+		        installation_id: id,
+		        channels: ['SampleChannel']
+		     }
+		     *
+		     */
 
-    /**
-     * Now you can construct an object and save it to your own services, or Parse, and corrilate users to parse installations
-     * 
-     var install_data = {
-        installation_id: id,
-        channels: ['SampleChannel']
-     }
-     *
-     */
+			}, function(e) {
+			    alert('error');
+			});
 
-	}, function(e) {
-	    alert('error');
-	});
-
-	}, function(e) {
-	alert('error');
-	});
+		}, function(e) {
+		alert('error');
+		});
 
 	}, function(e) {
 	alert('error');

@@ -192,7 +192,7 @@ angular.module('starter.controllers', [])
 .controller('AccountCtrl', function($scope, $state, $cordovaLocalNotification, Users) {
 	//Push notifications 
 	
-	parsePlugin.initialize(appId, clientKey, function() {
+	parsePlugin.initialize(jhTh4SWoNgoUQDan04oOPnKqVs0aIPTsw7djH0Da, NrB1pacSX0lzFwmJgudq1YkTpVOoWA5gDTrv8JQy, function() {
 
     parsePlugin.subscribe('SampleChannel', function() {
 

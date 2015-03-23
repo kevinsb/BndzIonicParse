@@ -194,6 +194,7 @@ angular.module('starter.controllers', [])
 	var appId = "jhTh4SWoNgoUQDan04oOPnKqVs0aIPTsw7djH0Da";
     var clientKey = "NrB1pacSX0lzFwmJgudq1YkTpVOoWA5gDTrv8JQy";
 
+    alert("AccountCtrl");
 	parsePlugin.initialize(appId, clientKey, function() {
 
 	    parsePlugin.subscribe('SampleChannel', function() {

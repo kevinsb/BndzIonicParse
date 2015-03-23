@@ -191,37 +191,35 @@ angular.module('starter.controllers', [])
 
 .controller('AccountCtrl', function($scope, $state, $cordovaLocalNotification, Users) {
 	//Push notifications 
-	
-	parsePlugin.initialize("jhTh4SWoNgoUQDan04oOPnKqVs0aIPTsw7djH0Da", "NrB1pacSX0lzFwmJgudq1YkTpVOoWA5gDTrv8JQy", function() {
+	var appId = "jhTh4SWoNgoUQDan04oOPnKqVs0aIPTsw7djH0Da";
+    var clientKey = "NrB1pacSX0lzFwmJgudq1YkTpVOoWA5gDTrv8JQy";
+
+	parsePlugin.initialize(appId, clientKey, function() {
 
 	    parsePlugin.subscribe('SampleChannel', function() {
 
 		    parsePlugin.getInstallationId(function(id) {
-		    	console.log("Entrando a push notifications");
-		    /**
-		     * Now you can construct an object and save it to your own services, or Parse, and corrilate users to parse installations
-		     * 
+		    	alert("Entrando a push notifications " + id);
+
 		     var install_data = {
 		        installation_id: id,
 		        channels: ['SampleChannel']
 		     }
-		     *
-		     */
 
 			}, function(e) {
 			    alert('error');
 			});
 
 		}, function(e) {
-		alert('error');
+			alert('error');
 		});
 
 	}, function(e) {
-	alert('error');
+		alert('error');
 	});
 
 	var current_user = Parse.User.current();
-	console.log(current_user);
+	//console.log(current_user);
 	if (current_user == null | current_user == undefined){
 		console.log("Eres null");
 		current_user = 1;

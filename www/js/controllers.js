@@ -190,127 +190,35 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AccountCtrl', function($scope, $state, $cordovaLocalNotification, Users) {
-	cordova.plugins.notification.local.on('schedule', function (notification) {
-        console.log('onschedule', arguments);
-        // showToast('scheduled: ' + notification.id);
-    });
-    cordova.plugins.notification.local.on('update', function (notification) {
-        console.log('onupdate', arguments);
-        // showToast('updated: ' + notification.id);
-    });
-    cordova.plugins.notification.local.on('trigger', function (notification) {
-        console.log('ontrigger', arguments);
-        showToast('triggered: ' + notification.id);
-    });
-    cordova.plugins.notification.local.on('click', function (notification) {
-        console.log('onclick', arguments);
-        showToast('clicked: ' + notification.id);
-    });
-    cordova.plugins.notification.local.on('cancel', function (notification) {
-        console.log('oncancel', arguments);
-        // showToast('canceled: ' + notification.id);
-    });
-    cordova.plugins.notification.local.on('clear', function (notification) {
-        console.log('onclear', arguments);
-        showToast('cleared: ' + notification.id);
-    });
-    cordova.plugins.notification.local.on('cancelall', function () {
-        console.log('oncancelall', arguments);
-        // showToast('canceled all');
-    });
-    cordova.plugins.notification.local.on('clearall', function () {
-        console.log('onclearall', arguments);
-        // showToast('cleared all');
-    });
+	//Push notifications 
+	
+	parsePlugin.initialize(appId, clientKey, function() {
 
-	var id = 1;
-    callback = function () {
-        cordova.plugins.notification.local.getIds(function (ids) {
-            showToast('IDs: ' + ids.join(' ,'));
-        });
-    };
-    showToast = function (text) {
-        setTimeout(function () {
-            window.plugins.toast.showShortBottom(text);
-        }, 100);
-    };
+    parsePlugin.subscribe('SampleChannel', function() {
 
-	$scope.hasPermission = function () {
-        cordova.plugins.notification.local.hasPermission(function (granted) {
-            alert(granted);
-        });
-    };
+    parsePlugin.getInstallationId(function(id) {
 
-    $scope.registerPermission = function () {
-        cordova.plugins.notification.local.registerPermission(function (granted) {
-            alert(granted);
-        });
-    };
+    /**
+     * Now you can construct an object and save it to your own services, or Parse, and corrilate users to parse installations
+     * 
+     var install_data = {
+        installation_id: id,
+        channels: ['SampleChannel']
+     }
+     *
+     */
 
-    $scope.schedule = function () {
-    	var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
-        cordova.plugins.notification.local.schedule({
-            id:   1,
-            text: 'Test Message 1',
-            icon: 'http://www.optimizeordie.de/wp-content/plugins/social-media-widget/images/default/64/googleplus.png',
-            sound: sound,
-            data: { test:id }
-        });
-    };
+	}, function(e) {
+	    alert('error');
+	});
 
-    $scope.scheduleMultiple = function () {
-        cordova.plugins.notification.local.schedule([{
-            id:   1,
-            text: 'Multi Message 1'
-        },{
-            id:   2,
-            text: 'Multi Message 2'
-        },{
-            id:   3,
-            text: 'Multi Message 3'
-        }]);
-    };
+	}, function(e) {
+	alert('error');
+	});
 
-    $scope.scheduleDelayed = function () {
-    	console.log("Delayed");
-        var now             = new Date().getTime(),
-            _5_sec_from_now = new Date(now + 5*1000);
-        var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
-        cordova.plugins.notification.local.schedule({
-            id:    1,
-            title: 'Scheduled with delay',
-            text:  'Test Message 1',
-            icon:  '',
-            at:    _5_sec_from_now,
-            sound: sound
-        });
-    };
-
-    $scope.scheduleMinutely = function () {
-        var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
-        cordova.plugins.notification.local.schedule({
-            id:    1,
-            text:  'Scheduled every minute',
-            every: 'minute',
-            sound: sound
-        });
-    };
-
-    $scope.isPresent = function () {
-        cordova.plugins.notification.local.isPresent(id, function (present) {
-            showToast(present ? 'Yes' : 'No');
-        });
-    };
-    $scope.isScheduled = function () {
-        cordova.plugins.notification.local.isScheduled(id, function (scheduled) {
-            showToast(scheduled ? 'Yes' : 'No');
-        });
-    };
-    $scope.isTriggered = function () {
-        cordova.plugins.notification.local.isTriggered(id, function (triggered) {
-            showToast(triggered ? 'Yes' : 'No');
-        });
-    };
+	}, function(e) {
+	alert('error');
+	});
 
 	var current_user = Parse.User.current();
 	console.log(current_user);
@@ -435,33 +343,11 @@ angular.module('starter.controllers', [])
 		            sound: sound
     			});
     		}
+    		callback();
 		}
 
-		function addNotifications(notificaciones){
-			alert("Estoy agregando cordova.plugins.notifications");
-			cordova.plugins.notification.local.schedule(notificaciones);
-			/*var now             = new Date().getTime(),
-	            _5_sec_from_now = new Date(now + 20*1000);
-	        var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
-			cordova.plugins.notification.local.schedule([{
-                id:   1,
-                title: "Titulo 1",
-                text: 'Multi Message 1',
-                at:    _5_sec_from_now,
-                sound: sound
-            },{
-                id:   2,
-                title: "Titulo 2",
-                text: 'Multi Message 2',
-                at:    _5_sec_from_now,
-                sound: sound
-            },{
-                id:   3,
-                title: "Titulo 3",
-                text: 'Multi Message 3',
-                at:    _5_sec_from_now,
-                sound: sound
-            }]);*/
+		function addNotifications(){
+			$state.go('bondzu.catalog');
 		}
 
 		function agendarNotificaciones(){
@@ -721,13 +607,16 @@ angular.module('starter.controllers', [])
     createRandomEvents();
 
     function createRandomEvents() {
+    	console.log("Entrando a crear calendario");
     	var calendarQuery = Calendar.get($stateParams.animalId);
 		calendarQuery.find({
 	        success: function(calendar){
 	        	$scope.$apply(function(){
 	        		var events = [];
-	        		//console.log(calendar.length);
 	        		for (var i = 0; i < calendar.length; i++) {
+	        			console.log("Calendario 1: " + new Date(Date.UTC(2015, 2, 19)));
+	        			console.log("Calendario 2: " + calendar[i].get('start_date'));
+	        			console.log("Calendario 2: " + calendar[i].get('end_date'));
 	        			events.push({
 		                    title: calendar[i].get('title'),
 		                    startTime: calendar[i].get('start_date'),

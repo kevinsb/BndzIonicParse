@@ -4,12 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
-    <link rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.3/css/bootstrap.min.css"/>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
     <link href="css/calendar.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
@@ -34,6 +36,7 @@
     </script>
 
     <!-- your app's js -->
+    <script src="lib/PushNotification.js"></script>
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/services.js"></script>
@@ -48,6 +51,8 @@
         Back
       </ion-nav-back-button>
     </ion-nav-bar>
+    
+    
     <!-- 
       The views will be rendered in the <ion-nav-view> directive below
       Templates are in the /templates folder (but you could also
@@ -56,5 +61,17 @@
     <ion-nav-view></ion-nav-view>
     <div id="fb-root"></div>
     <script src="lib/facebookConnectPlugin.js"></script>
+    <script id="my-modal.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-content style="background-color: black">
+          <i class="icon ion-close" style="color:white; float:right; padding-bottom: 150px; padding-right: 5px; font-size: 25px; padding-top: 5px" ng-click="closeModal()"></i>
+          <img src="https://pbs.twimg.com/profile_images/2586664217/o78k5fogx5g3hdy6peai.jpeg" alt="" class="img-responsive">
+          <div class="padding">
+          <p style="color: white; font-size: 18px"><strong>Robin Hood</strong> en el <strong>Parque Loro</strong> momentos antes de conocer a su padre adoptivo</p>
+          <i class="icon ion-share" style="color:white; float:right; padding-bottom: 150px; padding-right: 5px; font-size: 35px; padding-top: 5px" ng-click="closeModal()"></i>
+          <i class="icon ion-ios-cloud-download" style="color:white; float:right; padding-bottom: 150px; padding-right: 15px; font-size: 35px; padding-top: 5px" ng-click="download()"></i>
+        </ion-content>
+      </ion-modal-view>
+    </script>
   </body>
 </html>

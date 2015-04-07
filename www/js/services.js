@@ -109,7 +109,6 @@ angular.module('starter.services', [])
       });
     },
     getZoo: function(idZoo){
-      console.log(idZoo);
       var query = new Parse.Query(ZooObject);
       query.equalTo("objectId", idZoo);
       return query;

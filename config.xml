@@ -68,6 +68,9 @@
 	<param name="APP_ID" value="721077627906410" />
 	<param name="APP_NAME" value="Bondzu" />
 	</gap:plugin>
+    <feature name="PushPlugin">
+    <param name="ios-package" value="PushPlugin" />
+    </feature>
 	<feature name="StatusBar">
 	<param name="ios-package" value="CDVStatusBar" onload="true"/>
 	</feature>

@@ -8,17 +8,18 @@
   		<div class="row">
   			<div class="col">
   				<div class="padding">
-            <img src="{{fotoProfile}}" class="img-responsive img-circle img-profile" alt="">
+            <img src="{{fotoProfile}}" class="img-responsive img-circle img-profile centered" width="60%">
+            <p style="color:white; text-align:center; font-size: 28px; font-weight: bold; padding-top: 10px">{{adoption[0].get('name')}}</p>
+            <p style="color:white; text-align:center; font-size: 20px">{{adoption[0].get('species')}}</p>
+            <p style="color:white; text-align:center; font-size: 20px"><i class="icon ion-ios-paw"></i> Adopted</p>
           </div>
   			</div>
-  			<div class="col">
-  				<h1>{{adoption[0].get('name')}}</h1>
-  				<h2>{{adoption[0].get('species')}}</h2>
-  			</div>
-  		<div class="col"></div>
+  		<div class="col">
+        <i class="icon ion-videocamera detail-camera"></i>  
+      </div>
       </div>
     </div>
-    <div class="tabs tabs-animal">
+    <div class="tabs tabs-adoption tabs-animal">
       <a class="tab-item" ng-class="{active: tab === 'tab0'}" ng-click="toSlide(0)">
         <i class="icon ion-information-circled"></i>
         <span class="tabs-animal-color">Info</span>
@@ -29,28 +30,37 @@
       </a>
       <a class="tab-item" ng-class="{active: tab === 'tab2'}" ng-click="toSlide(2)">
         <i class="icon ion-calendar"></i>
-        <span class="tabs-animal-color">Calendar</span>
+        <span class="tabs-animal-color">Agenda</span>
       </a>
-      <!--<a class="tab-item">
-        <i class="ion-chevron-right" style="font-size: 30px"></i>
-      </a>-->
-
       <a class="tab-item" ng-class="{active: tab === 'tab3'}" ng-click="toSlide(3)">
+        <i class="icon ion-images"></i>
+        <span class="tabs-animal-color">Gallery</span>
+      </a>
+      <a class="tab-item" ng-class="{active: tab === 'tab4'}" ng-click="toSlide(4)">
         <i class="icon ion-chatboxes"></i>
-        <span class="tabs-animal-color">Community</span>
+        <span class="tabs-animal-color">Forum</span>
       </a>
     </div>
 	<ion-slide-box show-pager="false" on-slide-changed="slideChanged($index)">
         <ion-slide>
           <div class="padding information">
             <div class="box1 info" ng-if="data.currSlide === 0 || !data.currSlide">
-              <div class="row">
+              <div class="card">
+                <div class="item item-text-wrap">
+                  <h1 class="who">Who am I?</h1>
+                  <h2 class="who2">The mischievous and cunning</h2>
+                  <p class="who3">Robin Hood is the smallest animal at Parque Loro</p>
+                </div>
+              </div>
+              <div class="item item-text-wrap">
+                  <h1 class="who">Basic Info</h1>
+                  <div class="row">
                 <div class="col">
                   <p class="titulo-info">Name: </p><br>
                   <p class="info-info">{{adoption[0].get('name')}}</p>
                   <br>
                   <p class="titulo-info">Zoo: </p><br>
-                  <a href="#/bondzu/zoo_carer/{{zoo.id}}"><p class="info-info">{{zoo.get('name')}}</p></a>
+                  <a href="#/bondzu/zoo_carer/{{zoo.id}}"><p class="info-zoo">{{zoo.get('name')}}</p></a>
                   <br>
                   <p class="titulo-info">Scientific Name: </p><br>
                   <p class="info-info">{{adoption[0].get('scientific_name')}}</p>
@@ -70,26 +80,10 @@
                 </div>
               </div>
             </div>
-          </div>
-          <br>
-          <div class="img-back" style="background-image: url('{{foto}}'); text-decoration: none" ng-click="playVideo('http://wpc.50C7.sigmacdn.net/hls-live/2050C7/bednxurcj/bondzutest_/bondzutest_,164,.m3u8')">
-            <div class="video-div">
-              <div class="row">
-                <div class="col col-33">
-                  <i class="icon ion-videocamera icon-camera"></i>
-                </div>
-                <div class="col col-67">
-                  <h3><strong>Nest Room</strong></h3>
-                  <h4><strong>Live from Parque LORO</strong></h4>
-                </div>
-              </div>
-              <div class="row">
-                 <div class="col">
-                   <p style="color:white; font-size: 20px;"><strong>TAP HERE</strong></p>
-                 </div>
-              </div>
+            </div>  
             </div>
           </div>
+          <br>
         </ion-slide>
 
         <ion-slide>
@@ -107,40 +101,83 @@
         </ion-slide>
 
         <ion-slide>
-          <div class="padding">
-            <div class="box3 calendario" ng-if="data.currSlide === 2">
-            	<section>
-		            <div class="alert alert-success" ng-show="event">
-                  Event selected:{{event.startTime|date:'MMM/dd,yyyy,HH:mm'}} - {{event.endTime|date:'MMM/dd,yyyy,HH:mm'}}, {{event.title}}
-		            </div>
-		            <div class="well well-sm">
-		                <calendar ng-model="currentDate" calendar-mode="mode" event-source="eventSource"
-		                          range-changed="reloadSource(startTime, endTime)"
-		                          event-selected="onEventSelected(event)"></calendar>
-		            </div>
-		        </section>
-            </div>
+          <div class="card">
+              <div class="box3 calendario" ng-if="data.currSlide === 2">
+                <section>
+                  <div class="alert alert-success" ng-show="event">
+                    Event selected:{{event.startTime|date:'MMM/dd,yyyy,HH:mm'}} - {{event.endTime|date:'MMM/dd,yyyy,HH:mm'}}, {{event.title}}
+                  </div>
+                  <div class="well well-sm">
+                      <calendar ng-model="currentDate" calendar-mode="mode" event-source="eventSource"
+                                range-changed="reloadSource(startTime, endTime)"
+                                event-selected="onEventSelected(event)"></calendar>
+                  </div>
+                </section>
+              </div>
           </div>
         </ion-slide>
+
         <ion-slide>
           <div class="padding">
             <div class="box4" ng-if="data.currSlide === 3">
-            {{userMessage[0].get('id_user').get('name ')}}
-            <div class="list">
-              <a class="item item-avatar" ng-repeat="message in userMessage" href="#/bondzu/carer/{{message.get('id_user').id}}">
-                <img src="{{message.get('id_user').get('photo')}}">
-                <h2>{{message.get('id_user').get('name')}} {{message.get('id_user').get('lastname')}}</h2>
-                <p>{{message.get('message')}}</p>
-              </a>
+              <div class="card">
+                <div class="item item-text-wrap">
+                  <h1 class="who">Gallery</h1>
+                  <div class="row">
+                    <div ng-click="openModal()" class="col gallery" style="background-image: url('https://pbs.twimg.com/profile_images/2586664217/o78k5fogx5g3hdy6peai.jpeg'); background-size: cover;">
+                    </div>
+                    <div class="col gallery" style="background-image: url('http://ichef.bbci.co.uk/naturelibrary/images/ic/credit/640x395/b/be/bear/bear_1.jpg'); background-size: cover;">
+                      
+                    </div>
+                    <div class="col gallery" style="background-image: url('http://cdnvideo.dolimg.com/cdn_assets/7ab7525c93fbf7380f477db791e96a1e74119dfc.jpg'); background-size: cover;">
+                      
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col gallery" style="background-image: url('http://static.guim.co.uk/sys-images/Guardian/Pix/pictures/2012/11/14/1352905427316/Polar-Bear-009.jpg'); background-size: cover;">
+                      
+                    </div>
+                    <div class="col gallery" style="background-image: url('http://cdn.zmescience.com/wp-content/uploads/2011/11/grizzly-bear.jpg'); background-size: cover;">
+                      
+                    </div>
+                    <div class="col gallery" style="background-image: url('http://www.gannett-cdn.com/-mm-/6011adf450c18428cec2b691d2945a86f1ad41d7/c=111-0-1984-1406&r=x404&c=534x401/local/-/media/USATODAY/USATODAY/2013/08/18/1376863649000-AP-C-BLACK-BEAR.jpg'); background-size: cover;">
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+        </ion-slide>
+
+        <ion-slide>
+          <div class="carer-div">
+            <p>Ask to his carer @MarianoJiménez everything about {{adoption[0].get('name')}}</p>
+          </div>
+          <div class="box5" ng-if="data.currSlide === 4">
+          {{userMessage[0].get('id_user').get('name ')}}
+          <div class="list posts">
+            <a class="item item-avatar" ng-repeat="message in userMessage" href="#/bondzu/carer/{{message.get('id_user').id}}">
+              <img class="img-responsive img-circle" src="{{message.get('id_user').get('photo')}}">
+              <h2>{{message.get('id_user').get('name')}} {{message.get('id_user').get('lastname')}}</h2>
+              <p>{{message.get('message')}}</p>
+            </a>
+          </div>
+            <div class="padding">
               <form ng-submit="postMessage(message)">
-                  <label class="item item-input item-stacked-label">
-                    <input type="text" ng-model="message.message" required id="mes">
-                  </label>
-                  <button class="button button-block button-energized">
-                      <strong>Post</strong>
-                  </button>
-              </form>
+                <div class="row">
+                  <div class="col col-67">
+                    <label class="item item-input item-stacked-label">
+                      <input type="text" ng-model="message.message" required id="mes" placeholder="Write a post...">
+                    </label>
+                  </div>
+                  <div class="col col-33">
+                    <button class="button button-block button-energized post">
+                        <strong>Post</strong>
+                    </button>
+                  </div>
+                </div>
+            </form>
             </div>
           </div>
         </ion-slide>

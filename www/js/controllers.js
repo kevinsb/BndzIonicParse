@@ -189,36 +189,8 @@ angular.module('starter.controllers', [])
 	}
 })
 
-.controller('AccountCtrl', function($scope, $state, $cordovaLocalNotification, Users) {
-	//Push notifications 
-	var appId = "jhTh4SWoNgoUQDan04oOPnKqVs0aIPTsw7djH0Da";
-    var clientKey = "NrB1pacSX0lzFwmJgudq1YkTpVOoWA5gDTrv8JQy";
-
-    alert("AccountCtrl");
-	parsePlugin.initialize(appId, clientKey, function() {
-
-	    parsePlugin.subscribe('SampleChannel', function() {
-
-		    parsePlugin.getInstallationId(function(id) {
-		    	alert("Entrando a push notifications " + id);
-
-		     var install_data = {
-		        installation_id: id,
-		        channels: ['SampleChannel']
-		     }
-
-			}, function(e) {
-			    alert('error');
-			});
-
-		}, function(e) {
-			alert('error');
-		});
-
-	}, function(e) {
-		alert('error');
-	});
-
+.controller('AccountCtrl', function($scope, $state, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast, $http, Users) {
+	
 	var current_user = Parse.User.current();
 	//console.log(current_user);
 	if (current_user == null | current_user == undefined){
@@ -274,17 +246,41 @@ angular.module('starter.controllers', [])
 			fotoProfileObj = result[0].get('profilePicture');
 			fotoAnimalProfile = fotoProfileObj.url();
 			idZoo      = result[0].get('id_zoo');
+			//Saber si ya adoptaste un animal
 			$scope.$apply(function(){
 	            $scope.animal = result;
 	            $scope.foto = fotoAnimal;
 	            $scope.fotoProfile = fotoAnimalProfile;
 	            $scope.zoo = idZoo;
+	            $scope.adopted = adoption;
 	        });
 		},
 		error: function(error){
 			console.log(error);
 		}
 	});
+
+	//Saber si ya ha sido adoptado un animal
+	var current_user = Parse.User.current();
+	if (current_user != null || current_user != undefined){
+		var relation = current_user.relation("adoptions");
+		var query = relation.query();
+		query.equalTo("objectId", $stateParams.animalId);
+		var adoption = "Hola mundo";
+		query.find({
+			success:function(list) {
+			  	if (list.length > 0) {
+			    	$scope.adopted = 1;
+			  	}
+			  	else {
+			    	$scope.adopted = 0;
+			  	}
+			  },
+			  error: function(error){
+			  	console.log("Error en ver si ya eres adoptador: " + error)
+			  }
+		});
+	}
 
 
 	var carersRelation = Catalog.getCarers($stateParams.animalId);
@@ -316,6 +312,9 @@ angular.module('starter.controllers', [])
 		}
 		if (slide == 3) {
 			$scope.tab = "tab3";
+		}
+		if (slide == 4) {
+			$scope.tab = "tab4";
 		}
 	}
 	
@@ -368,9 +367,6 @@ angular.module('starter.controllers', [])
 			//Checar si ya esta adoptado ese animal
 			var relation = current_user.relation("adoptions");
 			var query = relation.query();
-			AnimalObject = Parse.Object.extend("Animal");
-			var animal = new AnimalObject();
-			animal.id = idAnimal;
 			query.equalTo("objectId", idAnimal);
 			query.find({
 			  success:function(list) {
@@ -466,17 +462,23 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('AdoptionsCtrl', function($scope, Catalog){
+.controller('AdoptionsCtrl', function($scope, Catalog, Zoo){
 	var user = Parse.User.current();
 	if (user == null | user == undefined){
     	$scope.adoptions = 0;
 	}
 	else{
 		var fotos = [];
+		var ids_zoo = [];
 	    var relationAdoptions = Catalog.getAdoptions(user);
-		relationAdoptions.query().find({
+	    relationAdoptions.add('id_zoo');
+	    relationAdoptions.query().find({
 	    	success: function(resulta) {
 				for (var i = 0; i < resulta.length; i++) {
+					id_zoo = resulta[i].get('id_zoo').id;
+					ids_zoo.push({
+						id: id_zoo
+					});
 					foto = resulta[i].get('profilePicture');
 					fotos.push({
 						url: foto.url()
@@ -509,7 +511,7 @@ angular.module('starter.controllers', [])
 	});
 })
 
-.controller('AdoptionDetailCtrl', function($scope, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, $ionicScrollDelegate, $ionicPopup, Catalog, Calendar, Message){
+.controller('AdoptionDetailCtrl', function($scope, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, $ionicScrollDelegate, $ionicModal, $ionicPopup, Catalog, Calendar, Message){
 	//-----------------------------------------------------------------
 	var current_user = Parse.User.current();
 	if (current_user == null || current_user == undefined) {
@@ -519,7 +521,7 @@ angular.module('starter.controllers', [])
 	$scope.tab = "tab0";
 	$scope.data = {};
 	$scope.data.currSlide = $ionicSlideBoxDelegate.currentIndex();
-	console.log('Current Slide = ' + $scope.data.currSlide);
+	//console.log('Current Slide = ' + $scope.data.currSlide);
 
 	$scope.slideChanged = function(slide) {
 		if (slide == 0) {
@@ -544,6 +546,52 @@ angular.module('starter.controllers', [])
 
 	$scope.toSlide = function(slide) {
 		$ionicSlideBoxDelegate.slide(slide);
+	}
+
+	$ionicModal.fromTemplateUrl('my-modal.html', {
+		scope: $scope,
+		animation: 'slide-in-up'
+	}).then(function(modal) {
+		$scope.modal = modal
+	})
+
+	$scope.openModal = function() {
+		$scope.modal.show()
+	}
+
+	$scope.closeModal = function() {
+		$scope.modal.hide();
+	};
+
+	$scope.$on('$destroy', function() {
+		$scope.modal.remove();
+	});
+
+	$scope.download = function(){
+		console.log("Entrando a descarga");
+		var url = 'http://i.forbesimg.com/media/lists/people/kobe-bryant_416x416.jpg';
+	    var filePath = cordova.file.dataDirectory + "testImage.png";
+	    var fileTransfer = new FileTransfer();
+	    var uri = encodeURI(url);
+
+	    fileTransfer.download(
+	        uri,
+	        filePath,
+	        function(entry) {
+	            alert("download complete: " + entry.fullPath);
+	        },
+	        function(error) {
+	            alert("download error source " + error.source);
+	            alert("download error target " + error.target);
+	            alert("upload error code" + error.code);
+	        },
+	        false,
+	        {
+	            headers: {
+	                "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+	            }
+	        }
+	    );
 	}
 
 	animalQuery = Catalog.all();
@@ -606,7 +654,7 @@ angular.module('starter.controllers', [])
     createRandomEvents();
 
     function createRandomEvents() {
-    	console.log("Entrando a crear calendario");
+    	//console.log("Entrando a crear calendario");
     	var calendarQuery = Calendar.get($stateParams.animalId);
 		calendarQuery.find({
 	        success: function(calendar){
@@ -665,7 +713,7 @@ angular.module('starter.controllers', [])
       			$scope.getMensajes();
       		},
       		error: function(error){
-      			console.log("Error: " + error);
+      			console.dir("Error: " + error);
       		}
       	});
 	}

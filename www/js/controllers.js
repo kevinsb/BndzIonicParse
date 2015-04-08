@@ -570,7 +570,7 @@ angular.module('starter.controllers', [])
 	$scope.download = function(){
 		console.log("Entrando a descarga");
 		var url = 'http://i.forbesimg.com/media/lists/people/kobe-bryant_416x416.jpg';
-	    var filePath = cordova.file.dataDirectory + "testImage.png";
+	    var filePath = cordova.file.externalRootDirectory + "testImage.png";
 	    var fileTransfer = new FileTransfer();
 	    var uri = encodeURI(url);
 

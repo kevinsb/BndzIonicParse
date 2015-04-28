@@ -8,7 +8,7 @@
   			<div class="col">
   				<h1>{{animal[0].get('name')}}</h1>
 				<h2>{{animal[0].get('species')}}</h2>
-				<button class="button button-adopt" ng-click="adopt(animal[0].get('name'), animal[0].id)" ng-if="adopted == 0">
+				<button class="button button-adopt" ng-if="adopted == 0" ng-click="certificado(animal[0].id);">
 					<i class="icon ion-ios-paw-outline"></i> Adopt Me
 				</button>
 				<button class="button button-adopt" ng-if="adopted == 1">
@@ -17,15 +17,6 @@
   			</div>
   		</div>
   	</div>
-  	<!--
-  	<div class="tabs tabs-animal">
-      <a class="tab-item" ng-class="{active: tab === 'tab0'}" ng-click="toSlide(0)">
-        Basic
-      </a>
-      <a class="tab-item" ng-class="{active: tab === 'tab1'}" ng-click="toSlide(1)">
-        History
-      </a>
-    </div>-->
     <div class="card">
 	  <div class="item item-text-wrap">
 	  	<h1 class="who">Who am I?</h1>
@@ -77,7 +68,7 @@
 	  </div>
 	</div>
   	<div class="padding">
-  		<img ng-if="adopted == 0" src="img/adoptme.png" alt="" class="img-responsive" width="100%" ng-click="adopt(animal[0].get('name'), animal[0].id)">
+  		<img ng-if="adopted == 0" src="img/adoptme.png" alt="" class="img-responsive" width="100%" ng-click="certificado(animal[0].id);">
   		<!--<button class="button button-full button-energized" ng-click="adopt(animal[0].get('name'), animal[0].id)">
 			Addopt {{animal[0].get('name')}}
 		</button>-->

@@ -1,6 +1,14 @@
 angular.module('starter.controllers', [])
 
+/**
+ * Controlador que inicializa cuando el estado 'bondzu.login (templates/login.html) es rendereado'
+ * @class LoginCtrl
+ * @param  {Object AngularJS} $scope       Ambito que permite manejar datos en el controlador y la vista
+ * @param  {Object AngularJS} $state       Permite cambiar de estado en la aplicación
+ * @param  {ionic} $ionicPopup			   Muestra Ionic Popups
+ */
 .controller('LoginCtrl', ['$scope', '$state', function($scope, $state, $ionicPopup) {
+	// Facebook Login
 	var fbSuccess = function (response) {
 		statusFb = response.status;
 		console.log(statusFb);
@@ -120,29 +128,61 @@ angular.module('starter.controllers', [])
         fbLogged.reject(error);
     }
 
+    //End Facebook Login
+  	
+  	/**
+  	 * Manda al estado 'bondzu.createUser'
+  	 * @method create
+  	 */
     $scope.create = function() {
 		$state.go('bondzu.createUser');
 	}
 
+	/**
+	 * Funcion que manda a llamar el inicio de sesión con Facebook
+	 * @method loginFB
+	 */
     $scope.loginFB = function() {
         console.log('Login Started');
         facebookConnectPlugin.getLoginStatus(fbStatusSuccess, fbStatusError);
     }
 
+    /**
+     * Función para iniciar sesion con la API de Parse
+     * @method login
+     * @param  {array} user Datos del usuario(username y password)
+     * @return {string}   	Regresa un string success o error
+     */
     $scope.login = function(user){		
 		Parse.User.logIn(user.username, user.password, {
 			success: function(user){
 				$state.go('bondzu.adoptions');
+				console.log("success");
 			},
 			error: function(error) {
 				alert("Error");
+				console.log("Error en incio de sesión");
 			}
 		});
     }
 }])
 
-
+/**
+ * Controlador que se carga cuando el estado 'bondzu.createUser' (templates/tab-create-user.html) es rendereado
+ * @class CreateUser
+ * @param  {Object AngularJS} $scope       Ambito que permite manejar datos en el controlador y la vista
+ * @param  {Object} Users        		   Objeto de Users (services.js)
+ * @param  {Object AngularJS} $state       Permite cambiar de estado en la aplicación
+ * @param  {Object Ionic} $ionicPopup) {
+ * $scope.createUser Crea un usuario en Parse
+ */
 .controller('CreateUser', function($scope, Users, $state, $ionicPopup) {
+	/**
+	 * Crea un nuevo usuario en Parse con los datos del formulario
+	 * @method createUser
+	 * @param  {array} user Array de los datos del formulario
+	 * @return {null}      No regresa nada
+	 */
 	$scope.createUser = function(user){
 		if (user.nombre == undefined || user.apellido == undefined || user.email == undefined || user.username == undefined || user.password == undefined || user.password2 == undefined){
 			var alertPopup = $ionicPopup.alert({
@@ -189,117 +229,180 @@ angular.module('starter.controllers', [])
 	}
 })
 
-.controller('AccountCtrl', function($scope, $state, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast, $http, Users) {
-	
+/**
+ * Controlador que se carga cuando 'bondzu.account' es rendereado
+ * @class AccountCtrl
+ * @param  {Object AngularJS} $scope Ambito que permite manejar datos en el controlador y la vista
+ * @param  {Object AngularJS} $state Permite cambiar de estado en la aplicación
+ * @param  {Object Users} Users Objeto de Users (services.js)) {		var       current_user Usuario logueado en la aplicación actualmente
+ * @return {null}        No regresa nada
+ */
+.controller('AccountCtrl', function($scope, $state, Users) {
+	//Usuario logueado actualmente
 	var current_user = Parse.User.current();
-	//console.log(current_user);
+
 	if (current_user == null | current_user == undefined){
 		console.log("Eres null");
 		current_user = 1;
 		console.log(current_user);
 	}
-
+	//Se manda si esta logueado o no el usuario a la vista para saber que renderear
 	$scope.user = current_user;
 
+	/**
+	 * Cierra sesión en la aplicación de Bondzu
+	 * @method logOut
+	 * @return {null} No regresa nada
+	 */
 	$scope.logOut = function(){
 		Parse.User.logOut();
 		facebookConnectPlugin.logout();
 	    $state.go('bondzu.catalog');
 	}
 
+	/**
+	 * Manda al estado de Login para que el usuario pueda iniciar sesión
+	 * @method logIn
+	 * @return {null} No regresa nada
+	 */
 	$scope.logIn = function(){
 	    $state.go('bondzu.loginAccount');
 	}
 })
 
+/**
+ * Controlador que es cargado cuando el estado 'bondzu.catalog' es rendereado
+ * @class CatalogCtrl
+ * @param  {Object AngularJS} $scope       Ambito que permite manejar datos en el controlador y la vista
+ * @param  {Object services.js}            Catalog Objecto de Catalog en services.js 
+ * @return {null}                          No regresa nada
+ */
 .controller('CatalogCtrl', function($scope, Catalog) {
-	var animalsQuery;
-	var fotos = [];
-	animalsQuery = Catalog.all();
+	/**
+	 * Funcion que obtiene los animales disponibles en Parse
+	 * @method cargaCatalogo
+	 * @return {array} Todos los animales en la clase Animals de Parse
+	 */
+	function cargaCatalogo(){
+		var animalsQuery;
+		var fotos = [];
+		animalsQuery = Catalog.all();
+		animalsQuery.find(function(result){
+			for (var i = 0; i < result.length; i++) {
+				foto = result[i].get('photo');
+				fotos.push({
+					url: foto.url()
+				});
+			};
 
-	animalsQuery.find(function(result){
-		for (var i = 0; i < result.length; i++) {
-			foto = result[i].get('photo');
-			fotos.push({
-				url: foto.url()
-			});
-		};
-
-		$scope.$apply(function(){
-            $scope.animals = result;
-            $scope.fotos = fotos;
-        });
-	}, function(err){
-		console.log("Error: " + err);
-	});
-})
-
-.controller('AnimalDetailCtrl', function($scope, $state, $stateParams, $ionicSlideBoxDelegate, $cordovaLocalNotification, $ionicPopup, Catalog, Calendar, $ionicPopup){
-	var animalQuery = Catalog.all();
-	animalQuery.equalTo('objectId', $stateParams.animalId);
-	//LA SIGUIENTE LINEA DE CODIGO ES IMPORTANTE PARA REGRESAR EL OBJECTO QUE APUNTA A id_zoo sin hacer otro query
-	animalQuery.include('id_zoo');
-	animalQuery.find({
-		success: function(result){
-			fotoObj    = result[0].get('photo');
-			fotoAnimal = fotoObj.url();
-			fotoProfileObj = result[0].get('profilePicture');
-			fotoAnimalProfile = fotoProfileObj.url();
-			idZoo      = result[0].get('id_zoo');
-			//Saber si ya adoptaste un animal
 			$scope.$apply(function(){
-	            $scope.animal = result;
-	            $scope.foto = fotoAnimal;
-	            $scope.fotoProfile = fotoAnimalProfile;
-	            $scope.zoo = idZoo;
-	            $scope.adopted = adoption;
+	            $scope.animals = result;
+	            $scope.fotos = fotos;
 	        });
-		},
-		error: function(error){
-			console.log(error);
-		}
-	});
-
-	//Saber si ya ha sido adoptado un animal
-	var current_user = Parse.User.current();
-	if (current_user != null || current_user != undefined){
-		var relation = current_user.relation("adoptions");
-		var query = relation.query();
-		query.equalTo("objectId", $stateParams.animalId);
-		var adoption = "Hola mundo";
-		query.find({
-			success:function(list) {
-			  	if (list.length > 0) {
-			    	$scope.adopted = 1;
-			  	}
-			  	else {
-			    	$scope.adopted = 0;
-			  	}
-			  },
-			  error: function(error){
-			  	console.log("Error en ver si ya eres adoptador: " + error)
-			  }
+		}, function(err){
+			console.log("Error: " + err);
 		});
 	}
 
+	//Se llama la función para cargar los Animales
+	cargaCatalogo();
+})
 
-	var carersRelation = Catalog.getCarers($stateParams.animalId);
-	carersRelation.query().find({
-        success: function(carers){
-          	$scope.$apply(function(){
-	            $scope.carers = carers;
-	        });
-        },
-        error: function(error){
-          response.error(error);
-        }
-    });
+/**
+ * Controlador que se carga cuando el estado 'bondzu.animal-detail' es rendereado
+ * @class AnimalDetailCtrl
+ * @param  {Object AngularJS} $scope                    Ambito que permite manejar datos en el controlador y la vista
+ * @param  {Object AngularJS} $state                    Permite cambiar de estado en la aplicación
+ * @param  {Object AngularJS} $stateParams              Parametros de estado que recibe el controlador
+ * @param  {Object AngualrJS} $ionicSlideBoxDelegate    Permite controlar ionSlideBox (Permite crear pestañas y cambiar horizontalmente entre ellas)
+ * @param  {Object Ioni} $ionicPopup               		Permite implementar Popups con Ionic
+ * @param  {Object Services.js} Catalog                 Objecto Catalago de services.js
+ * @param  {Object Services.js} Calendar                Objecto Calendar de services.js
+ * @return {null}                           			No regresa nada
+ */
+.controller('AnimalDetailCtrl', function($scope, $state, $stateParams, $ionicSlideBoxDelegate, $ionicPopup, Catalog, Calendar){
+	/**
+	 * Regresa un objeto de la clase Animal con toda su información, incluso objectos de otras clases que están relacionadas con el Animal, por ejemplo Zoo
+	 * @method cargaInfoAnimal
+	 * @return {Array} Datos del animal
+	 */
+	function cargaInfoAnimal(){
+		var animalQuery = Catalog.all();
+		animalQuery.equalTo('objectId', $stateParams.animalId);
+		//LA SIGUIENTE LINEA DE CODIGO ES IMPORTANTE PARA REGRESAR EL OBJECTO QUE APUNTA A id_zoo sin hacer otro query
+		animalQuery.include('id_zoo');
+		animalQuery.find({
+			success: function(result){
+				fotoObj    = result[0].get('photo');
+				fotoAnimal = fotoObj.url();
+				fotoProfileObj = result[0].get('profilePicture');
+				fotoAnimalProfile = fotoProfileObj.url();
+				idZoo      = result[0].get('id_zoo');
+				//Saber si ya adoptaste un animal
+				$scope.$apply(function(){
+		            $scope.animal = result;
+		            $scope.foto = fotoAnimal;
+		            $scope.fotoProfile = fotoAnimalProfile;
+		            $scope.zoo = idZoo;
+		            $scope.adopted = adoption;
+		        });
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
 
+		//Saber si ya ha sido adoptado un animal
+		var current_user = Parse.User.current();
+		if (current_user != null || current_user != undefined){
+			var relation = current_user.relation("adoptions");
+			var query = relation.query();
+			query.equalTo("objectId", $stateParams.animalId);
+			var adoption = "Hola mundo";
+			query.find({
+				success:function(list) {
+				  	if (list.length > 0) {
+				    	$scope.adopted = 1;
+				  	}
+				  	else {
+				    	$scope.adopted = 0;
+				  	}
+				  },
+				  error: function(error){
+				  	console.log("Error en ver si ya eres adoptador: " + error)
+				  }
+			});
+		}
+
+		//Recupera la lista de los 'carers' de un Animal
+		var carersRelation = Catalog.getCarers($stateParams.animalId);
+		carersRelation.query().find({
+	        success: function(carers){
+	          	$scope.$apply(function(){
+		            $scope.carers = carers;
+		        });
+	        },
+	        error: function(error){
+	          response.error(error);
+	        }
+	    });
+	}
+
+	/**
+	 * Funcion para ir a un estado de las tabs
+	 * @method toSlide
+	 * @type {int}
+	 */
 	$scope.tab = "tab0";
 	$scope.toSlide = function(slide) {
 		$ionicSlideBoxDelegate.slide(slide);
 	}
-
+	/**
+	 * Funcion para renderear el 'tab' correcto
+	 * @method slideHasChanged
+	 * @param  {int} slide Int para saber el estado de cada tab
+	 * @return {null}       No regresa nada
+	 */
 	$scope.slideHasChanged = function(slide) {
 		if (slide == 0) {
 			$scope.tab = "tab0";
@@ -318,9 +421,21 @@ angular.module('starter.controllers', [])
 		}
 	}
 	
-
+	/**
+	 * Permite adoptar a un animal
+	 * @method adopt
+	 * @param  {string} nameAnimal Nombre del animal
+	 * @param  {int} idAnimal   id del Animal a adoptar
+	 * @return {null}            No regresa nada
+	 */
 	$scope.adopt = function(nameAnimal, idAnimal) {
-		//Local Notifications
+		/**
+		 * Suscribe notificaciones locales al usuario para avisarle eventos de su nuevo animal adoptado
+		 * @method pushNotifications
+		 * @param  {array}   calendar Objeto de la clase Calendario en Parse
+		 * @param  {Function} callback addNotificacions
+		 * @return {null}            No regresa nada
+		 */
 		function pushNotifications(calendar, callback){
 			for (var i = 0; i < calendar.length; i++) {
     			var titulo = calendar[i].get('title');
@@ -343,11 +458,19 @@ angular.module('starter.controllers', [])
     		}
     		callback();
 		}
-
+		/**
+		 * Una vez agregadas las notificaciones se procede a ir al catálogo de animales
+		 * @method addNotifications
+		 */
 		function addNotifications(){
 			$state.go('bondzu.catalog');
 		}
 
+		/**
+		 * Obtiene los eventos del animal adoptado para luego agendar las notificaciones
+		 * @method agendarNotificaciones
+		 * @return {array} Objeto de la clase Calendario de Parse
+		 */
 		function agendarNotificaciones(){
 			var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
 			var calendarQuery = Calendar.get(idAnimal);
@@ -362,9 +485,10 @@ angular.module('starter.controllers', [])
 		    });
 		}
 
+		//Código para hacer la adopción
 		var current_user = Parse.User.current();
+		//Checar si ya esta adoptado ese animal
 		if (current_user != null || current_user != undefined){
-			//Checar si ya esta adoptado ese animal
 			var relation = current_user.relation("adoptions");
 			var query = relation.query();
 			query.equalTo("objectId", idAnimal);
@@ -402,6 +526,7 @@ angular.module('starter.controllers', [])
 
 			
 		}
+		//Si no esta logueado el usuario propone iniciar sesión o crear una cuenta en Bondzu
 	   	else{
 			var alertPopup = $ionicPopup.alert({
 		     title: 'You need a Bondzu Account',
@@ -412,6 +537,7 @@ angular.module('starter.controllers', [])
 		   });
 	   	}
  	 };
+
 
 	$scope.changeMode = function (mode) {
         console.log("Entrando a change mod " + mode);
@@ -434,8 +560,6 @@ angular.module('starter.controllers', [])
     $scope.onEventSelected = function (event) {
         $scope.event = event;
     };
-
-    createRandomEvents();
 
     function createRandomEvents() {
     	var calendarQuery = Calendar.get($stateParams.animalId);
@@ -460,13 +584,40 @@ angular.module('starter.controllers', [])
 	    	}
 	    });
     }
+
+    /**
+     * Manda la estado de 'bondzu.animal-adoption' (Muestra el certificado)
+     * @method certificado
+     * @param  {int} id Id del animal a adoptar
+     * @return {null}    No regresa nada
+     */
+    $scope.certificado = function(id){
+    	$state.go('bondzu.animal-adoption', { animalId: id });
+    }
+
+    cargaInfoAnimal();
+    createRandomEvents();
 })
 
+.controller('AnimalAdoptionCtrl', function($scope){
+	console.log("Adopciones");
+})
+
+/**
+ * Controlador que se carga cuando 'bondzu-adoptions' se renderea, se encarga de obtener la lista de los animales adoptados por un usuario
+ * @class AdoptionsCtrl
+ * @param  {Object AngularJS} $scope     Ambito que permite manejar datos en el controlador y la vista
+ * @param  {Object Services.js Catalog} Catalog    Objeto Catalog de services.js
+ * @param  {Object Services.js Zoo} Zoo Objecto
+ * @return {null}            No retorna nada
+ */
 .controller('AdoptionsCtrl', function($scope, Catalog, Zoo){
+	//Checa si exite un usuario conectado
 	var user = Parse.User.current();
 	if (user == null | user == undefined){
     	$scope.adoptions = 0;
 	}
+	//Si esta conectado procede a sacar la lista de animales en adopción
 	else{
 		var fotos = [];
 		var ids_zoo = [];
@@ -497,6 +648,15 @@ angular.module('starter.controllers', [])
 	//Zoo.all();
 })
 
+/**
+ * Controlador que se carga cuando 'bondzu.zoo' es rendereado, se encarga de cargar los datos de un Zoo
+ * @class ZooDetailCtrl
+ * @param  {Object AngularJS} $scope       Ambito que permite manejar datos en el controlador y la vista
+ * @param  {Object AngularJS} $state       Permite cambiar de estado en la aplicación
+ * @param  {Object AngularJS} $stateParams Parametros de estado que recibe el controlador
+ * @param  {Object Services.js Zoo} 		Objeto Zoo de services.js
+ * @return {null}              No regresa nada
+ */
 .controller('ZooDetailCtrl', function($scope, $state, $stateParams, Zoo){
 	var queryZoo = Zoo.getZoo($stateParams.zooId);
 	queryZoo.find({
@@ -511,6 +671,21 @@ angular.module('starter.controllers', [])
 	});
 })
 
+/**
+ * Controlador que se carga cuando 'bondzu.adoption-detail' es rendereado, se encarga de cargar los datos de un animal adoptado por un usuario
+ * @param  {Object AngularJS} $scope                 Ambito que permite manejar datos en el controlador y la vista
+ * @param  {Object AngularJS} $timeout               Permite configurar timeout
+ * @param  {Object AngularJS} $state                 Permite cambiar de estado en la aplicación
+ * @param  {Object AngularJS} $stateParams           Parametros de estado que recibe el controlador
+ * @param  {Object Ionic} $ionicSlideBoxDelegate 	 Permite hacer slide en las paginas de translación
+ * @param  {Object Ionic} $ionicScrollDelegate       Permite hacer paginas de translacion
+ * @param  {Object Ionic} $ionicModal            	 Modal dentro de la aplicación
+ * @param  {Object Ionic} $ionicPopup            	 Popup en la aplicación
+ * @param  {Object Services.js Catalog} Catalog      Objeto Catalog de services.js
+ * @param  {Object Services.js Calendar} Calendar    Objeto Calendar de services.js
+ * @param  {Object Services.js Message} Message		 Objeto Message de services.js
+ * @return {null}                        No retorna nada
+ */
 .controller('AdoptionDetailCtrl', function($scope, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, $ionicScrollDelegate, $ionicModal, $ionicPopup, Catalog, Calendar, Message){
 	//-----------------------------------------------------------------
 	var current_user = Parse.User.current();
@@ -523,6 +698,12 @@ angular.module('starter.controllers', [])
 	$scope.data.currSlide = $ionicSlideBoxDelegate.currentIndex();
 	//console.log('Current Slide = ' + $scope.data.currSlide);
 
+	/**
+	 * Funcion que se encarga de renderear en la vista el estado de la tab adecuado para cada caso
+	 * @method slideChanged
+	 * @param  {int} slide Estado de la tab
+	 * @return {int}       Retorna estado actualizado
+	 */
 	$scope.slideChanged = function(slide) {
 		if (slide == 0) {
 			$scope.tab = "tab0";
@@ -544,6 +725,12 @@ angular.module('starter.controllers', [])
 		}, 50);
 	};
 
+	/**
+	 * Se encarga de dirigir a un estado de tab en la vista
+	 * @method toSlide
+	 * @param  {int} slide Estado de la tab a la que se desea ir
+	 * @return {null}       No retorna nada
+	 */
 	$scope.toSlide = function(slide) {
 		$ionicSlideBoxDelegate.slide(slide);
 	}
@@ -555,18 +742,34 @@ angular.module('starter.controllers', [])
 		$scope.modal = modal
 	})
 
+	/**
+	 * Funcion cuando el boton openModal es llamado, se encarga de abrir el Modal
+	 * @method openModal
+	 * @return {null} No retorna nada
+	 */
 	$scope.openModal = function() {
 		$scope.modal.show()
 	}
 
+	/**
+	 * Funcion para cerrar el modal
+	 * @method closeModal
+	 * @return {null} No retorna nada
+	 */
 	$scope.closeModal = function() {
 		$scope.modal.hide();
 	};
+
 
 	$scope.$on('$destroy', function() {
 		$scope.modal.remove();
 	});
 
+	/**
+	 * Funcion que se encarga de descargar una imagen de la galería de cada animal
+	 * @method download
+	 * @return {null} No retorna nada
+	 */
 	$scope.download = function(){
 		console.log("Entrando a descarga");
 		var url = 'http://i.forbesimg.com/media/lists/people/kobe-bryant_416x416.jpg';
@@ -695,12 +898,23 @@ angular.module('starter.controllers', [])
 		}
 	}
 
+	/**
+	 * Función que se encarga de reproducir el video en vivo
+	 * @method playVideo
+	 * @param  {url} url Recibe la url correspondiente a cada animal
+	 * @return {null}     No regresa nada
+	 */
 	$scope.playVideo = function(url) {
 		console.log("Llamando video: " + url);
 		window.plugins.streamingMedia.playVideo(url, options);
 	}
 
-	//Mensajes
+	/**
+	 * Funcion que se encarga de guadar un mensaje posteado por un usuario en el área de Foro de cada adopción
+	 * @method postMessage
+	 * @param  {string} message Mensaje que se guardará
+	 * @return {string}         Regresa el mensaje y lo renderea en la vista para actualizar el foro
+	 */
 	$scope.postMessage = function(message){
 		var current_user = Parse.User.current();
 		var animal = new AnimalObject();
@@ -718,6 +932,11 @@ angular.module('starter.controllers', [])
       	});
 	}
 
+	/**
+	 * Función que se encarga de obtener los mensajes del foro de un animal adoptado
+	 * @method getMensajes
+	 * @return {array} Retorna un objecto parse con todos los mensajes correspondientes a un animal
+	 */
 	$scope.getMensajes = function(){
 		var animalX = new AnimalObject();
 	    animalX.id = $stateParams.animalId;
@@ -741,6 +960,15 @@ angular.module('starter.controllers', [])
 	$scope.getMensajes();
 })
 
+/**
+ * Controlador que se carga cuando 'bondzu.user-detail' es rendereado, se encarga de obtener la información de un Usuario
+ * @class UserDetailCtrl
+ * @param  {Object AngularJS} $scope         Ambito que permite manejar datos en el controlador y la vista
+ * @param  {Obejct AngularJS} $stateParams   Parametros de estado que recibe el controlador
+ * @param  {Object Services.js Users} Users          Objecto Users en servicies.js
+ * @param  {Object Services.js Catalog} CatalogObjecto Catalog en services.js
+ * @return {Array}                Regresa un objecto de la clase Usuario de Parse
+ */
 .controller('UserDetailCtrl', function($scope, $stateParams, Users, Catalog){
 	var queryUser = Users.get();
 	queryUser.get($stateParams.userId, {

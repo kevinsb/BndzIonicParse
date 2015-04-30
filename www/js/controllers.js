@@ -415,10 +415,10 @@ angular.module('starter.controllers', [])
 		}
 		if (slide == 3) {
 			$scope.tab = "tab3";
-		}
+		}/*
 		if (slide == 4) {
 			$scope.tab = "tab4";
-		}
+		}*/
 	}
 	
 	/**
@@ -599,8 +599,59 @@ angular.module('starter.controllers', [])
     createRandomEvents();
 })
 
-.controller('AnimalAdoptionCtrl', function($scope){
-	console.log("Adopciones");
+.controller('AnimalAdoptionCtrl', function($scope, $state, $stateParams, $ionicPopup, Catalog, Calendar){
+	console.log($stateParams.animalId);
+	$scope.adopt = function() {
+		//Código para hacer la adopción
+		var current_user = Parse.User.current();
+		//Checar si ya esta adoptado ese animal
+		if (current_user != null || current_user != undefined){
+			var relation = current_user.relation("adoptions");
+			var query = relation.query();
+			query.equalTo("objectId", $stateParams.animalId);
+			query.find({
+			  success:function(list) {
+			  	if (list.length > 0) {
+			  		var alertPopup = $ionicPopup.alert({
+				     title: 'You already are carer',
+				     template: 'You already are carer'
+				   });
+				   alertPopup.then(function(res) {
+				     $state.go('bondzu.adoptions');
+				   });
+			  	}
+			  	else {
+			  		var confirmPopup = $ionicPopup.confirm({
+				    	title: 'Adopt ',
+				     	template: 'Are you sure you want to adopt?'
+				   	});
+				   	confirmPopup.then(function(res) {
+				    	if(res) {
+				    		Catalog.adopt(idAnimal);
+				    	} else {
+				    		console.log('You are not sure');
+				    	}
+				   	});
+			  	}
+			  },
+			  error: function(error){
+			  	console.log("Error en relation query: " + error)
+			  }
+			});
+
+			
+		}
+		//Si no esta logueado el usuario propone iniciar sesión o crear una cuenta en Bondzu
+	   	else{
+			var alertPopup = $ionicPopup.alert({
+		     title: 'You need a Bondzu Account',
+		     template: 'Create my account or login'
+		   });
+		   alertPopup.then(function(res) {
+		     $state.go('bondzu.login');
+		   });
+	   	}
+ 	 };
 })
 
 /**
@@ -641,6 +692,31 @@ angular.module('starter.controllers', [])
 		        });
 	    	}
 	  	});
+	}
+
+	var options = {
+		successCallback: function() {
+	  		var alertPopupError = $ionicPopup.alert({
+				title: 'Video',
+				template: 'Video was closed without error.'
+			});
+		},
+		errorCallback: function(errMsg) {
+	  		var alertPopupStreamError = $ionicPopup.alert({
+				title: 'Video',
+				template: 'Video streaming not available. Try again later'
+			});
+		}
+	}
+
+	/**
+	 * Función que se encarga de reproducir el video en vivo
+	 * @method playVideo
+	 * @param  {url} url Recibe la url correspondiente a cada animal
+	 * @return {null}     No regresa nada
+	 */
+	$scope.playVideo = function(url) {
+		window.plugins.streamingMedia.playVideo(url, options);
 	}
 })
 
@@ -921,6 +997,7 @@ angular.module('starter.controllers', [])
       	animal.id = $stateParams.animalId;
       	var mensaje = message.message;
       	var newMessage = Message.create(current_user, animal, mensaje);
+      	console.log("Posteando mensaje");
       	newMessage.save(null, {
       		success: function(result){
       			document.getElementById('mes').value = "";

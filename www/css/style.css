@@ -412,8 +412,8 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 }
 
 .detail-camera {
-	color: white;
-	font-size: 65px;
+	/*color: white;
+	font-size: 65px;*/
 	position: absolute;
 	top: 40px;
 	right: 45px;

@@ -15,7 +15,7 @@
           </div>
   			</div>
   		<div class="col">
-        <i class="icon ion-videocamera detail-camera"></i>  
+        <img ng-click="playVideo()" src="img/Live-Video.png" class="detail-camera" alt=""> 
       </div>
       </div>
     </div>
@@ -31,12 +31,12 @@
       <a class="tab-item" ng-class="{active: tab === 'tab2'}" ng-click="toSlide(2)">
         <i class="icon ion-calendar"></i>
         <span class="tabs-animal-color">Agenda</span>
-      </a>
+      </a><!--
       <a class="tab-item" ng-class="{active: tab === 'tab3'}" ng-click="toSlide(3)">
         <i class="icon ion-images"></i>
         <span class="tabs-animal-color">Gallery</span>
-      </a>
-      <a class="tab-item" ng-class="{active: tab === 'tab4'}" ng-click="toSlide(4)">
+      </a>-->
+      <a class="tab-item" ng-class="{active: tab === 'tab3'}" ng-click="toSlide(4)">
         <i class="icon ion-chatboxes"></i>
         <span class="tabs-animal-color">Forum</span>
       </a>
@@ -45,13 +45,13 @@
         <ion-slide>
           <div class="padding information">
             <div class="box1 info" ng-if="data.currSlide === 0 || !data.currSlide">
-              <div class="card">
+              <!--<div class="card">
                 <div class="item item-text-wrap">
                   <h1 class="who">Who am I?</h1>
                   <h2 class="who2">The mischievous and cunning</h2>
                   <p class="who3">Robin Hood is the smallest animal at Parque Loro</p>
                 </div>
-              </div>
+              </div>-->
               <div class="item item-text-wrap">
                   <h1 class="who">Basic Info</h1>
                   <div class="row">
@@ -151,9 +151,9 @@
         </ion-slide>
 
         <ion-slide>
-          <div class="carer-div">
+          <!--<div class="carer-div">
             <p>Ask to his carer @MarianoJiménez everything about {{adoption[0].get('name')}}</p>
-          </div>
+          </div>-->
           <div class="box5" ng-if="data.currSlide === 4">
           {{userMessage[0].get('id_user').get('name ')}}
           <div class="list posts">

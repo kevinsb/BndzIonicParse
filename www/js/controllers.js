@@ -994,16 +994,15 @@ angular.module('starter.controllers', [])
 	 * @return {string}         Regresa el mensaje y lo renderea en la vista para actualizar el foro
 	 */
 	$scope.postMessage = function(message){
-		var current_user = Parse.User.current();
+		var mensaje = message.message;
 		var animal = new AnimalObject();
+		var current_user = Parse.User.current();
       	animal.id = $stateParams.animalId;
-      	var mensaje = message.message;
       	var newMessage = Message.create(current_user, animal, mensaje);
-      	console.log("Posteando mensaje");
       	newMessage.save(null, {
       		success: function(result){
-      			document.getElementById('mes').value = "";
       			$scope.getMensajes();
+      			document.getElementById('mes').value = "";
       		},
       		error: function(error){
       			console.dir("Error: " + error);
@@ -1017,6 +1016,7 @@ angular.module('starter.controllers', [])
 	 * @return {array} Retorna un objecto parse con todos los mensajes correspondientes a un animal
 	 */
 	$scope.getMensajes = function(){
+		console.log("Entrando get messages");
 		var animalX = new AnimalObject();
 	    animalX.id = $stateParams.animalId;
 		var mensajesQuery = Message.all();

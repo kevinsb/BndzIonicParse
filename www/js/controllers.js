@@ -1000,16 +1000,16 @@ angular.module('starter.controllers', [])
 	$scope.postMessage = function(message){
 		var mensaje = message.message;	
       	var newMessage = Message.create(current_user, animal, mensaje);
+      	document.getElementById('mes').value = "";
+      	$scope.isDisabled = true;
       	newMessage.save(null, {
       		success: function(result){
-      			document.getElementById('mes').value = "";
-      			$scope.isDisabled = true;
       			$scope.getMensajes();
       		},
       		error: function(error){
       			console.dir("Error: " + error);
       		}
-      	}).then(function(){console.log("Hola 1"); $scope.isDisabled = false;}, function(){console.log("Hola")});
+      	}).then(function(){$scope.isDisabled = false;}, function(){$scope.isDisabled = false;});
 	}
 
 	/**

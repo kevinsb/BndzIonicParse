@@ -61,6 +61,7 @@ angular.module('starter.services', [])
           animal.save(null, {
             success: function(result){
               console.log('Se salvo relacion Carer');
+              $state.go('bondzu.adoptions');
             },
             error: function(error){
               console.log("Error en Carer: " + error);

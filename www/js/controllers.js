@@ -627,7 +627,8 @@ angular.module('starter.controllers', [])
 				   	});
 				   	confirmPopup.then(function(res) {
 				    	if(res) {
-				    		Catalog.adopt(idAnimal);
+				    		Catalog.adopt($stateParams.animalId);
+				    		$state.go('bondzu.adoptions');
 				    	} else {
 				    		console.log('You are not sure');
 				    	}

@@ -718,6 +718,7 @@ angular.module('starter.controllers', [])
 	 * @return {null}     No regresa nada
 	 */
 	$scope.playVideo = function(url) {
+		alert("Video");
 		window.plugins.streamingMedia.playVideo(url, options);
 	}
 })
@@ -986,7 +987,7 @@ angular.module('starter.controllers', [])
 	 * @return {null}     No regresa nada
 	 */
 	$scope.playVideo = function(url) {
-		alert(Video);
+		alert("Video");
 		window.plugins.streamingMedia.playVideo(url, options);
 	}
 
@@ -1001,13 +1002,14 @@ angular.module('starter.controllers', [])
       	var newMessage = Message.create(current_user, animal, mensaje);
       	newMessage.save(null, {
       		success: function(result){
-      			$scope.getMensajes();
       			document.getElementById('mes').value = "";
+      			$scope.isDisabled = true;
+      			$scope.getMensajes();
       		},
       		error: function(error){
       			console.dir("Error: " + error);
       		}
-      	});
+      	}).then(function(){console.log("Hola 1"); $scope.isDisabled = false;}, function(){console.log("Hola")});
 	}
 
 	/**

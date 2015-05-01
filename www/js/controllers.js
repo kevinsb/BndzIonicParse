@@ -1023,8 +1023,12 @@ angular.module('starter.controllers', [])
 		mensajesQuery.equalTo('id_animal', animalX);
 		//LA SIGUIENTE LINEA DE CODIGO ES IMPORTANTE PARA REGRESAR EL OBJECTO QUE APUNTA A id_zoo sin hacer otro query
 		mensajesQuery.include('id_user');
+		mensajesQuery.ascending("createdAt");
 		mensajesQuery.find({
 			success: function(result){	
+				for (var i = result.length - 1; i >= 0; i--) {
+					console.log(result[i].get('message'));
+				}
 				$scope.$apply(function(){
 		            $scope.userMessage = result;
 		        });

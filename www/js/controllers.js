@@ -156,7 +156,8 @@ angular.module('starter.controllers', [])
     $scope.login = function(user){		
 		Parse.User.logIn(user.username, user.password, {
 			success: function(user){
-				$state.go('bondzu.adoptions');
+				console.log("que onda");
+				$state.go('bondzu.account');
 				console.log("success");
 			},
 			error: function(error) {

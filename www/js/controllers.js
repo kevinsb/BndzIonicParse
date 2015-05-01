@@ -766,7 +766,10 @@ angular.module('starter.controllers', [])
  */
 .controller('AdoptionDetailCtrl', function($scope, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, $ionicScrollDelegate, $ionicModal, $ionicPopup, Catalog, Calendar, Message){
 	//-----------------------------------------------------------------
+	var animal = new AnimalObject();
+	animal.id = $stateParams.animalId;
 	var current_user = Parse.User.current();
+
 	if (current_user == null || current_user == undefined) {
 		$state.go('bondzu.adoptions');
 	};
@@ -983,7 +986,7 @@ angular.module('starter.controllers', [])
 	 * @return {null}     No regresa nada
 	 */
 	$scope.playVideo = function(url) {
-		console.log("Llamando video: " + url);
+		alert(Video);
 		window.plugins.streamingMedia.playVideo(url, options);
 	}
 
@@ -994,10 +997,7 @@ angular.module('starter.controllers', [])
 	 * @return {string}         Regresa el mensaje y lo renderea en la vista para actualizar el foro
 	 */
 	$scope.postMessage = function(message){
-		var mensaje = message.message;
-		var animal = new AnimalObject();
-		var current_user = Parse.User.current();
-      	animal.id = $stateParams.animalId;
+		var mensaje = message.message;	
       	var newMessage = Message.create(current_user, animal, mensaje);
       	newMessage.save(null, {
       		success: function(result){
@@ -1026,9 +1026,9 @@ angular.module('starter.controllers', [])
 		mensajesQuery.ascending("createdAt");
 		mensajesQuery.find({
 			success: function(result){	
-				for (var i = result.length - 1; i >= 0; i--) {
+				/*for (var i = result.length - 1; i >= 0; i--) {
 					console.log(result[i].get('message'));
-				}
+				}*/
 				$scope.$apply(function(){
 		            $scope.userMessage = result;
 		        });

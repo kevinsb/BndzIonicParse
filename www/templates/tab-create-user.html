@@ -1,0 +1,45 @@
+<ion-view title="Create User">
+  <ion-content class="padding">
+    <div class="row">
+    	<div class="col">
+    		<form ng-submit="createUser(user)">
+    			<div class="list">
+    			<img src="img/logo.png" class="centered" alt="" width="50%"><br>
+    				<!--
+    				<div class="row">
+    					<div class="col col-33 col-offset-33">
+    						<label class="item item-input item-bondzu photo centered">
+						    	<input type="text" ng-model="user.photo" placeholder="Photo">
+						  	</label><br>
+    					</div>
+    					<div class="col">
+    					</div>
+    				</div>
+    				-->
+				  	<label class="item item-input item-bondzu">
+				    	<input type="text" ng-model="user.nombre" placeholder="name">
+				  	</label><br>
+				  	<label class="item item-input item-bondzu">
+				    	<input type="text" ng-model="user.apellido" placeholder="last name">
+				  	</label><br>
+				  	<label class="item item-input item-bondzu">
+				    	<input type="text" ng-model="user.username" placeholder="username">
+				  	</label><br>
+				  	<label class="item item-input item-bondzu">
+				    	<input type="text" ng-model="user.email" placeholder="e-mail">
+				  	</label><br>
+				  	<label class="item item-input item-bondzu">
+				    	<input type="password" ng-model="user.password2" placeholder="password">
+				  	</label><br>
+				  	<label class="item item-input item-bondzu">
+				    	<input type="password" ng-model="user.password" placeholder="confirm password">
+				  	</label><br>
+					<button type="submit" class="button button-energized centered">
+						<strong>SING UP</strong>
+					</button>
+				</div>
+    		</form>
+    	</div>
+    </div>
+  </ion-content>
+</ion-view>

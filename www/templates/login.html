@@ -1,0 +1,34 @@
+<!--<ion-view title="Account" data-ng-init="fbStatus()">-->
+<ion-view title="Account">
+  <ion-content class="padding">
+    <div style="padding: 10px; height: 100%;">
+    <div class="fb-root"></div>
+    <img src="img/logo.png" class="centered" alt="" width="50%"><br>
+        <form ng-submit="login(user)">
+            <label class="item item-input item-bondzu">
+                <input type="text" ng-model="user.username" placeholder="username">
+            </label><br>
+            <label class="item item-input item-bondzu">
+                <input type="password" ng-model="user.password" placeholder="password">
+            </label><br>
+        	
+        
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <button class="button button-block button-energized">
+                    <strong>LOG IN</strong>
+                </button>
+        </form>
+                <button class="button button-block button-energized" ng-click="loginFB()">
+                    <strong>LOG IN WITH <i class="ion-social-facebook" style="font-size: 23px"></i></strong>
+                </button>
+                <button class="button button-block button-stable" ng-click="create()">
+                    <strong style="color:white">SING UP</strong>
+                </button>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+  </ion-content>
+</ion-view>

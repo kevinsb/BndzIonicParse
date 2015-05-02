@@ -1,0 +1,28 @@
+<ion-view title="{{zoo[0].get('name')}}">
+  <ion-content has-header="true">
+    <div class="img-back" style="background-image: url('{{zoo[0].get('photoUrl')}}')">
+      <div class="row">
+        <div class="col col-33">
+          <div class="padding"><img src="{{zoo[0].get('photoUrl')}}" class="img-responsive img-circle img-profile" alt=""></div>
+        </div>
+        <div class="col col-67">
+          <h1>{{zoo[0].get('name')}}</h1>
+        </div>
+      </div>
+    </div>
+    <div class="padding information">
+      <h3>Information</h3>
+      <hr>
+      <div class="info">
+        <p class="titulo-info" style="font-size: 30px">{{zoo[0].get('name')}}</p>
+        <br><br>	
+        <p class="titulo-info">Location: </p>
+        <p class="info-info">{{zoo[0].get('location')}}</p>
+        <br>
+        <p class="titulo-info">Description: </p>
+        <p class="info-info">{{zoo[0].get('description')}}</p>
+        <br>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

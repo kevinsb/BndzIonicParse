@@ -132,7 +132,7 @@ angular.module('starter.controllers', [])
     $scope.login = function(user){		
 		Parse.User.logIn(user.username, user.password, {
 			success: function(user){
-				$state.go('bondzu.adoptions');
+				$state.go('bondzu.account');
 			},
 			error: function(error) {
 				alert("Error");
@@ -190,6 +190,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AccountCtrl', function($scope, $state, $cordovaLocalNotification, Users) {
+	
 	//Push notifications 
 	/*var appId = "jhTh4SWoNgoUQDan04oOPnKqVs0aIPTsw7djH0Da";
     var clientKey = "NrB1pacSX0lzFwmJgudq1YkTpVOoWA5gDTrv8JQy";
@@ -229,9 +230,13 @@ angular.module('starter.controllers', [])
 	$scope.user = current_user;
 
 	$scope.logOut = function(){
-		Parse.User.logOut();
-		facebookConnectPlugin.logout();
-	    $state.go('bondzu.catalog');
+		function logoutBondzu(){
+			$state.go('bondzu.catalog');
+			Parse.User.logOut();
+			facebookConnectPlugin.logout();
+		}
+
+		logoutBondzu();
 	}
 
 	$scope.logIn = function(){
@@ -311,6 +316,14 @@ angular.module('starter.controllers', [])
 				  }
 			}).then(function(){infoAnimal();}, function(){console.log('Error saber adoptado');});
 		}
+		else{
+			$scope.adopted = 3;
+			infoAnimal();
+		}
+	}
+
+	$scope.login = function(){
+		$state.go('bondzu.account');
 	}
 
 	saberAdoptado();

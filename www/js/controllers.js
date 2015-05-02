@@ -191,7 +191,7 @@ angular.module('starter.controllers', [])
 
 .controller('AccountCtrl', function($scope, $state, $cordovaLocalNotification, Users) {
 	//Push notifications 
-	var appId = "jhTh4SWoNgoUQDan04oOPnKqVs0aIPTsw7djH0Da";
+	/*var appId = "jhTh4SWoNgoUQDan04oOPnKqVs0aIPTsw7djH0Da";
     var clientKey = "NrB1pacSX0lzFwmJgudq1YkTpVOoWA5gDTrv8JQy";
 
 	parsePlugin.initialize(appId, clientKey, function() {
@@ -199,7 +199,7 @@ angular.module('starter.controllers', [])
 	    parsePlugin.subscribe('SampleChannel', function() {
 
 		    parsePlugin.getInstallationId(function(id) {
-		    	alert("Entrando a push notifications " + id);
+		    	//alert("Entrando a push notifications " + id);
 
 		     var install_data = {
 		        installation_id: id,
@@ -216,7 +216,7 @@ angular.module('starter.controllers', [])
 
 	}, function(e) {
 		alert('error');
-	});
+	});*/
 
 	var current_user = Parse.User.current();
 	//console.log(current_user);
@@ -493,6 +493,66 @@ angular.module('starter.controllers', [])
 	    	}
 	    });
     }
+
+    $scope.certificado = function(id){
+    	$state.go('bondzu.animal-adoption', { animalId: id });
+    }
+})
+
+.controller('AnimalAdoptionCtrl', function($scope, $state, $stateParams, $ionicPopup, Catalog, Calendar){
+	console.log($stateParams.animalId);
+	$scope.adopt = function() {
+		//Código para hacer la adopción
+		var current_user = Parse.User.current();
+		//Checar si ya esta adoptado ese animal
+		if (current_user != null || current_user != undefined){
+			var relation = current_user.relation("adoptions");
+			var query = relation.query();
+			query.equalTo("objectId", $stateParams.animalId);
+			query.find({
+			  success:function(list) {
+			  	if (list.length > 0) {
+			  		var alertPopup = $ionicPopup.alert({
+				     title: 'You already are carer',
+				     template: 'You already are carer'
+				   });
+				   alertPopup.then(function(res) {
+				     $state.go('bondzu.adoptions');
+				   });
+			  	}
+			  	else {
+			  		var confirmPopup = $ionicPopup.confirm({
+				    	title: 'Adopt ',
+				     	template: 'Are you sure you want to adopt?'
+				   	});
+				   	confirmPopup.then(function(res) {
+				    	if(res) {
+				    		Catalog.adopt($stateParams.animalId);
+				    		$state.go('bondzu.adoptions');
+				    	} else {
+				    		console.log('You are not sure');
+				    	}
+				   	});
+			  	}
+			  },
+			  error: function(error){
+			  	console.log("Error en relation query: " + error)
+			  }
+			});
+
+			
+		}
+		//Si no esta logueado el usuario propone iniciar sesión o crear una cuenta en Bondzu
+	   	else{
+			var alertPopup = $ionicPopup.alert({
+		     title: 'You need a Bondzu Account',
+		     template: 'Create my account or login'
+		   });
+		   alertPopup.then(function(res) {
+		     $state.go('bondzu.login');
+		   });
+	   	}
+ 	 };
 })
 
 .controller('AdoptionsCtrl', function($scope, Catalog){

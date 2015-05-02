@@ -15,7 +15,7 @@
           </div>
         </div>
       <div class="col">
-        <img ng-click="playVideo()" src="img/Live-Video.png" class="detail-camera" alt=""> 
+        <img ng-click="playVideo('http://cdn.gravlab.net/sparse/v1d30/2013/nightskyHLS/Lapse2.m3u8')" src="img/Live-Video.png" class="detail-camera" alt=""> 
       </div>
       </div>
     </div>
@@ -159,8 +159,8 @@
             <div class="list posts">
               <a class="item item-avatar" ng-repeat="message in userMessage" href="#/bondzu/carer/{{message.get('id_user').id}}">
                 <img class="img-responsive img-circle" src="{{message.get('id_user').get('photo')}}">
-                <h2>{{message.get('id_user').get('name')}} {{message.get('id_user').get('lastname')}}</h2>
-                <p>{{message.get('message')}}</p>
+                <h2 class="name-message">{{message.get('id_user').get('name')}} {{message.get('id_user').get('lastname')}}</h2>
+                <p class="content-message">{{message.get('message')}}</p>
               </a>
             </div>
 

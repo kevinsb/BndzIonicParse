@@ -11,9 +11,7 @@
 				<button class="button button-adopt" ng-if="adopted == 0" ng-click="certificado(animal[0].id);">
 					<i class="icon ion-ios-paw-outline"></i> Adopt Me
 				</button>
-				<button class="button button-adopt" ng-if="adopted == 1">
-					<i class="icon ion-ios-paw"></i> Adopted
-				</button>
+				<p ng-if="adopted == 1" style="color:white;font-size: 20px"><i class="icon ion-ios-paw"></i> Adopted</p>
 				<button class="button button-adopt" ng-if="adopted == 3" ng-click="login();">
 					<i class="icon ion-ios-paw"></i> Login to Adopt Me
 				</button>

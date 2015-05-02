@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /**
  * On a fresh clone, the local platforms/ and plugins/ directories will be
  * missing, so ensure they get created before the first platform is added.

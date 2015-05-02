@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 // Add Platform Class
 // v1.0
 // Automatically adds the platform class to the body tag

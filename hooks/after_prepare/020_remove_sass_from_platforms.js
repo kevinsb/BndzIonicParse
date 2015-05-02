@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /**
  * After prepare, files are copied to the platforms/ios and platforms/android folders.
  * Lets clean up some of those files that arent needed with this hook.

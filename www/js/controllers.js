@@ -750,9 +750,18 @@ angular.module('starter.controllers', [])
 	}
 
 	$scope.playVideo = function(url) {
-		alert(url);
-		console.log("Llamando video: " + url);
-		window.plugins.streamingMedia.playVideo(url, options);
+		animalQuery = Catalog.all();
+		animalQuery.equalTo('objectId', $stateParams.animalId);
+		animalQuery.find({
+			success: function(result){
+				camera = result[0].get('camera' + url);
+				window.plugins.streamingMedia.playVideo(camera, options);
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+
 	}
 
 	$ionicModal.fromTemplateUrl('video.html', {

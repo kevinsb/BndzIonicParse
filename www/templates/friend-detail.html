@@ -190,19 +190,9 @@
 <script id="video.html" type="text/ng-template">
   <ion-modal-view>
     <ion-content style="background-color: black">
+      <i class="icon ion-close" style="color:white; float:right; padding-right: 15px; font-size: 25px; padding-top: 15px" ng-click="closeModal()"></i>
       <div class="row" style="padding-top:250px">
-        <div class="col col-33">
-          <p style="color:white" class="text-center">Camera 1</p>
-          <img ng-click="playVideo('1');" src="img/Live-Video.png" class="center-block">
-        </div>
-        <div class="col col-33">
-          <p style="color:white" class="text-center">Camera 2</p>
-          <img ng-click="playVideo('2');" src="img/Live-Video.png" class="center-block">
-        </div>
-        <div class="col col-33">
-          <p style="color:white" class="text-center">Camera 3</p>
-          <img ng-click="playVideo('3');" src="img/Live-Video.png" class="center-block">
-        </div>
+        <iframe width="560" height="315" src="http://www.youtube.com/embed/9HDeEbJyNK8" frameborder="0" allowfullscreen></iframe>
       </div>
     </ion-content>
   </ion-modal-view>

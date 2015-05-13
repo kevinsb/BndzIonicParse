@@ -611,7 +611,7 @@ angular.module('starter.controllers', [])
 	});
 })
 
-.controller('AdoptionDetailCtrl', function($scope, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, $ionicScrollDelegate, $ionicPopup, Catalog, Calendar, Message){
+.controller('AdoptionDetailCtrl', function($scope, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, $ionicScrollDelegate, $ionicModal, $ionicPopup, Catalog, Calendar, Message){
 	//-----------------------------------------------------------------
 	var current_user = Parse.User.current();
 	if (current_user == null || current_user == undefined) {
@@ -750,9 +750,29 @@ angular.module('starter.controllers', [])
 	}
 
 	$scope.playVideo = function(url) {
+		alert(url);
 		console.log("Llamando video: " + url);
 		window.plugins.streamingMedia.playVideo(url, options);
 	}
+
+	$ionicModal.fromTemplateUrl('video.html', {
+		scope: $scope,
+		animation: 'slide-in-up'
+	}).then(function(modal) {
+		$scope.modal = modal
+	})
+
+	$scope.openModal = function() {
+		$scope.modal.show()
+	}
+
+	$scope.closeModal = function() {
+		$scope.modal.hide();
+	};
+
+	$scope.$on('$destroy', function() {
+		$scope.modal.remove();
+	});
 
 	//Mensajes
 	$scope.postMessage = function(message){

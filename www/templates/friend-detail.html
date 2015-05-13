@@ -15,7 +15,7 @@
           </div>
         </div>
       <div class="col">
-        <img ng-click="playVideo('http://cdn.gravlab.net/sparse/v1d30/2013/nightskyHLS/Lapse2.m3u8')" src="img/Live-Video.png" class="detail-camera" alt="">
+        <img ng-click="openModal();" src="img/Live-Video.png" class="detail-camera" alt="">
       </div>
       </div>
     </div>
@@ -185,3 +185,38 @@
       </ion-slide-box>
   </ion-content>
 </ion-view>
+
+
+<script id="video.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-content style="background-color: black">
+      <div class="row" style="padding-top:250px">
+        <div class="col col-33">
+          <p style="color:white" class="text-center">Camera 1</p>
+          <img ng-click="playVideo('http://ipm.iphone-tv.eu:1345/Live/Auth:test/Channel:srf1_hd/playlist.m3u8');" src="img/Live-Video.png" class="center-block">
+        </div>
+        <div class="col col-33">
+          <p style="color:white" class="text-center">Camera 2</p>
+          <img ng-click="playVideo('http://ipm.iphone-tv.eu:1345/Live/Auth:test/Channel:srf1_hd/playlist.m3u8');" src="img/Live-Video.png" class="center-block">
+        </div>
+        <div class="col col-33">
+          <p style="color:white" class="text-center">Camera 3</p>
+          <img ng-click="playVideo('http://ipm.iphone-tv.eu:1345/Live/Auth:test/Channel:srf1_hd/playlist.m3u8');" src="img/Live-Video.png" class="center-block">
+        </div>
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="imagen.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-content style="background-color: black">
+      <i class="icon ion-close" style="color:white; float:right; padding-bottom: 150px; padding-right: 5px; font-size: 25px; padding-top: 5px" ng-click="closeModal()"></i>
+      <img src="https://pbs.twimg.com/profile_images/2586664217/o78k5fogx5g3hdy6peai.jpeg" alt="" class="img-responsive">
+      <div class="padding">
+      <p style="color: white; font-size: 18px"><strong>Robin Hood</strong> en el <strong>Parque Loro</strong> momentos antes de conocer a su padre adoptivo</p>
+      <i class="icon ion-share" style="color:white; float:right; padding-bottom: 150px; padding-right: 5px; font-size: 35px; padding-top: 5px" ng-click="closeModal()"></i>
+      <i class="icon ion-ios-cloud-download" style="color:white; float:right; padding-bottom: 150px; padding-right: 15px; font-size: 35px; padding-top: 5px" ng-click="download()"></i>
+    </ion-content>
+  </ion-modal-view>
+</script>

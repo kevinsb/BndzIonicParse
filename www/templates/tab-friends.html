@@ -1,17 +1,18 @@
-<ion-view title="Adoptions">
+<ion-view title="My Adoptions">
   <ion-content>
     <div ng-if="adoptions != 0">
-    	<div class="list">
-		    <a class="item item-thumbnail-left" ng-repeat="adoption in adoptions" href="#/bondzu/adoption/{{adoption.id}}">
-		      <img class="img-responsive img-circle img-adoptions" src="{{fotos[$index].url}}">
-		      <h2 class="name-adoption">{{adoption.get('name')}}</h2>
-		      <h2>{{adoption.get('species')}}</h2>
-          <h3>Parque Loro, Puebla, México</h3>
-		    </a>
-		</div>
+      <div class="list">
+        <a class="item item-thumbnail-left" ng-repeat="adoption in adoptions" >
+          <img class="img-responsive img-circle img-adoptions" src="{{fotos[$index].url}}" ng-click="prueba('{{adoption.id}}')">
+          <h2 ng-click="prueba('{{adoption.id}}')" class="adoption-name">{{adoption.get('name')}}</h2>
+          <h2 ng-click="prueba('{{adoption.id}}')">{{adoption.get('species')}}</h2>
+          <h2 ng-click="prueba('{{adoption.id}}')" class="adoption-zoo">Parque Loro, Puebla, México</h2>
+          <i ng-click="playVideo()" class="ion-social-youtube-outline adoption-camera"></i>
+        </a>
+      </div>
     </div>
     <div ng-if="adoptions == 0">
-    	<div class="no-animals">
+      <div class="no-animals">
         <p>Please login to see your adoptions</p>
       </div>
     </div>

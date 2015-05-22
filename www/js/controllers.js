@@ -568,7 +568,31 @@ angular.module('starter.controllers', [])
  	 };
 })
 
-.controller('AdoptionsCtrl', function($scope, Catalog){
+.controller('AdoptionsCtrl', function($scope, $state,Catalog){
+	var options = {
+		successCallback: function() {
+	  		var alertPopupError = $ionicPopup.alert({
+				title: 'Video',
+				template: 'Video was closed without error.'
+			});
+		},
+		errorCallback: function(errMsg) {
+	  		var alertPopupStreamError = $ionicPopup.alert({
+				title: 'Video',
+				template: 'Video streaming not available. Try again later'
+			});
+		}
+	}
+
+	$scope.prueba = function(id){
+		$state.go('bondzu.adoption-detail', { animalId: id });
+	}
+
+	$scope.playVideo = function() {
+		alert("Video");
+		window.plugins.streamingMedia.playVideo(camera, options);
+	}
+
 	var user = Parse.User.current();
 	if (user == null | user == undefined){
     	$scope.adoptions = 0;

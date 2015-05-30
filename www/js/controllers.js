@@ -245,6 +245,28 @@ angular.module('starter.controllers', [])
 })
 
 .controller('CatalogCtrl', function($scope, Catalog) {
+	/*alert("Last version");
+	parsePlugin.initialize("7aGqZRDKBITfaIRAXq2oKoBkuWkhNqJZJWmf318I", "lwOEFDvVC8SsM4Nl86YBzrkDOlOw8WHCyqu4UpBe", function() {
+		alert("Hola plugin");
+	    parsePlugin.subscribe('SampleChannel', function() {
+
+	        parsePlugin.getInstallationId(function(id) {
+
+	            alert(id);
+
+	        }, function(e) {
+	            alert('error');
+	        });
+
+	    }, function(e) {
+	        alert('error');
+	    });
+
+	}, function(e) {
+	    alert('error');
+	});*/
+
+
 	var animalsQuery;
 	var fotos = [];
 	animalsQuery = Catalog.all();
@@ -589,7 +611,7 @@ angular.module('starter.controllers', [])
 	}
 
 	$scope.playVideo = function() {
-		alert("Video");
+		alert("Capsula no disponible");
 		window.plugins.streamingMedia.playVideo(camera, options);
 	}
 
@@ -641,6 +663,9 @@ angular.module('starter.controllers', [])
 	if (current_user == null || current_user == undefined) {
 		$state.go('bondzu.adoptions');
 	};
+
+	var tipo_usuario = current_user.get('type');
+	$scope.userType = tipo_usuario;
 
 	$scope.tab = "tab0";
 	$scope.data = {};

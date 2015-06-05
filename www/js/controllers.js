@@ -781,6 +781,7 @@ angular.module('starter.controllers', [])
 		camerasAdminQuery = Camera.getAdminCameras($stateParams.animalId);
 		camerasAdminQuery.find({
 			success: function(camerasAdmin){
+				console.log('Cameras admin ' + camerasAdmin);
 				$scope.$apply(function(){
 					$scope.camerasAdminSize = camerasAdmin.length;
 		            $scope.camerasAdmin = camerasAdmin;
@@ -868,18 +869,8 @@ angular.module('starter.controllers', [])
 	}
 
 	$scope.playVideo = function(url) {
-		animalQuery = Catalog.all();
-		animalQuery.equalTo('objectId', $stateParams.animalId);
-		animalQuery.find({
-			success: function(result){
-				camera = result[0].get('camera' + url);
-				window.plugins.streamingMedia.playVideo(camera, options);
-			},
-			error: function(error){
-				console.log(error);
-			}
-		});
-
+		console.log(url);
+		window.plugins.streamingMedia.playVideo(url, options);
 	}
 
 	$ionicModal.fromTemplateUrl('video.html', {

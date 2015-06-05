@@ -596,7 +596,7 @@ angular.module('starter.controllers', [])
 		document.getElementById("contenido").innerHTML = '';
 		document.getElementById("contenido").innerHTML = '<div id="player"></div>';
 		buildYoutube(id);
-			
+
 		function onPlayerReady(event) {
 			videostatus = true;
 			console.log(videostatus);
@@ -613,7 +613,7 @@ angular.module('starter.controllers', [])
 				width: '100%',
 				videoId: id,
 				playerVars: {
-					controls: '0', // don't show video controls in the player
+					controls: '1', // don't show video controls in the player
 					showinfo: '0',
 					modestbranding: '1', // minimal branding
 					rel: '0', // don't show related videos when the video ends

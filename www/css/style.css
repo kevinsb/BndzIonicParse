@@ -492,3 +492,24 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 	font-weight: bold;
 	font-size: 55px;
 }
+
+
+#divframe {
+    position:relative;
+    width:600px;
+    height:400px;
+    margin:auto;
+    box-shadow:10px 10px 10px #999;
+ }
+#frame {
+    width:100%;
+    height:100%;
+    border:0;
+    cursor:pointer;
+ }
+.hide {
+    display:none;
+ }
+.show {
+    display:block;
+ }

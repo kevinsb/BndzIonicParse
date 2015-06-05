@@ -147,3 +147,36 @@ angular.module('starter.services', [])
     }
   }
 })
+
+.factory('Camera', function(){
+  CameraObject = Parse.Object.extend("Camera");
+  return {
+    create: function (user, animal, mensaje){
+      var message = new CameraObject();
+      message.set('url', user);
+      message.set('animal_id', animal);
+      message.set('type', mensaje);
+      return message;
+    },
+    all: function (){
+      var query = new Parse.Query(CameraObject);
+      return query;
+    },
+    getByAnimal: function(animalId){
+      var animal = new AnimalObject();
+      animal.id = animalId;
+      var query = new Parse.Query(CameraObject);
+      query.equalTo("animal_id", animal);
+      query.equalTo("type", 0);
+      return query;
+    },
+    getAdminCameras: function(animalId){
+      var animal = new AnimalObject();
+      animal.id = animalId;
+      var query = new Parse.Query(CameraObject);
+      query.equalTo("animal_id", animal);
+      query.equalTo("type", 1);
+      return query;
+    }
+  }
+})

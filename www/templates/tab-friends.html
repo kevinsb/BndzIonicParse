@@ -1,3 +1,4 @@
+
 <ion-view title="My Adoptions">
   <ion-content>
     <div ng-if="adoptions != 0">
@@ -7,9 +8,12 @@
           <h2 ng-click="prueba('{{adoption.id}}')" class="adoption-name">{{adoption.get('name')}}</h2>
           <h2 ng-click="prueba('{{adoption.id}}')">{{adoption.get('species')}}</h2>
           <h2 ng-click="prueba('{{adoption.id}}')" class="adoption-zoo">Parque Loro, Puebla, México</h2>
-          <i ng-click="playVideo()" class="ion-social-youtube-outline adoption-camera"></i>
+          <i ng-click="playVideo('{{adoption.get('videoYoutube')}}')" class="ion-social-youtube-outline adoption-camera"></i>
         </a>
       </div>
+      <br>
+      <div id="contenido"><div id="player"></div></div>
+      <br>
     </div>
     <div ng-if="adoptions == 0">
       <div class="no-animals">

@@ -192,31 +192,31 @@
     <ion-content style="background-color: black">
       <i class="icon ion-close" style="color:white; float:right; padding-right: 15px; font-size: 25px; padding-top: 15px" ng-click="closeModal()"></i>
       <div class="row" style="padding-top:250px">
-        <div class="col col-33">
-          <p style="color:white" class="text-center">Camera 1</p>
-          <img ng-click="playVideo('1');" src="img/Live-Video.png" class="center-block">
+        <div class="col col-33" ng-if="camerasSize >= 1">
+          <!--<p style="color:white" class="text-center">Camera 1</p>-->
+          <img ng-click="playVideo(cameras[0].get('url'));" src="img/Live-Video.png" class="center-block">
         </div>
-        <div class="col col-33">
-          <p style="color:white" class="text-center">Camera 2</p>
-          <img ng-click="playVideo('2');" src="img/Live-Video.png" class="center-block">
+        <div class="col col-33" ng-if="camerasSize >= 2">
+          <!--<p style="color:white" class="text-center">Camera 2</p>-->
+          <img ng-click="playVideo(cameras[0].get('url'));" src="img/Live-Video.png" class="center-block">
         </div>
-        <div class="col col-33">
-          <p style="color:white" class="text-center">Camera 3</p>
-          <img ng-click="playVideo('3');" src="img/Live-Video.png" class="center-block">
+        <div class="col col-33" ng-if="camerasSize >= 3">
+          <!--<p style="color:white" class="text-center">Camera 3</p>-->
+          <img ng-click="playVideo(cameras[0].get('url'));" src="img/Live-Video.png" class="center-block">
         </div>
       </div>
       <div class="row" style="padding-top:50px" ng-if="userType == 1">
-        <div class="col col-33">
+        <div class="col col-33" ng-if="camerasAdminSize >= 1">
           <p style="color:white" class="text-center">Camera 1</p>
-          <img ng-click="playVideo('1');" src="img/Live-Video.png" class="center-block">
+          <img ng-click="playVideo(camerasAdmin[0].get('url'));" src="img/Live-Video.png" class="center-block">
         </div>
-        <div class="col col-33">
+        <div class="col col-33" ng-if="camerasAdminSize >= 2">
           <p style="color:white" class="text-center">Camera 2</p>
-          <img ng-click="playVideo('2');" src="img/Live-Video.png" class="center-block">
+          <img ng-click="playVideo(camerasAdmin[1].get('url'));" src="img/Live-Video.png" class="center-block">
         </div>
-        <div class="col col-33">
+        <div class="col col-33" ng-if="camerasAdminSize >= 3">
           <p style="color:white" class="text-center">Camera 3</p>
-          <img ng-click="playVideo('3');" src="img/Live-Video.png" class="center-block">
+          <img ng-click="playVideo(camerasAdmin[2].get('url'));" src="img/Live-Video.png" class="center-block">
         </div>
       </div>
     </ion-content>

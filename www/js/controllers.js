@@ -129,7 +129,7 @@ angular.module('starter.controllers', [])
         facebookConnectPlugin.getLoginStatus(fbStatusSuccess, fbStatusError);
     }
 
-    $scope.login = function(user){		
+    $scope.login = function(user){
 		Parse.User.logIn(user.username, user.password, {
 			success: function(user){
 				$state.go('bondzu.account');
@@ -189,46 +189,27 @@ angular.module('starter.controllers', [])
 	}
 })
 
-.controller('AccountCtrl', function($scope, $state, $cordovaLocalNotification, Users) {
-	
-	//Push notifications 
-	/*var appId = "jhTh4SWoNgoUQDan04oOPnKqVs0aIPTsw7djH0Da";
-    var clientKey = "NrB1pacSX0lzFwmJgudq1YkTpVOoWA5gDTrv8JQy";
-
-	parsePlugin.initialize(appId, clientKey, function() {
-
-	    parsePlugin.subscribe('SampleChannel', function() {
-
-		    parsePlugin.getInstallationId(function(id) {
-		    	//alert("Entrando a push notifications " + id);
-
-		     var install_data = {
-		        installation_id: id,
-		        channels: ['SampleChannel']
-		     }
-
-			}, function(e) {
-			    alert('error');
-			});
-
-		}, function(e) {
-			alert('error');
-		});
-
-	}, function(e) {
-		alert('error');
-	});*/
+.controller('AccountCtrl', function($scope, $ionicLoading, $state, $cordovaLocalNotification, Users) {
+	$ionicLoading.show({
+		content: 'Loading',
+		animation: 'fade-in',
+		showBackdrop: true,
+		maxWidth: 200,
+		showDelay: 0
+	});
 
 	var current_user = Parse.User.current();
 	//console.log(current_user);
 	if (current_user == null | current_user == undefined){
-		console.log("Eres null");
 		current_user = 1;
-		console.log(current_user);
+		$ionicLoading.hide();
+		$scope.user = current_user;
 	}
-
-	$scope.user = current_user;
-
+	else{
+		$ionicLoading.hide();
+		$scope.user = current_user;
+	}
+	
 	$scope.logOut = function(){
 		function logoutBondzu(){
 			$state.go('bondzu.catalog');
@@ -244,27 +225,16 @@ angular.module('starter.controllers', [])
 	}
 })
 
-.controller('CatalogCtrl', function($scope, Catalog) {
-	/*alert("Last version");
-	parsePlugin.initialize("7aGqZRDKBITfaIRAXq2oKoBkuWkhNqJZJWmf318I", "lwOEFDvVC8SsM4Nl86YBzrkDOlOw8WHCyqu4UpBe", function() {
-		alert("Hola plugin");
-	    parsePlugin.subscribe('SampleChannel', function() {
+.controller('CatalogCtrl', function($scope, $ionicLoading, Catalog) {
+	/*
+	if (PushbotsPlugin.isAndroid()) {
+		alert("Es android");
+        PushbotsPlugin.initializeAndroid('556bd7cb177959716d8b4567', '145091056519');
+    } else if (PushbotsPlugin.isiOS()) {
+        PushbotsPlugin.initializeiOS('556bd7cb177959716d8b4567');
+    }*/
 
-	        parsePlugin.getInstallationId(function(id) {
-
-	            alert(id);
-
-	        }, function(e) {
-	            alert('error');
-	        });
-
-	    }, function(e) {
-	        alert('error');
-	    });
-
-	}, function(e) {
-	    alert('error');
-	});*/
+    // Setup the loader
 
 
 	var animalsQuery;
@@ -278,7 +248,7 @@ angular.module('starter.controllers', [])
 				url: foto.url()
 			});
 		};
-
+		$ionicLoading.hide();
 		$scope.$apply(function(){
             $scope.animals = result;
             $scope.fotos = fotos;
@@ -288,8 +258,15 @@ angular.module('starter.controllers', [])
 	});
 })
 
-.controller('AnimalDetailCtrl', function($scope, $state, $stateParams, $ionicSlideBoxDelegate, $cordovaLocalNotification, $ionicPopup, Catalog, Calendar, $ionicPopup){
+.controller('AnimalDetailCtrl', function($scope, $ionicLoading, $state, $stateParams, $ionicSlideBoxDelegate, $cordovaLocalNotification, $ionicPopup, Catalog, Calendar, $ionicPopup){
 
+	$ionicLoading.show({
+		content: 'Loading',
+		animation: 'fade-in',
+		showBackdrop: true,
+		maxWidth: 200,
+		showDelay: 0
+	});
 
 	function infoAnimal(){
 		var animalQuery = Catalog.all();
@@ -303,6 +280,7 @@ angular.module('starter.controllers', [])
 				fotoProfileObj = result[0].get('profilePicture');
 				fotoAnimalProfile = fotoProfileObj.url();
 				idZoo      = result[0].get('id_zoo');
+				$ionicLoading.hide();
 				$scope.$apply(function(){
 		            $scope.animal = result;
 		            $scope.foto = fotoAnimal;
@@ -590,13 +568,10 @@ angular.module('starter.controllers', [])
  	 };
 })
 
-.controller('AdoptionsCtrl', function($scope, $state,Catalog){
+.controller('AdoptionsCtrl', function($scope, $ionicLoading, $state, $window, Catalog){
 	var options = {
 		successCallback: function() {
-	  		var alertPopupError = $ionicPopup.alert({
-				title: 'Video',
-				template: 'Video was closed without error.'
-			});
+			console.log("Video exitoso");
 		},
 		errorCallback: function(errMsg) {
 	  		var alertPopupStreamError = $ionicPopup.alert({
@@ -610,16 +585,65 @@ angular.module('starter.controllers', [])
 		$state.go('bondzu.adoption-detail', { animalId: id });
 	}
 
-	$scope.playVideo = function() {
-		alert("Capsula no disponible");
-		window.plugins.streamingMedia.playVideo(camera, options);
+	var videostatus = false;
+	var evento;
+
+	$window.onYouTubeIframeAPIReady = function() {
+		console.log("YouTube API Loaded");
+	};
+
+	$scope.playVideo = function(id){
+		document.getElementById("contenido").innerHTML = '';
+		document.getElementById("contenido").innerHTML = '<div id="player"></div>';
+		buildYoutube(id);
+			
+		function onPlayerReady(event) {
+			videostatus = true;
+			console.log(videostatus);
+			evento = event;
+		}
+
+		function onPlayerStateChange(event) {
+			console.log("Pare");
+		}
+
+		function buildYoutube(id){
+			$scope.player = new YT.Player('player', {
+				height: '340',
+				width: '100%',
+				videoId: id,
+				playerVars: {
+					controls: '0', // don't show video controls in the player
+					showinfo: '0',
+					modestbranding: '1', // minimal branding
+					rel: '0', // don't show related videos when the video ends
+					theme: 'light', // light or dark theme
+					origin: 'http://localhost:8100',
+					iv_load_policy: '3', // don't show video annotations by default
+					enablejsapi: '1',
+					playsinline: 0
+				},
+				events: {
+					'onReady': onPlayerReady,
+					'onStateChange': onPlayerStateChange
+				},
+			});
+		}
 	}
+
 
 	var user = Parse.User.current();
 	if (user == null | user == undefined){
     	$scope.adoptions = 0;
 	}
 	else{
+		$ionicLoading.show({
+			content: 'Loading',
+			animation: 'fade-in',
+			showBackdrop: true,
+			maxWidth: 200,
+			showDelay: 0
+		});
 		var fotos = [];
 	    var relationAdoptions = Catalog.getAdoptions(user);
 		relationAdoptions.query().find({
@@ -630,6 +654,7 @@ angular.module('starter.controllers', [])
 						url: foto.url()
 					});
 				};
+				$ionicLoading.hide();
 	      		$scope.$apply(function(){
 		            $scope.adoptions = resulta;
 		            $scope.fotos = fotos;
@@ -643,10 +668,18 @@ angular.module('starter.controllers', [])
 	//Zoo.all();
 })
 
-.controller('ZooDetailCtrl', function($scope, $state, $stateParams, Zoo){
+.controller('ZooDetailCtrl', function($scope, $ionicLoading, $state, $stateParams, Zoo){
+	$ionicLoading.show({
+		content: 'Loading',
+		animation: 'fade-in',
+		showBackdrop: true,
+		maxWidth: 200,
+		showDelay: 0
+	});
 	var queryZoo = Zoo.getZoo($stateParams.zooId);
 	queryZoo.find({
 		success: function(result){
+			$ionicLoading.hide();
 			$scope.$apply(function(){
 	            $scope.zoo = result;
 	        });
@@ -657,8 +690,16 @@ angular.module('starter.controllers', [])
 	});
 })
 
-.controller('AdoptionDetailCtrl', function($scope, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, $ionicScrollDelegate, $ionicModal, $ionicPopup, Catalog, Calendar, Message){
+.controller('AdoptionDetailCtrl', function($scope, $ionicLoading, $timeout, $state, $stateParams, $ionicSlideBoxDelegate, $ionicScrollDelegate, $ionicModal, $ionicPopup, Catalog, Calendar, Message, Camera){
 	//-----------------------------------------------------------------
+	$ionicLoading.show({
+		content: 'Loading',
+		animation: 'fade-in',
+		showBackdrop: true,
+		maxWidth: 200,
+		showDelay: 0
+	});
+
 	var current_user = Parse.User.current();
 	if (current_user == null || current_user == undefined) {
 		$state.go('bondzu.adoptions');
@@ -708,6 +749,7 @@ angular.module('starter.controllers', [])
 			fotoAnimal = fotoObj.url();
 			fotoAnimalProfile = fotoProfileObj.url();
 			idZoo      = result[0].get('id_zoo');
+			$ionicLoading.hide();
 			$scope.$apply(function(){
 	            $scope.adoption = result;
 	            $scope.foto = fotoAnimal;
@@ -719,6 +761,36 @@ angular.module('starter.controllers', [])
 			console.log(error);
 		}
 	});
+
+
+	camerasQuery = Camera.getByAnimal($stateParams.animalId);
+	camerasQuery.find({
+		success: function(cameras){
+			console.log(cameras);
+			$scope.$apply(function(){
+				$scope.camerasSize = cameras.length;
+	            $scope.cameras = cameras;
+	        });
+		},
+		error: function(error){
+			console.log("Cameras: " + error);
+		}
+	});
+
+	if (tipo_usuario == 1) {
+		camerasAdminQuery = Camera.getAdminCameras($stateParams.animalId);
+		camerasAdminQuery.find({
+			success: function(camerasAdmin){
+				$scope.$apply(function(){
+					$scope.camerasAdminSize = camerasAdmin.length;
+		            $scope.camerasAdmin = camerasAdmin;
+		        });
+			},
+			error: function(error){
+				console.log("Cameras: " + error);
+			}
+		});
+	}
 
 	var carersRelation = Catalog.getCarers($stateParams.animalId);
 	carersRelation.query().find({
@@ -785,10 +857,7 @@ angular.module('starter.controllers', [])
 
 	var options = {
 		successCallback: function() {
-	  		var alertPopupError = $ionicPopup.alert({
-				title: 'Video',
-				template: 'Video was closed without error.'
-			});
+			console.log("Video exitoso");
 		},
 		errorCallback: function(errMsg) {
 	  		var alertPopupStreamError = $ionicPopup.alert({
